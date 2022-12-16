@@ -4,7 +4,7 @@ public abstract class Character
     private int health;
     private int armor;
     private int baseDamage;
-    private int criticalChance;
+    //TODO private int criticalChance;
     private int dodgeChance;
 
     public String getName() {
@@ -39,13 +39,13 @@ public abstract class Character
         this.baseDamage = baseDamage;
     }
 
-    public int getCriticalChance() {
-        return criticalChance;
-    }
+    //TODO public int getCriticalChance() {
+    //     return criticalChance;
+    // }
 
-    public void setCriticalChance(int criticalChance) {
-        this.criticalChance = criticalChance;
-    }
+    // public void setCriticalChance(int criticalChance) {
+    //     this.criticalChance = criticalChance;
+    // }
 
     public int getDodgeChance() {
         return dodgeChance;
