@@ -7,6 +7,24 @@ public abstract class Character
     //TODO private int criticalChance;
     private int dodgeChance;
 
+    
+
+    public Character(String name, int health, int armor, int baseDamage, int dodgeChance) {
+        this.name = name;
+        this.health = health;
+        this.armor = armor;
+        this.baseDamage = baseDamage;
+        this.dodgeChance = dodgeChance;
+    }
+
+    public Character() {
+        this.name = "None";
+        this.health = 0;
+        this.armor = 0;
+        this.baseDamage = 0;
+        this.dodgeChance = 0;
+    }
+
     public String getName() {
         return name;
     }

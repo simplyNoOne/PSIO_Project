@@ -8,7 +8,7 @@ public class Inventory {
         return this.weapons.size();
     }
 
-    public void add_weapon(Weapon weapon){
+    public void addWeapon(Weapon weapon){
         weapons.add(weapon);
     }
 
@@ -18,6 +18,10 @@ public class Inventory {
 
     public Weapon getWeaponAt(int x){
         return this.weapons.get(x);
+    }
+
+    public void deleteWeaponAt(int x){
+        weapons.remove(weapons.get(x));
     }
 
 

@@ -10,6 +10,16 @@ public class Special_Effect {
         this.bleeding_chance = bleeding_chance;
     }
 
+    public Special_Effect(int bleeding_chance) {
+        this.bleeding_chance = bleeding_chance;
+    }
+
+    public Special_Effect() {
+        this.bleeding_chance = 0;
+    }
+
+    
+
     
    
     
