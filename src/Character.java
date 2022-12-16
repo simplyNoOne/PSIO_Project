@@ -4,8 +4,26 @@ public abstract class Character
     private int health;
     private int armor;
     private int baseDamage;
-    private int criticalChance;
+    //TODO private int criticalChance;
     private int dodgeChance;
+
+    
+
+    public Character(String name, int health, int armor, int baseDamage, int dodgeChance) {
+        this.name = name;
+        this.health = health;
+        this.armor = armor;
+        this.baseDamage = baseDamage;
+        this.dodgeChance = dodgeChance;
+    }
+
+    public Character() {
+        this.name = "None";
+        this.health = 0;
+        this.armor = 0;
+        this.baseDamage = 0;
+        this.dodgeChance = 0;
+    }
 
     public String getName() {
         return name;
@@ -39,13 +57,13 @@ public abstract class Character
         this.baseDamage = baseDamage;
     }
 
-    public int getCriticalChance() {
-        return criticalChance;
-    }
+    //TODO public int getCriticalChance() {
+    //     return criticalChance;
+    // }
 
-    public void setCriticalChance(int criticalChance) {
-        this.criticalChance = criticalChance;
-    }
+    // public void setCriticalChance(int criticalChance) {
+    //     this.criticalChance = criticalChance;
+    // }
 
     public int getDodgeChance() {
         return dodgeChance;
