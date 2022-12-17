@@ -4,7 +4,7 @@ import javax.swing.*;
 
 abstract public class CustomPanel extends JPanel {
 
-    CustomPanel(){
+    public CustomPanel(){
         this.setLayout(null);
     }
 }

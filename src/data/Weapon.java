@@ -4,9 +4,11 @@ import data.Special_Effect;
 
 public class Weapon{
     private String name;
+    private int Tag;
     private double damage;
     private Special_Effect special_effect = new Special_Effect();
-    
+
+
     public double getDamage() {
         return damage;
     }
@@ -17,6 +19,10 @@ public class Weapon{
 
     public String getName() {
         return name;
+    }
+
+    public int getTag() {
+        return Tag;
     }
 
     public void setName(String name) {
@@ -33,13 +39,6 @@ public class Weapon{
         this.damage = 0;
     }
 
-    
-
-    
-
-    
-
-    
 
     
 }

@@ -1,6 +1,9 @@
 package gui;
 
 import gui.panels.*;
+import gui.panels.Fight.FightPanel;
+import gui.panels.Prefight.PrefightPanel;
+import gui.panels.PuzzleOrFight.PuzzleOrFightPanel;
 import main.Main;
 import javax.swing.*;
 import java.awt.*;
@@ -28,6 +31,9 @@ public class GUIManager {
         panels.put("playerStats", new PlayerStatsPanel());
         panels.put("enemyStats", new EnemyStatsPanel());
         panels.put("scores", new ScoresPanel());
+        panels.put("puzzleOrFight", new PuzzleOrFightPanel());
+        panels.put("prefight", new PrefightPanel());
+        panels.put("fight", new FightPanel());
     }
 
     public static JPanel getPanel(String id){
