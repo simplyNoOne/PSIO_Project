@@ -1,3 +1,7 @@
+package data;
+
+import data.Special_Effect;
+
 public class Weapon{
     private String name;
     private double damage;

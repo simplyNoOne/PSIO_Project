@@ -1,3 +1,5 @@
+package data;
+
 public class Special_Effect {
     
     private int bleeding_chance;

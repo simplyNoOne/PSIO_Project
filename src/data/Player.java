@@ -1,6 +1,9 @@
-import java.util.ArrayList;
+package data;
 
-public class Player extends Character{
+import data.Character;
+import data.Inventory;
+
+public class Player extends Character {
     private Inventory inventory = new Inventory();
 
     public Inventory getInventory() {

@@ -1,3 +1,5 @@
+package data;
+
 public abstract class Character
 {
     private String name;
