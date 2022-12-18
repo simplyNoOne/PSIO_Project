@@ -4,7 +4,7 @@ public abstract class Character
     private int health;
     private int armor;
     private int baseDamage;
-    //TODO private int criticalChance;
+    private int criticalChance;
     private int dodgeChance;
 
     
@@ -57,13 +57,13 @@ public abstract class Character
         this.baseDamage = baseDamage;
     }
 
-    //TODO public int getCriticalChance() {
-    //     return criticalChance;
-    // }
+    public int getCriticalChance() {
+         return criticalChance;
+    }
 
-    // public void setCriticalChance(int criticalChance) {
-    //     this.criticalChance = criticalChance;
-    // }
+    public void setCriticalChance(int criticalChance) {
+         this.criticalChance = criticalChance;
+    }
 
     public int getDodgeChance() {
         return dodgeChance;
