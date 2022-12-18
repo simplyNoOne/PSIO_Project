@@ -1,7 +1,6 @@
 import java.io.*;
 import java.util.HashMap;
 import java.util.Map;
-import java.util.Set;
 
 // TODO method arguments validation
 public final class FileManager { // class is static so it's final (= cannot be extended)
