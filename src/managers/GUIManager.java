@@ -1,10 +1,15 @@
-package gui;
+package managers;
 
 import gui.panels.*;
 import gui.panels.Fight.FightPanel;
+//import gui.panels.Prefight.PrefightPanel;
 import gui.panels.Prefight.PrefightPanel;
 import gui.panels.PuzzleOrFight.PuzzleOrFightPanel;
-import main.Main;
+import gui.panes.CustomLayerPane;
+import gui.panes.GamePane;
+import gui.panes.MenuPane;
+import main.MainApp;
+
 import javax.swing.*;
 import java.awt.*;
 import java.util.HashMap;
@@ -17,43 +22,50 @@ public class GUIManager {
     private static final int POS_Y = (int)(Toolkit.getDefaultToolkit().getScreenSize().getHeight() - HEIGHT)/2;
 
     private static Map<String, CustomPanel>  panels = new HashMap<>();
+    private static Map<String, CustomLayerPane>  panes = new HashMap<>();
 
+    public static JPanel getPanel(String id){
+        return panels.get(id);
+    }
 
     public static int getWidth(){return WIDTH;}
     public static int getHeight(){return HEIGHT;}
     public static int getPosX(){return POS_X;}
     public static int getPosY(){return POS_Y;}
 
-    public static void initAllPanels(){
+    public static void initAllPanels() {
+        panes.put("menu", new MenuPane());
+        panes.put("game", new GamePane());
+
         panels.put("menu", new MenuPanel());
-        panels.put("game", new GamePanel());
-        panels.put("nickname", new PromptNicknamePanel());
         panels.put("playerStats", new PlayerStatsPanel());
         panels.put("enemyStats", new EnemyStatsPanel());
         panels.put("scores", new ScoresPanel());
+
+        panels.put("background", new BackgroundPanel());
         panels.put("puzzleOrFight", new PuzzleOrFightPanel());
         panels.put("prefight", new PrefightPanel());
         panels.put("fight", new FightPanel());
     }
 
-    public static JPanel getPanel(String id){
-        return panels.get(id);
+
+
+    public static void addPane(String id){
+        MainApp.getGameFrame().getContentPane().add(panes.get(id));
     }
 
-    public static void addPanel(String id){
-        Main.getGameFrame().getContentPane().add(panels.get(id));
-    }
-
-    public static void removePanel(String id){
-        Main.getGameFrame().getContentPane().remove(panels.get(id));
+    public static void removePane(String id){
+        MainApp.getGameFrame().getContentPane().remove(panes.get(id));
     }
 
     public static void addPanel(String id, String targetId){
-        panels.get(targetId).add(panels.get(id));
+        panes.get(targetId).addLayer(panels.get(id));
+        panels.get(id).setVisible(true);
     }
 
     public static void removePanel(String id, String targetId){
-        panels.get(targetId).remove(panels.get(id));
+
+        panes.get(targetId).removeLayer(panels.get(id));
     }
 
 }

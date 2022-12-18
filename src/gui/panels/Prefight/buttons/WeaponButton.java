@@ -1,6 +1,6 @@
 package gui.panels.Prefight.buttons;
 
-import controller.Managers.Texture;
+import data.Texture;
 import gui.CustomButton;
 
 public class WeaponButton extends CustomButton {

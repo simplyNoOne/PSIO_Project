@@ -3,7 +3,9 @@ package gui.panels.Prefight;
 import gui.panels.CustomPanel;
 import gui.panels.Prefight.buttons.CollectibleButton;
 import gui.panels.Prefight.buttons.WeaponButton;
+import managers.PrefightManager;
 
+import java.awt.event.ActionListener;
 import java.util.ArrayList;
 
 
@@ -23,5 +25,6 @@ public class PrefightPanel extends CustomPanel {
         this.add(PrefightManager.getConfirmButton());
 
     }
+
 
 }

@@ -1,8 +1,6 @@
-package gui.panels.Fight;
+package managers;
 
-import controller.Managers.ResourceManager;
-import controller.Managers.Texture;
-import gui.GUIManager;
+import data.Texture;
 import gui.panels.Fight.buttons.CarryOutTheFightButton;
 
 import java.awt.event.ActionEvent;
@@ -18,7 +16,7 @@ public class FightManager {
         @Override
         public void actionPerformed(ActionEvent e) {
             System.out.println("Carry out the fight button has been clicked!");
-//            Main.getPlayer().getInventory().setActiveWeapon(tag);
+//            MainApp.getPlayer().getInventory().setActiveWeapon(tag);
         }
     }
 

@@ -1,6 +1,6 @@
 package gui;
 
-import controller.Managers.Texture;
+import data.Texture;
 import javax.swing.*;
 import javax.swing.plaf.basic.BasicBorders;
 import java.awt.*;
@@ -13,7 +13,6 @@ abstract public class CustomButton extends JButton {
     }
 
     protected CustomButton(Texture texture){
-        this.setIcon(texture);
         this.setIcon(texture);
         this.setBackground(Color.WHITE);
         this.setForeground(Color.BLACK);

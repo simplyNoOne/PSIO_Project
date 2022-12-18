@@ -1,4 +1,4 @@
-package controller.Managers;
+package data;
 
 import javax.imageio.ImageIO;
 import javax.swing.*;

@@ -1,15 +1,13 @@
-package gui.panels.Prefight;
+package managers;
 
-import MVC.StateMachine;
-import controller.Managers.ResourceManager;
-import controller.Managers.Texture;
+import com.sun.tools.javac.Main;
 import data.Collectible;
+import data.Texture;
 import data.Weapon;
-import gui.GUIManager;
 import gui.panels.Prefight.buttons.CollectibleButton;
 import gui.panels.Prefight.buttons.ConfirmButton;
 import gui.panels.Prefight.buttons.WeaponButton;
-import main.Main;
+import main.*;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -30,7 +28,7 @@ public class PrefightManager {
         public void actionPerformed(ActionEvent e) {
             String weaponName = ((WeaponButton) e.getSource()).getWeaponName();
             System.out.println(weaponName + " has been clicked!");
-//            Main.getPlayer().getInventory().setActiveWeapon(tag);
+//            MainApp.getPlayer().getInventory().setActiveWeapon(tag);
         }
     }
 
@@ -40,7 +38,7 @@ public class PrefightManager {
         public void actionPerformed(ActionEvent e) {
             String collectibleName = ((CollectibleButton) e.getSource()).getCollectibleName();
             System.out.println(collectibleName + " has been clicked!");
-//            Main.getPlayer().getInventory().setActiveCollectible(tag);
+//            MainApp.getPlayer().getInventory().setActiveCollectible(tag);
         }
     }
 
@@ -66,8 +64,9 @@ public class PrefightManager {
         return collectibleButtonListener;
     }
 
+
     public static ArrayList<WeaponButton> getAllWeaponButtons() {
-        ArrayList<Weapon> availableWeapons = Main.getPlayer().getInventory().getWeapons();
+        ArrayList<Weapon> availableWeapons = MainApp.getPlayer().getInventory().getWeapons();
         ArrayList<WeaponButton> weaponButtons = new ArrayList<>();
         for (int id = 0; id < availableWeapons.size(); id++) {
             Weapon weapon = availableWeapons.get(id);
@@ -83,7 +82,7 @@ public class PrefightManager {
     }
 
     public static ArrayList<CollectibleButton> getAllCollectibleButtons() {
-        ArrayList<Collectible> availableCollectibles = Main.getPlayer().getInventory().getCollectibles();
+        ArrayList<Collectible> availableCollectibles = MainApp.getPlayer().getInventory().getCollectibles();
         ArrayList<CollectibleButton> collectibleButtons = new ArrayList<>();
         for (int id = 0; id < availableCollectibles.size(); id++) {
             Collectible collectible = availableCollectibles.get(id);

@@ -1,10 +1,7 @@
-package gui.panels.PuzzleOrFight;
+package managers;
 
-import MVC.StateMachine;
-import controller.Managers.ResourceManager;
-import controller.Managers.Texture;
-import gui.GUIManager;
-import gui.panels.Fight.buttons.CarryOutTheFightButton;
+import main.StateMachine;
+import data.Texture;
 import gui.panels.PuzzleOrFight.buttons.ChoiceButton;
 
 import java.awt.event.ActionEvent;
@@ -22,8 +19,9 @@ public class PuzzleOrFightManager {
         @Override
         public void actionPerformed(ActionEvent e) {
             String selected_option = ((ChoiceButton) e.getSource()).getChoiceValue();
-            if(selected_option.equals("fight")) StateMachine.setCurrentState(StateMachine.State.PREFIGHT);
-            else StateMachine.setCurrentState(StateMachine.State.PUZZLE);
+            if(selected_option.equals("fight")) StateMachine.setNextState(StateMachine.State.PREFIGHT);
+            else StateMachine.setNextState(StateMachine.State.PUZZLE);
+            StateMachine.nextState();
         }
     }
 

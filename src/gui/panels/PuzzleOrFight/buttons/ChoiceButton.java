@@ -1,6 +1,6 @@
 package gui.panels.PuzzleOrFight.buttons;
 
-import controller.Managers.Texture;
+import data.Texture;
 import gui.CustomButton;
 
 public class ChoiceButton extends CustomButton {

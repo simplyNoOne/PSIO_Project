@@ -1,6 +1,6 @@
 package gui.panels.Fight.buttons;
 
-import controller.Managers.Texture;
+import data.Texture;
 import gui.CustomButton;
 
 public class CarryOutTheFightButton extends CustomButton {

@@ -1,6 +1,9 @@
 package gui.panels.Fight;
 
 import gui.panels.CustomPanel;
+import managers.FightManager;
+
+import java.awt.event.ActionListener;
 
 public class FightPanel extends CustomPanel {
 
@@ -9,4 +12,5 @@ public class FightPanel extends CustomPanel {
         this.add(FightManager.getConfirmButton());
 
     }
+
 }

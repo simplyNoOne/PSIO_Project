@@ -1,12 +1,14 @@
 package gui.panels;
 
-import gui.GUIManager;
+import interfaces.Interactible;
+import managers.GUIManager;
 
 import javax.swing.*;
 import javax.swing.plaf.basic.BasicBorders;
 import java.awt.*;
+import java.awt.event.ActionListener;
 
-public class ScoresPanel extends CustomPanel {
+public class ScoresPanel extends CustomPanel implements Interactible {
 
     static class ScoresButton extends JButton {
         static final int BUTTON_WIDTH = 170;
@@ -27,16 +29,24 @@ public class ScoresPanel extends CustomPanel {
             this();
             this.setText(text);
         }
-
     }
+
+    static int PANEL_WIDTH = 400;
+    private static int PANEL_HEIGHT = 500;
 
     ScoresButton backButton = new ScoresButton("Back");
 
     public ScoresPanel(){
         super();
-        this.setPreferredSize(new Dimension(600, 600));
-        backButton.setBounds((GUIManager.getWidth() - ScoresButton.BUTTON_WIDTH) / 2, (GUIManager.getHeight() - ScoresButton.BUTTON_HEIGHT) / 2, ScoresButton.BUTTON_WIDTH, ScoresButton.BUTTON_HEIGHT);
+        this.setBounds((GUIManager.getWidth() - PANEL_WIDTH)/2, (GUIManager.getHeight() - PANEL_HEIGHT)/2, PANEL_WIDTH, PANEL_HEIGHT);
+        //this.setPreferredSize(new Dimension(600, 600));
+        backButton.setBounds((PANEL_WIDTH - ScoresButton.BUTTON_WIDTH) / 2, (PANEL_HEIGHT - ScoresButton.BUTTON_HEIGHT) / 2, ScoresButton.BUTTON_WIDTH, ScoresButton.BUTTON_HEIGHT);
         this.add(backButton);
+        this.setBackground(Color.red);
         this.setVisible(true);
+    }
+
+    public void addButtonListener(ActionListener listener, String buttonId){
+        backButton.addActionListener(listener);
     }
 }

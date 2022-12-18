@@ -1,13 +1,13 @@
 //package gui.panels;
 //
 //import controller.Managers.PreFightManager;
-//import controller.Managers.ResourceManager;
+//import managers.ResourceManager;
 //import data.Weapon;
-//import gui.GUIManager;
+//import managers.GUIManager;
 //import gui.buttons.CollectibleButton;
 //import gui.buttons.ConfirmButton;
 //import gui.buttons.WeaponButton;
-//import main.Main;
+//import main.MainApp;
 //
 //import java.util.ArrayList;
 //
@@ -33,7 +33,7 @@
 //        super();
 //
 ////      ArrayList<WeaponButton> weaponButtons = new ArrayList<WeaponButton>(); //Probably unnecessary
-//        ArrayList<Weapon> availableWeapons = Main.getPlayer().getInventory().getWeapons();
+//        ArrayList<Weapon> availableWeapons = MainApp.getPlayer().getInventory().getWeapons();
 //
 //        int weaponBtnX0 = (GUIManager.getWidth() - availableWeapons.size() * WPN_BUTTON_WIDTH - (availableWeapons.size()-1)*HORIZONTAL_BUTTON_SPACE)/2;
 //        int weaponBtnY0 = (GUIManager.getHeight() - WPN_BUTTON_HEIGHT - CollectibleButton.HEIGHT - VERTICAL_BUTTON_SPACE)/2;

@@ -1,12 +1,10 @@
 package gui.panels.PuzzleOrFight;
 
-import gui.GUIManager;
 import gui.panels.CustomPanel;
 import gui.panels.PuzzleOrFight.buttons.ChoiceButton;
+import managers.PuzzleOrFightManager;
 
-import javax.swing.*;
-import javax.swing.plaf.basic.BasicBorders;
-import java.awt.*;
+import java.awt.event.ActionListener;
 import java.util.ArrayList;
 
 public class PuzzleOrFightPanel extends CustomPanel {
@@ -18,4 +16,5 @@ public class PuzzleOrFightPanel extends CustomPanel {
         this.add(choiceButtons.get(1));
 
     }
+
 }
