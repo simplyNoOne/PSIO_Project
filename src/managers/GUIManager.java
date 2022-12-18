@@ -27,6 +27,9 @@ public class GUIManager {
     public static JPanel getPanel(String id){
         return panels.get(id);
     }
+    public static JPanel getPane(String id){
+        return panes.get(id);
+    }
 
     public static int getWidth(){return WIDTH;}
     public static int getHeight(){return HEIGHT;}
@@ -63,6 +66,10 @@ public class GUIManager {
         panels.get(id).setVisible(true);
     }
 
+    public static void addPanel(String id, String targetId, int layer){
+        panes.get(targetId).addLayer(panels.get(id), layer);
+        panels.get(id).setVisible(true);
+    }
     public static void removePanel(String id, String targetId){
 
         panes.get(targetId).removeLayer(panels.get(id));

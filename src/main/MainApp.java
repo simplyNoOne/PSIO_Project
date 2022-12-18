@@ -23,9 +23,8 @@ public class MainApp {
             now = System.nanoTime();
             dT = now - lastFrame;
             if(dT  >= timePerFrame) {
-                //currentState.update(dT/ SEC_IN_NANOS);
+
                 StateMachine.update(dT/SEC_IN_NANOS);
-                gameFrame.repaint();
                 lastFrame = now;
             }
 
@@ -41,11 +40,12 @@ public class MainApp {
     }
 
     public static void initialize(){
-        player = new Player();
+
         gameFrame = new JFrame("THE LAS OF US");
         gameFrame.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
         gameFrame.setBounds(GUIManager.getPosX(), GUIManager.getPosY(), GUIManager.getWidth(), GUIManager.getHeight());
         gameFrame.setResizable(false);
+
     }
 
     public static JFrame getGameFrame(){
@@ -54,6 +54,10 @@ public class MainApp {
 
     public static Player getPlayer() {
         return player;
+    }
+    public static void spawnPlayer(){
+
+        player = new Player();
     }
 
     public static void loadAllResources()

@@ -9,58 +9,73 @@ public class StateMachine {
 
     public enum State{
         START{
+            public void initState(){}
             public void update(double deltaTime) {
                 ResourceManager.loadResources();
+                MainApp.spawnPlayer();
                 GUIManager.initAllPanels();
                 nextState();
 
             }
 
             public void nextState() {
-                GUIManager.addPane("menu");
-                GUIManager.addPanel("menu", "menu");
-                MainApp.getGameFrame().setVisible(true);
-                MenuManager.init();
-                StateMachine.setCurrentState(MENU);
+                setCurrentState(MENU);
+                currentState.initState();
             }
         },
         GAME{
-              public void update(double deltaTime) {
-                  nextState();
-              }
+            public void initState(){
+                GUIManager.addPane("game");
+                GUIManager.addPanel("playerStats", "game", 3);
+                MainApp.getGameFrame().setVisible(true);
+                nextState();
+            }
+              public void update(double deltaTime) {}
 
               public void nextState() {
-                  GUIManager.addPanel("background", "game");
-                  MainApp.getGameFrame().setVisible(true);
-                  StateMachine.setCurrentState(SCROLL_BG);
+
+                  setCurrentState(SCROLL_BG);
+                  currentState.initState();
               }
 
 
           },    //probably should be also in here, but I have no idea what is it doing.
         MENU{
+            public void initState(){
+                MainApp.getGameFrame().repaint();
+                GUIManager.addPane("menu");
+                GUIManager.addPanel("menu", "menu");
+                MainApp.getGameFrame().setVisible(true);
+                MenuManager.init();
+            }
             public void update(double deltaTime) {
-                GUIManager.getPanel("menu").repaint();
+                GUIManager.getPane("menu").repaint();
             }
 
             public void nextState() {
-                if (nextStateVar == GAME) {
-                    GUIManager.removePane("menu");
-                    GUIManager.addPane("game");
-                    MainApp.getGameFrame().setVisible(true);
-                }
-                StateMachine.setCurrentState(nextStateVar);
+
+                GUIManager.removePane("menu");
+                setCurrentState(nextStateVar);
+                currentState.initState();
             }
         },
         PUZZLE_OR_FIGHT{
-            public void update(double deltaTime) {
-                GUIManager.getPanel("puzzleOrFight").repaint();
+
+            public void initState(){
+                GUIManager.addPanel("puzzleOrFight", "game");
+                GUIManager.addPanel("enemyStats", "game");
+                MainApp.getGameFrame().setVisible(true);
             }
+            public void update(double deltaTime) {}
 
             public void nextState() {
+                GUIManager.removePanel("puzzleOrFight", "game");
                 StateMachine.setCurrentState(nextStateVar);
+                currentState.initState();
             }
         },
         PUZZLE{
+            public void initState(){}
             public void update(double deltaTime) {}
 
             public void nextState() {
@@ -68,6 +83,7 @@ public class StateMachine {
             }
         },
         PUZZLE_RESULTS{
+            public void initState(){}
             public void update(double deltaTime) {}
 
             public void nextState() {
@@ -75,13 +91,21 @@ public class StateMachine {
             }
         },
         PREFIGHT{
+            public void initState(){
+                GUIManager.addPanel("prefight", "game");
+            }
             public void update(double deltaTime) {}
 
             public void nextState() {
+                GUIManager.removePanel("prefight", "game");
                 StateMachine.setCurrentState(FIGHT);
+                currentState.initState();
             }
         },
         FIGHT{
+            public void initState(){
+                GUIManager.addPanel("fight", "game");
+            }
             public void update(double deltaTime) {}
 
             public void nextState() {
@@ -89,6 +113,7 @@ public class StateMachine {
             }
         },
         FIGHT_RESULTS{
+            public void initState(){}
             public void update(double deltaTime) {}
 
             public void nextState() {
@@ -96,6 +121,7 @@ public class StateMachine {
             }
         },
         LEVELUP{
+            public void initState(){}
             public void update(double deltaTime) {}
 
             public void nextState() {
@@ -104,6 +130,10 @@ public class StateMachine {
         },
 
         SCROLL_BG{
+            public void initState(){
+                GUIManager.addPanel("background", "game");
+                MainApp.getGameFrame().setVisible(true);
+            }
             public void update(double deltaTime) {
                 GUIManager.getPanel("background").repaint();
                 ((BackgroundPanel)GUIManager.getPanel("background")).scroll(deltaTime);
@@ -111,13 +141,14 @@ public class StateMachine {
 
             public void nextState() {
                 GUIManager.removePanel("background", "game");
-                GUIManager.addPanel("puzzleOrFight", "game");
-                MainApp.getGameFrame().setVisible(true);
+
                 StateMachine.setCurrentState(PUZZLE_OR_FIGHT);
+                currentState.initState();
             }
         },
 
         FINAL_RESULTS{
+            public void initState(){}
             public void update(double deltaTime) {}
 
             public void nextState() {
@@ -125,6 +156,7 @@ public class StateMachine {
             }
         },
         END{
+            public void initState(){}
             public void update(double deltaTime) {}
 
             public void nextState() {}
@@ -132,6 +164,8 @@ public class StateMachine {
 
         public abstract void nextState();
         public abstract void update(double delteTime);
+
+        public abstract void initState();
     }
 
     //private static State currentState = State.PUZZLE_OR_FIGHT;

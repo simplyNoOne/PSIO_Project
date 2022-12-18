@@ -21,6 +21,10 @@ abstract public class CustomLayerPane extends JPanel{
         layers++;
     }
 
+    public void addLayer(CustomPanel panel, int layer){
+        layeredPane.add(panel, Integer.valueOf(layer));
+    }
+
     public void removeLayer(CustomPanel panel){
         layeredPane.remove(panel);
         layers--;
