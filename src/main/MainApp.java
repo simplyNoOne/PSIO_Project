@@ -10,9 +10,10 @@ import managers.ResourceManager;
 import javax.swing.*;
 
 public class MainApp implements Runnable{
-    private final static int FPS = 120;
+    private final static int FPS = 60;
     private final static double SEC_IN_NANOS = 1_000_000_000.0;
     private static JFrame gameFrame;
+
     private static Player player;
 
     private void runApp(){
@@ -23,13 +24,15 @@ public class MainApp implements Runnable{
 
     // must stay here
     public static void main (String [] args) {
+
         MainApp game = new MainApp();
-        game.initialize();
+
+        game.initialize(game);
         game.runApp();
     }
 
-    public void initialize(){
-
+    public void initialize(MainApp game){
+        StateMachine.setCurrentState(StateMachine.State.START);
         gameFrame = new JFrame("THE LAS OF US");
         gameFrame.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
         gameFrame.setBounds(GUIManager.getPosX(), GUIManager.getPosY(), GUIManager.getWidth(), GUIManager.getHeight());
@@ -81,18 +84,28 @@ public class MainApp implements Runnable{
     @Override
     public void run() {
         double timePerFrame =  SEC_IN_NANOS / FPS;
-        long lastFrame = System.nanoTime();
+        long end = System.nanoTime();
         long now;
+        long begin;
         long dT;
+        int iters = 0;
         while(StateMachine.getCurrentState() != StateMachine.State.END) {
-            now = System.nanoTime();
-            dT = now - lastFrame;
-            if(dT  >= timePerFrame) {
-
-                StateMachine.update(dT/SEC_IN_NANOS);
-                lastFrame = now;
+            /*if(iters == 1800){
+                System.gc();
+                iters = 0;
             }
-
+            iters++;*/
+            begin = now = System.nanoTime();
+            dT = now - end;
+                StateMachine.update( dT/SEC_IN_NANOS);
+                gameFrame.repaint();
+                end = System.nanoTime();
+                long wait = (long)((timePerFrame - (begin - end))/1_000_000);
+            try {
+                Thread.sleep(wait);
+            } catch (InterruptedException e) {
+                throw new RuntimeException(e);
+            }
         }
         ResourceManager.unloadResources();
         System.exit(0);

@@ -19,7 +19,7 @@ public class StateMachine {
                 GUIManager.initAllPanels();
                 nextState();
                 MainApp.loadAllResources();
-
+                System.out.println("in start");
 
             }
 
@@ -35,7 +35,8 @@ public class StateMachine {
                 MainApp.getGameFrame().setVisible(true);
                 nextState();
             }
-              public void update(double deltaTime) {}
+              public void update(double deltaTime) {System.out.println("in game");
+              }
 
               public void nextState() {
 
@@ -53,8 +54,7 @@ public class StateMachine {
                 MainApp.getGameFrame().setVisible(true);
                 MenuManager.init();
             }
-            public void update(double deltaTime) {
-
+            public void update(double deltaTime) {System.out.println("in meun");
             }
 
             public void nextState() {
@@ -176,11 +176,8 @@ public class StateMachine {
 
     //private static State currentState = State.PUZZLE_OR_FIGHT;
     private static State currentState = State.START;
-
     private static State nextStateVar;
-
     static JPanel panel;
-
 
     public static State getCurrentState() {
         return currentState;
@@ -205,5 +202,6 @@ public class StateMachine {
     public static void update(double deltaTime){
         currentState.update(deltaTime);
     }
+
 
 }

@@ -24,6 +24,7 @@ public class GUIManager {
     private static Map<String, CustomPanel>  panels = new HashMap<>();
     private static Map<String, CustomLayerPane>  panes = new HashMap<>();
 
+
     public static JPanel getPanel(String id){
         return panels.get(id);
     }
@@ -54,11 +55,11 @@ public class GUIManager {
 
 
     public static void addPane(String id){
-        MainApp.getGameFrame().getContentPane().add(panes.get(id));
+        MainApp.getGameFrame().setContentPane(panes.get(id));
     }
 
     public static void removePane(String id){
-        MainApp.getGameFrame().getContentPane().remove(panes.get(id));
+        MainApp.getGameFrame().setContentPane(panes.get(id));
     }
 
     public static void addPanel(String id, String targetId){

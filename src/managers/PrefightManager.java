@@ -86,7 +86,7 @@ public class PrefightManager {
         ArrayList<CollectibleButton> collectibleButtons = new ArrayList<>();
         for (int id = 0; id < availableCollectibles.size(); id++) {
             Collectible collectible = availableCollectibles.get(id);
-            Texture collectibleTexture = new Texture(ResourceManager.getTexture(collectible.getName()).getTexturePath());
+            Texture collectibleTexture = ResourceManager.getTexture(collectible.getName());
             int x0 = (GUIManager.getWidth() - availableCollectibles.size() * collectibleTexture.getIconWidth() - (availableCollectibles.size()-1)*HORIZONTAL_BUTTON_SPACING)/2 + id*(collectibleTexture.getIconWidth() + HORIZONTAL_BUTTON_SPACING);
             int y0 = (GUIManager.getHeight() + VERTICAL_BUTTON_SPACING - TITLE_BAR_HEIGHT)/2;
 
