@@ -30,7 +30,9 @@ public class MenuManager {
 
         @Override
         public void actionPerformed(ActionEvent e) {
+
             GUIManager.addPanel("scores", "menu");
+            GUIManager.getPane("menu").repaint();
         }
     }
     static class BackListener implements ActionListener {
@@ -40,7 +42,7 @@ public class MenuManager {
 
             System.out.println("BAck");
             GUIManager.removePanel("scores", "menu");
-           // GUIManager.getPanel("menu").repaint();
+            GUIManager.getPane("menu").repaint();
         }
     }
 

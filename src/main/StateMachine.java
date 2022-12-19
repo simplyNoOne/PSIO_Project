@@ -5,16 +5,21 @@ import gui.panels.BackgroundPanel;
 import managers.MenuManager;
 import managers.ResourceManager;
 
+import javax.swing.*;
+
 public class StateMachine {
 
     public enum State{
         START{
             public void initState(){}
             public void update(double deltaTime) {
+
                 ResourceManager.loadResources();
                 MainApp.spawnPlayer();
                 GUIManager.initAllPanels();
                 nextState();
+                MainApp.loadAllResources();
+
 
             }
 
@@ -49,7 +54,7 @@ public class StateMachine {
                 MenuManager.init();
             }
             public void update(double deltaTime) {
-                GUIManager.getPane("menu").repaint();
+
             }
 
             public void nextState() {
@@ -132,11 +137,12 @@ public class StateMachine {
         SCROLL_BG{
             public void initState(){
                 GUIManager.addPanel("background", "game");
+                panel = GUIManager.getPanel("background");
                 MainApp.getGameFrame().setVisible(true);
             }
             public void update(double deltaTime) {
-                GUIManager.getPanel("background").repaint();
-                ((BackgroundPanel)GUIManager.getPanel("background")).scroll(deltaTime);
+                panel.repaint();
+                ((BackgroundPanel)panel).scroll(deltaTime);
             }
 
             public void nextState() {
@@ -172,6 +178,8 @@ public class StateMachine {
     private static State currentState = State.START;
 
     private static State nextStateVar;
+
+    static JPanel panel;
 
 
     public static State getCurrentState() {
