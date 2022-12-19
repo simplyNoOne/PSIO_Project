@@ -1,19 +1,18 @@
-package gui.panels.FightResults;
+package gui.panels.FinalResults;
 
 import gui.panels.CustomPanel;
 import managers.FightResultsManager;
 import managers.GUIManager;
 
 import java.awt.*;
-import java.util.ArrayList;
 
-public class FightResultsPanel extends CustomPanel
-{
+public class FinalResultsPanel extends CustomPanel {
     private static int PANEL_WIDTH = 700;
     private static int PANEL_HEIGHT = 500;
-    public FightResultsPanel(){
+
+    public FinalResultsPanel(){
         super();
-        this.setBackground(Color.pink);
+        this.setBackground(Color.gray);
         super.setBounds((GUIManager.getWidth() - PANEL_WIDTH)/2, (GUIManager.getHeight() - PANEL_HEIGHT)/2, PANEL_WIDTH, PANEL_HEIGHT);
 
         this.add(FightResultsManager.getOkButton());

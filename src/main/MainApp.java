@@ -54,39 +54,10 @@ public class MainApp {
 
     public static Player getPlayer() {
         return player;
-    }
+    }//
     public static void spawnPlayer(){
 
         player = new Player();
-    }
-
-    public static void loadAllResources()
-    {
-        //Add some weapons to the Players Inventory
-
-        Weapon testWeapon1 = new Weapon();
-        testWeapon1.setName("hammer");
-        player.getInventory().addWeapon(testWeapon1);
-
-        Weapon testWeapon2 = new Weapon();
-        testWeapon2.setName("sword");
-        player.getInventory().addWeapon(testWeapon2);
-
-        //Add some collectibles to the Players Inventory
-
-        Collectible testCollectible1 = new Collectible();
-        testCollectible1.setName("health_potion");
-        player.getInventory().addCollectible(testCollectible1);
-
-        Collectible testCollectible2 = new Collectible();
-        testCollectible2.setName("throwable_poison");
-        player.getInventory().addCollectible(testCollectible2);
-
-        Collectible testCollectible3 = new Collectible();
-        testCollectible3.setName("sultans_fart");
-        player.getInventory().addCollectible(testCollectible3);
-
-
     }
 
 }

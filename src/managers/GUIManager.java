@@ -3,8 +3,13 @@ package managers;
 import gui.panels.*;
 import gui.panels.Fight.FightPanel;
 //import gui.panels.Prefight.PrefightPanel;
+import gui.panels.FightResults.FightResultsPanel;
+import gui.panels.FinalResults.FinalResultsPanel;
+import gui.panels.LevelUp.LevelUpPanel;
 import gui.panels.Prefight.PrefightPanel;
+import gui.panels.Puzzle.PuzzlePanel;
 import gui.panels.PuzzleOrFight.PuzzleOrFightPanel;
+import gui.panels.PuzzleResults.PuzzleResultsPanel;
 import gui.panes.CustomLayerPane;
 import gui.panes.GamePane;
 import gui.panes.MenuPane;
@@ -49,6 +54,11 @@ public class GUIManager {
         panels.put("puzzleOrFight", new PuzzleOrFightPanel());
         panels.put("prefight", new PrefightPanel());
         panels.put("fight", new FightPanel());
+        panels.put("puzzle", new PuzzlePanel());
+        panels.put("fightResults", new FightResultsPanel());
+        panels.put("puzzleResults", new PuzzleResultsPanel());
+        panels.put("finalResults", new FinalResultsPanel());
+        panels.put("levelup", new LevelUpPanel());
     }
 
 

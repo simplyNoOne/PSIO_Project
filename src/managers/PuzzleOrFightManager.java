@@ -19,8 +19,8 @@ public class PuzzleOrFightManager {
         @Override
         public void actionPerformed(ActionEvent e) {
             String selected_option = ((ChoiceButton) e.getSource()).getChoiceValue();
-            if(selected_option.equals("fight")) StateMachine.setNextState(StateMachine.State.PREFIGHT);
-            else StateMachine.setNextState(StateMachine.State.PUZZLE);
+            if(selected_option.equals("fight")) StateMachine.setNextStateVar(StateMachine.State.PREFIGHT);
+            else StateMachine.setNextStateVar(StateMachine.State.PUZZLE);
             StateMachine.nextState();
         }
     }

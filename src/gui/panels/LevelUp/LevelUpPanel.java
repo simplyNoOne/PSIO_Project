@@ -1,24 +1,25 @@
-package gui.panels.Fight;
+package gui.panels.LevelUp;
 
 import gui.panels.CustomPanel;
-import managers.FightManager;
+import gui.panels.LevelUp.buttons.UpgradeStatsButton;
+import managers.LevelUpManager;
 import managers.GUIManager;
 
 import java.awt.*;
-import java.awt.event.ActionListener;
 
-public class FightPanel extends CustomPanel {
+public class LevelUpPanel extends CustomPanel {
 
     private static int PANEL_WIDTH = 700;
     private static int PANEL_HEIGHT = 500;
 
 
-    public FightPanel(){
+    public LevelUpPanel(){
         super();
         this.setBackground(Color.magenta);
         super.setBounds((GUIManager.getWidth() - PANEL_WIDTH)/2, (GUIManager.getHeight() - PANEL_HEIGHT)/2, PANEL_WIDTH, PANEL_HEIGHT);
-        this.add(FightManager.getConfirmButton());
+        for (UpgradeStatsButton button : LevelUpManager.getUpgradeStatsButtons()) {
+            this.add(button);
+        }
 
     }
-
 }
