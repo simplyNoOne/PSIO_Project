@@ -13,13 +13,12 @@ public class MainApp implements Runnable{
     private final static int FPS = 60;
     private final static double SEC_IN_NANOS = 1_000_000_000.0;
     private static JFrame gameFrame;
-
     private static Player player;
 
     private void runApp(){
 
-            Thread gameThread = new Thread(this);
-            gameThread.run();
+        Thread gameThread = new Thread(this);
+        gameThread.run();
     }
 
     // must stay here
@@ -51,36 +50,6 @@ public class MainApp implements Runnable{
 
         player = new Player();
     }
-
-    public static void loadAllResources()
-    {
-        //Add some weapons to the Players Inventory
-
-        Weapon testWeapon1 = new Weapon();
-        testWeapon1.setName("hammer");
-        player.getInventory().addWeapon(testWeapon1);
-
-        Weapon testWeapon2 = new Weapon();
-        testWeapon2.setName("sword");
-        player.getInventory().addWeapon(testWeapon2);
-
-        //Add some collectibles to the Players Inventory
-
-        Collectible testCollectible1 = new Collectible();
-        testCollectible1.setName("health_potion");
-        player.getInventory().addCollectible(testCollectible1);
-
-        Collectible testCollectible2 = new Collectible();
-        testCollectible2.setName("throwable_poison");
-        player.getInventory().addCollectible(testCollectible2);
-
-        Collectible testCollectible3 = new Collectible();
-        testCollectible3.setName("sultans_fart");
-        player.getInventory().addCollectible(testCollectible3);
-
-
-    }
-
     @Override
     public void run() {
         double timePerFrame =  SEC_IN_NANOS / FPS;
@@ -97,10 +66,10 @@ public class MainApp implements Runnable{
             iters++;*/
             begin = now = System.nanoTime();
             dT = now - end;
-                StateMachine.update( dT/SEC_IN_NANOS);
-                gameFrame.repaint();
-                end = System.nanoTime();
-                long wait = (long)((timePerFrame - (begin - end))/1_000_000);
+            StateMachine.update( dT/SEC_IN_NANOS);
+            gameFrame.repaint();
+            end = System.nanoTime();
+            long wait = (long)((timePerFrame - (begin - end))/1_000_000);
             try {
                 Thread.sleep(wait);
             } catch (InterruptedException e) {
@@ -110,4 +79,5 @@ public class MainApp implements Runnable{
         ResourceManager.unloadResources();
         System.exit(0);
     }
+
 }

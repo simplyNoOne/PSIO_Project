@@ -101,8 +101,8 @@ public class PrefightManager {
     public static ConfirmButton getConfirmButton()
     {
         Texture confirmTexture = new Texture(ResourceManager.getTexture("confirm2").getTexturePath());
-        int x0 = (GUIManager.getWidth() - confirmTexture.getIconWidth())/2;
-        int y0 = GUIManager.getHeight() - TITLE_BAR_HEIGHT - confirmTexture.getIconHeight() - VERTICAL_BUTTON_SPACING;
+        int x0 = 0;//(GUIManager.getWidth() - confirmTexture.getIconWidth())/2;
+        int y0 = 0;//GUIManager.getHeight() - TITLE_BAR_HEIGHT - confirmTexture.getIconHeight() - VERTICAL_BUTTON_SPACING;
         ConfirmButton confirmButton = new ConfirmButton(confirmTexture);
         confirmButton.setBounds(x0, y0, confirmTexture.getIconWidth(), confirmTexture.getIconHeight());
         confirmButton.addActionListener(confirmButtonListener);

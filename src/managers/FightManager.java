@@ -2,9 +2,11 @@ package managers;
 
 import data.Texture;
 import gui.panels.Fight.buttons.CarryOutTheFightButton;
+import main.StateMachine;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.Random;
 
 public class FightManager {
 
@@ -16,7 +18,11 @@ public class FightManager {
         @Override
         public void actionPerformed(ActionEvent e) {
             System.out.println("Carry out the fight button has been clicked!");
-//            MainApp.getPlayer().getInventory().setActiveWeapon(tag);
+            int nextState = (new Random()).nextInt(0, 3);
+            if(nextState==0) StateMachine.setNextStateVar(StateMachine.State.PUZZLE_OR_FIGHT);
+            if(nextState==1) StateMachine.setNextStateVar(StateMachine.State.FINAL_RESULTS);
+            else StateMachine.setNextStateVar(StateMachine.State.LEVELUP);
+            StateMachine.nextState();
         }
     }
 

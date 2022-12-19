@@ -1,6 +1,5 @@
 package managers;
 
-import gui.panels.CustomPanel;
 import interfaces.Interactible;
 import main.StateMachine;
 
@@ -13,7 +12,7 @@ public class MenuManager {
 
         @Override
         public void actionPerformed(ActionEvent e) {
-            StateMachine.setNextState(StateMachine.State.GAME);
+            StateMachine.setNextStateVar(StateMachine.State.GAME);
             StateMachine.nextState();
         }
     }
@@ -22,7 +21,7 @@ public class MenuManager {
         @Override
         public void actionPerformed(ActionEvent e) {
             System.out.println("Quitting game");
-            StateMachine.setNextState(StateMachine.State.END);
+            StateMachine.setNextStateVar(StateMachine.State.END);
             StateMachine.nextState();
         }
     }
