@@ -19,6 +19,7 @@ public class FightResultsManager {
         @Override
         public void actionPerformed(ActionEvent e) {
             System.out.println("Ok button has been clicked!");
+            StateMachine.setNextStateVar(StateMachine.State.FINAL_RESULTS);
             StateMachine.nextState();
         }
     }

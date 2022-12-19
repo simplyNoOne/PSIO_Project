@@ -60,6 +60,10 @@ public class GUIManager {
         panels.put("puzzleResults", new PuzzleResultsPanel());
         panels.put("finalResults", new FinalResultsPanel());
         panels.put("levelup", new LevelUpPanel());
+
+        PuzzleOrFightManager.init();
+        MenuManager.init();
+        PrefightManager.init();
     }
 
 
@@ -68,9 +72,6 @@ public class GUIManager {
         MainApp.getGameFrame().setContentPane(panes.get(id));
     }
 
-    public static void removePane(String id){
-        MainApp.getGameFrame().setContentPane(panes.get(id));
-    }
 
     public static void addPanel(String id, String targetId){
         panes.get(targetId).addLayer(panels.get(id));

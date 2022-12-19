@@ -26,11 +26,11 @@ public class MainApp implements Runnable{
 
         MainApp game = new MainApp();
 
-        game.initialize(game);
+        game.initialize();
         game.runApp();
     }
 
-    public void initialize(MainApp game){
+    public void initialize(){
         StateMachine.setCurrentState(StateMachine.State.START);
         gameFrame = new JFrame("THE LAS OF US");
         gameFrame.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
@@ -49,6 +49,7 @@ public class MainApp implements Runnable{
     public static void spawnPlayer(){
 
         player = new Player();
+        player.getInventory().addWeapon(new Weapon("hammer", 100));
     }
     @Override
     public void run() {
@@ -59,15 +60,15 @@ public class MainApp implements Runnable{
         long dT;
         int iters = 0;
         while(StateMachine.getCurrentState() != StateMachine.State.END) {
-            /*if(iters == 1800){
+            if(iters == 1800){
                 System.gc();
                 iters = 0;
             }
-            iters++;*/
+            iters++;
             begin = now = System.nanoTime();
             dT = now - end;
             StateMachine.update( dT/SEC_IN_NANOS);
-            gameFrame.repaint();
+            //gameFrame.repaint();
             end = System.nanoTime();
             long wait = (long)((timePerFrame - (begin - end))/1_000_000);
             try {

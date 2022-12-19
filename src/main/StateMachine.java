@@ -3,6 +3,7 @@ package main;
 import managers.GUIManager;
 import gui.panels.BackgroundPanel;
 import managers.MenuManager;
+import managers.PuzzleOrFightManager;
 import managers.ResourceManager;
 
 import javax.swing.*;
@@ -18,7 +19,7 @@ public class StateMachine {
                 MainApp.spawnPlayer();
                 GUIManager.initAllPanels();
                 nextState();
-                MainApp.loadAllResources();
+
                 System.out.println("in start");
 
             }
@@ -48,18 +49,18 @@ public class StateMachine {
           },    //probably should be also in here, but I have no idea what is it doing.
         MENU{
             public void initState(){
-                GUIManager.removePane("menu");
-                MainApp.getGameFrame().repaint();
+                //GUIManager.removePane("menu");
                 GUIManager.addPane("menu");
                 GUIManager.addPanel("menu", "menu");
                 MainApp.getGameFrame().setVisible(true);
-                MenuManager.init();
+                MainApp.getGameFrame().repaint();
+
             }
             public void update(double deltaTime) {System.out.println("in meun");
             }
 
             public void nextState() {
-                GUIManager.removePane("menu");
+                GUIManager.removePanel("menu", "menu");
                 setCurrentState(nextStateVar);
                 currentState.initState();
             }
@@ -67,14 +68,18 @@ public class StateMachine {
         PUZZLE_OR_FIGHT{
 
             public void initState(){
+
                 GUIManager.addPanel("puzzleOrFight", "game");
                 GUIManager.addPanel("enemyStats", "game");
+
                 MainApp.getGameFrame().setVisible(true);
             }
             public void update(double deltaTime) {}
 
             public void nextState() {
+                GUIManager.removePanel("enemyStats", "game");
                 GUIManager.removePanel("puzzleOrFight", "game");
+                MainApp.getGameFrame().setVisible(true);
                 StateMachine.setCurrentState(nextStateVar);
                 currentState.initState();
             }
@@ -107,6 +112,7 @@ public class StateMachine {
         },
         PREFIGHT{
             public void initState(){
+                GUIManager.addPanel("enemyStats", "game");
                 GUIManager.addPanel("prefight", "game");
                 MainApp.getGameFrame().setVisible(true);
             }
@@ -126,14 +132,16 @@ public class StateMachine {
             public void update(double deltaTime) {}
 
             public void nextState() {
-                GUIManager.removePanel("fight", "menu");
+                GUIManager.removePanel("fight", "game");
                 StateMachine.setCurrentState(FIGHT_RESULTS);
                 currentState.initState();
             }
         },
         FIGHT_RESULTS{
             public void initState(){
+                GUIManager.removePanel("enemyStats", "game");
                 GUIManager.addPanel("fightResults", "game");
+                MainApp.getGameFrame().setVisible(true);
                 MainApp.getGameFrame().setVisible(true);
             }
             public void update(double deltaTime) {}
@@ -141,6 +149,7 @@ public class StateMachine {
             public void nextState() {
                 GUIManager.removePanel("fightResults", "game");
                 StateMachine.setCurrentState(nextStateVar);
+
                 currentState.initState();
             }
         },
@@ -185,6 +194,7 @@ public class StateMachine {
 
             public void nextState() {
                 GUIManager.removePanel("finalResults", "game");
+                GUIManager.removePanel("playerStats", "game");
                 StateMachine.setCurrentState(MENU);
                 currentState.initState();
             }

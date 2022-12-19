@@ -37,9 +37,7 @@ public class MenuPanel extends CustomPanel implements Interactible {
 
 
     Map<String, MenuButton> buttons = new HashMap<>();
-    MenuButton startButton = new MenuButton("Start Game");
-    MenuButton quitButton = new MenuButton("Quit Game");
-    MenuButton scoresButton = new MenuButton("See Scores");
+
     public MenuPanel(){
         super();
 
