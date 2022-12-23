@@ -8,6 +8,7 @@ public abstract class Character
     private int baseDamage;
     //TODO private int criticalChance;
     private int dodgeChance;
+    
 
     
 

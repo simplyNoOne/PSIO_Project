@@ -1,20 +1,28 @@
-package data;
+package data.Enemy;
 
-import java.util.HashMap;
-import java.util.*;
-import managers.*;
+
+import java.awt.Graphics2D;
+import java.awt.image.*;
+import java.io.IOException;
+import javax.imageio.ImageIO;
+
+
+
+
+import data.Character;
+
 public class Enemy extends Character
 {
     private boolean canPuzzle;
     private String abilityName;
-    Map <String , Texture> enemy_textures = new HashMap<>();
-    ResourceManager resources = new ResourceManager();
+    public BufferedImage common , boss;
 
     public Enemy() {
         super();
         this.canPuzzle =  false;
         this.abilityName = "None";
-        add_enemy_texture();
+        getEnemyImage();
+       
 
     }
 
@@ -23,16 +31,27 @@ public class Enemy extends Character
         super(name, health, armor, baseDamage, dodgeChance);
         this.canPuzzle = canPuzzle;
         this.abilityName = abilityName;
+        getEnemyImage();
 
     }
 
-    private void add_enemy_texture(){
-        enemy_textures.put("default" , resources.getTexture("enemy"));
+    public void getEnemyImage() {
+        try {
+            common = ImageIO.read(getClass().getResourceAsStream("enemy.png"));
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
     }
 
-    public Texture getTexture(String value){
-        return enemy_textures.get(value);
+    public void draw(Graphics2D g2){
+        
+        BufferedImage image = common;
+        //cases needed for boss and common
+        g2.drawImage(image, 300, 0, 100, 100 , null);
     }
+
+   
     
 
 

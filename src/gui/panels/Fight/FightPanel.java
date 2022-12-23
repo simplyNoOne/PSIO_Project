@@ -7,9 +7,11 @@ import managers.GUIManager;
 import java.awt.*;
 import java.awt.event.ActionListener;
 import javax.swing.*;
+import java.awt.Graphics;
+import java.awt.Graphics2D;
 
-import data.Enemy;
 import data.Texture;
+import data.Enemy.Enemy;
 import main.MainApp;
 
 public class FightPanel extends CustomPanel {
@@ -24,24 +26,24 @@ public class FightPanel extends CustomPanel {
         super.setBounds((GUIManager.getWidth() - PANEL_WIDTH)/2, (GUIManager.getHeight() - PANEL_HEIGHT)/2, PANEL_WIDTH, PANEL_HEIGHT);
         this.add(FightManager.getConfirmButton());
 
-        Texture player_texture = MainApp.getPlayer().getTexture(0);
-        JButton player = new JButton(player_texture);
-        int x0 = 0;
-        int y0 = 0;
-        player.setBounds(x0, y0, player_texture.getIconWidth(), player_texture.getIconHeight());
-        this.add(player);
-
-        Enemy enemy = new Enemy();
-        Texture enemy_texture = enemy.getEnemy().getTexture("default");
-        JButton enemy_button = new JButton(enemy_texture);
-        int x_enemy = 400;
-        int y_enemy = 0;
-        enemy_button.setBounds(x_enemy, y_enemy, enemy_texture.getIconWidth(), enemy_texture.getIconHeight());
-        this.add(enemy_button);
+        
         
 
-
-
     }
+
+    public void paintComponent(Graphics g){
+        super.paintComponent(g);
+
+        Graphics2D g2 = (Graphics2D) g;
+        MainApp.getPlayer().draw(g2);
+        Enemy enemy = new Enemy();
+        enemy.draw(g2);
+
+        g2.dispose();
+    }
+
+    
+
+
 
 }

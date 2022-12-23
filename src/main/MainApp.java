@@ -2,8 +2,8 @@ package main;
 
 import com.sun.tools.javac.Main;
 import data.Collectible;
-import data.Player;
 import data.Weapon;
+import data.Player.Player;
 import managers.GUIManager;
 import managers.ResourceManager;
 
