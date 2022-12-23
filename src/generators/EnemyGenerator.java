@@ -12,7 +12,7 @@ public class EnemyGenerator {
         Random rng = new Random();
         Player player = MainApp.getPlayer();
 
-        String enemyName = "DefaultName";
+        String enemyName = "DefaultEnemy";
         int enemyHealth;
         int enemyDamage;
         int enemyArmor;
@@ -25,7 +25,7 @@ public class EnemyGenerator {
         int playerCombatStats = player.getMaxHealth() + player.getBaseDamage() + player.getDodgeChance() +
                                    player.getArmor() + player.getCriticalChance() + calculateTotalAverageWeaponCombatStats();
 
-        enemyCombatStats = (int)(rng.nextFloat(0.6f,0.85f)*playerCombatStats);
+        enemyCombatStats = (int)(rng.nextFloat(0.6f,0.80f)*playerCombatStats);
 
         enemyHealth = max(25, (int) (rng.nextFloat(0, 1) * enemyCombatStats));
         enemyCombatStats -= enemyHealth;
