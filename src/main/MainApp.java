@@ -14,6 +14,7 @@ public class MainApp implements Runnable{
     private final static double SEC_IN_NANOS = 1_000_000_000.0;
     private static JFrame gameFrame;
     private static Player player;
+    
 
     private void runApp(){
 

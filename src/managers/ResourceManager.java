@@ -32,6 +32,11 @@ public class ResourceManager {
 
         addTexture("puzzle", new Texture("resources\\textures\\puzzle.png"));
 
+        addTexture("player", new Texture("resources\\textures\\player.png"));
+
+        addTexture("enemy", new Texture("resources\\textures\\enemy.png"));
+
+
 
         addTexture("stat1", new Texture("resources\\textures\\stat1.png"));
 
