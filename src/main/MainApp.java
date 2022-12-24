@@ -49,7 +49,7 @@ public class MainApp implements Runnable{
     public static void spawnPlayer(){
 
         player = new Player();
-        player.getInventory().addWeapon(new Weapon("hammer", 100));
+        player.getInventory().addWeapon(new Weapon("hammer", 100, 4));
     }
     @Override
     public void run() {
