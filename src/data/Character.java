@@ -8,6 +8,8 @@ public abstract class Character
     private int baseDamage;
     //TODO private int criticalChance;
     private int dodgeChance;
+
+    private Vector2 location;
     
 
     
@@ -21,6 +23,7 @@ public abstract class Character
     }
 
     public Character() {
+        this.location = new Vector2();
         this.name = "None";
         this.health = 0;
         this.armor = 0;
@@ -55,6 +58,8 @@ public abstract class Character
     public int getBaseDamage() {
         return baseDamage;
     }
+
+    public Vector2 getLocation(){return location;}
 
     public void setBaseDamage(int baseDamage) {
         this.baseDamage = baseDamage;

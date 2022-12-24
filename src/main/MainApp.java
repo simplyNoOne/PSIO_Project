@@ -1,9 +1,8 @@
 package main;
 
-import com.sun.tools.javac.Main;
-import data.Collectible;
+import data.Enemy;
 import data.Weapon;
-import data.Player.Player;
+import data.Player;
 import managers.GUIManager;
 import managers.ResourceManager;
 
@@ -14,6 +13,7 @@ public class MainApp implements Runnable{
     private final static double SEC_IN_NANOS = 1_000_000_000.0;
     private static JFrame gameFrame;
     private static Player player;
+    private static Enemy enemy;
     
 
     private void runApp(){
@@ -47,6 +47,9 @@ public class MainApp implements Runnable{
     public static Player getPlayer() {
         return player;
     }
+    public static Enemy getEnemy(){return enemy;}
+    public static void setEnemy(Enemy e){enemy = e; }
+
     public static void spawnPlayer(){
 
         player = new Player();

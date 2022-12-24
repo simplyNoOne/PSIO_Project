@@ -1,27 +1,24 @@
-package data.Enemy;
+package data;
 
 
-import java.awt.Graphics2D;
-import java.awt.image.*;
-import java.io.IOException;
-import javax.imageio.ImageIO;
-
-
-
-
-import data.Character;
+import managers.ResourceManager;
 
 public class Enemy extends Character
 {
+    private static final int START_POS_X = 2460;
+    private static final int  MOVE_SPEED = 160;
     private boolean canPuzzle;
     private String abilityName;
-    public BufferedImage common , boss;
+    public Texture texture;
 
     public Enemy() {
         super();
         this.canPuzzle =  false;
         this.abilityName = "None";
-        getEnemyImage();
+
+        texture = ResourceManager.getTexture("enemy");
+        getLocation().x = START_POS_X;
+        getLocation().y = 400;
        
 
     }
@@ -31,27 +28,18 @@ public class Enemy extends Character
         super(name, health, armor, baseDamage, dodgeChance);
         this.canPuzzle = canPuzzle;
         this.abilityName = abilityName;
-        getEnemyImage();
+        texture = ResourceManager.getTexture("enemy");
 
     }
 
-    public void getEnemyImage() {
-        try {
-            common = ImageIO.read(getClass().getResourceAsStream("enemy.png"));
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+    public Texture getEnemyTexture() {
+        return texture;
 
     }
 
-    public void draw(Graphics2D g2){
-        
-        BufferedImage image = common;
-        //cases needed for boss and common
-        g2.drawImage(image, 300, 0, 100, 100 , null);
-    }
+    public void setEnemyTexture(Texture texture){this.texture = texture;}
 
-   
+
     
 
 
@@ -73,5 +61,9 @@ public class Enemy extends Character
 
     public void setAbilityName(String abilityName) {
         this.abilityName = abilityName;
+    }
+
+    public void moveEnemy(double dT){
+        getLocation().x -= dT* MOVE_SPEED;
     }
 }

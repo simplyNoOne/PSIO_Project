@@ -60,6 +60,7 @@ public class GUIManager {
         panels.put("puzzleResults", new PuzzleResultsPanel());
         panels.put("finalResults", new FinalResultsPanel());
         panels.put("levelup", new LevelUpPanel());
+        panels.put("characters", new CharactersPanel());
 
         PuzzleOrFightManager.init();
         MenuManager.init();
