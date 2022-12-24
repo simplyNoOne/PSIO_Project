@@ -41,6 +41,8 @@ public class ResourceManager {
 
 
         addTexture("ok", new Texture("resources\\textures\\ok.png"));
+        addTexture("correct", new Texture("resources\\textures\\correct.png"));
+        addTexture("wrong", new Texture("resources\\textures\\wrong.png"));
     }
 
     public static void unloadResources(){

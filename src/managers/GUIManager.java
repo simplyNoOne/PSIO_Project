@@ -6,9 +6,9 @@ import gui.panels.Fight.FightPanel;
 import gui.panels.FightResults.FightResultsPanel;
 import gui.panels.FinalResults.FinalResultsPanel;
 import gui.panels.LevelUp.LevelUpPanel;
-import gui.panels.Prefight.PrefightPanel;
-import gui.panels.Puzzle.PuzzlePanel;
-import gui.panels.PuzzleOrFight.PuzzleOrFightPanel;
+import gui.panels.PrefightPanel;
+import gui.panels.PuzzlePanel;
+import gui.panels.PuzzleOrFightPanel;
 import gui.panels.PuzzleResults.PuzzleResultsPanel;
 import gui.panes.CustomLayerPane;
 import gui.panes.GamePane;
@@ -61,8 +61,9 @@ public class GUIManager {
         panels.put("finalResults", new FinalResultsPanel());
         panels.put("levelup", new LevelUpPanel());
 
-        PuzzleOrFightManager.init();
         MenuManager.init();
+        PuzzleOrFightManager.init();
+        PuzzleManager.init();
         PrefightManager.init();
     }
 
