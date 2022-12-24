@@ -1,28 +1,32 @@
+package data;
+
 public abstract class Character
 {
     private String name;
-    private int health;
+    private int maxHealth;
     private int armor;
     private int baseDamage;
-    private int criticalChance;
+    private int criticalChance; //%
     private int dodgeChance;
 
     
 
-    public Character(String name, int health, int armor, int baseDamage, int dodgeChance) {
+    public Character(String name, int maxHealth, int armor, int baseDamage, int dodgeChance, int criticalChance) {
         this.name = name;
-        this.health = health;
+        this.maxHealth = maxHealth;
         this.armor = armor;
         this.baseDamage = baseDamage;
         this.dodgeChance = dodgeChance;
+        this.criticalChance = criticalChance;
     }
 
     public Character() {
         this.name = "None";
-        this.health = 0;
+        this.maxHealth = 0;
         this.armor = 0;
         this.baseDamage = 0;
         this.dodgeChance = 0;
+        this.criticalChance = 0;
     }
 
     public String getName() {
@@ -33,12 +37,12 @@ public abstract class Character
         this.name = name;
     }
 
-    public int getHealth() {
-        return health;
+    public int getMaxHealth() {
+        return maxHealth;
     }
 
-    public void setHealth(int health) {
-        this.health = health;
+    public void setMaxHealth(int health) {
+        this.maxHealth = health;
     }
 
     public int getArmor() {
@@ -62,7 +66,7 @@ public abstract class Character
     }
 
     public void setCriticalChance(int criticalChance) {
-         this.criticalChance = criticalChance;
+        this.criticalChance = criticalChance;
     }
 
     public int getDodgeChance() {
