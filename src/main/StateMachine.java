@@ -1,5 +1,9 @@
 package main;
 
+import data.Enemy;
+import gui.panels.CharactersPanel;
+import gui.panels.EnemyStatsPanel;
+import gui.panels.PlayerStatsPanel;
 import managers.GUIManager;
 import gui.panels.BackgroundPanel;
 import managers.MenuManager;
@@ -16,7 +20,10 @@ public class StateMachine {
             public void update(double deltaTime) {
 
                 ResourceManager.loadResources();
+
+
                 MainApp.spawnPlayer();
+                MainApp.setEnemy(new Enemy());
                 GUIManager.initAllPanels();
                 nextState();
 
@@ -32,7 +39,10 @@ public class StateMachine {
         GAME{
             public void initState(){
                 GUIManager.addPane("game");
+                GUIManager.addPanel("background", "game");
                 GUIManager.addPanel("playerStats", "game", 3);
+                GUIManager.addPanel("characters", "game", 2);
+                ((PlayerStatsPanel)GUIManager.getPanel("playerStats")).updateStats();
                 MainApp.getGameFrame().setVisible(true);
                 nextState();
             }
@@ -49,7 +59,7 @@ public class StateMachine {
           },    //probably should be also in here, but I have no idea what is it doing.
         MENU{
             public void initState(){
-                //GUIManager.removePane("menu");
+
                 GUIManager.addPane("menu");
                 GUIManager.addPanel("menu", "menu");
                 MainApp.getGameFrame().setVisible(true);
@@ -70,7 +80,8 @@ public class StateMachine {
             public void initState(){
 
                 GUIManager.addPanel("puzzleOrFight", "game");
-                GUIManager.addPanel("enemyStats", "game");
+                GUIManager.addPanel("enemyStats", "game" );
+                ((EnemyStatsPanel)GUIManager.getPanel("enemyStats")).updateStats();
 
                 MainApp.getGameFrame().setVisible(true);
             }
@@ -112,9 +123,8 @@ public class StateMachine {
         },
         PREFIGHT{
             public void initState(){
-                GUIManager.addPanel("enemyStats", "game");
+                GUIManager.addPanel("enemyStats", "game" );
                 GUIManager.addPanel("prefight", "game");
-                MainApp.getGameFrame().setVisible(true);
             }
             public void update(double deltaTime) {}
 
@@ -169,17 +179,21 @@ public class StateMachine {
 
         SCROLL_BG{
             public void initState(){
-                GUIManager.addPanel("background", "game");
-                panel = GUIManager.getPanel("background");
+                ((CharactersPanel)GUIManager.getPanel("characters")).updatePrevEnemy();
+                //here a new enemy will be generated, using a generator, ofc
+                MainApp.setEnemy(new Enemy());
+                ((CharactersPanel)GUIManager.getPanel("characters")).updateEnemyTexture();
                 MainApp.getGameFrame().setVisible(true);
             }
             public void update(double deltaTime) {
-                panel.repaint();
-                ((BackgroundPanel)panel).scroll(deltaTime);
+                GUIManager.getPanel("background").repaint();
+                GUIManager.getPanel("characters").repaint();
+                ((BackgroundPanel)GUIManager.getPanel("background")).scroll(deltaTime);
+                ((CharactersPanel)GUIManager.getPanel("characters")).moveEnemies(deltaTime);
             }
 
             public void nextState() {
-                GUIManager.removePanel("background", "game");
+
                 StateMachine.setCurrentState(PUZZLE_OR_FIGHT);
                 currentState.initState();
             }
@@ -193,8 +207,10 @@ public class StateMachine {
             public void update(double deltaTime) {}
 
             public void nextState() {
+                GUIManager.removePanel("background", "game");
                 GUIManager.removePanel("finalResults", "game");
                 GUIManager.removePanel("playerStats", "game");
+                GUIManager.removePanel("characters", "game");
                 StateMachine.setCurrentState(MENU);
                 currentState.initState();
             }
