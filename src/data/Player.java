@@ -1,12 +1,9 @@
 package data;
 
-import java.io.IOException;
 import java.util.*;
 
 import javax.imageio.ImageIO;
 
-import java.awt.image.*;
-import java.awt.Graphics2D;
 
 import data.Character;
 import data.Inventory;
@@ -16,10 +13,12 @@ import managers.ResourceManager;
 
 public class Player extends Character {
 
-    private Inventory inventory = new Inventory();
+    private Inventory inventory;
     public ArrayList<Texture> animation ;
     public Texture currentTexture;
     private int maxHealth;
+
+    private int Level;
 
     public Player() {
         super();
@@ -27,6 +26,8 @@ public class Player extends Character {
         getLocation().x = 70;
         getLocation().y = 340;
         maxHealth = 100;
+        this.Level = 1;
+        this.inventory = new Inventory();
 
     }
 
@@ -43,4 +44,11 @@ public class Player extends Character {
         return inventory;
     }
 
+    public int getLevel() {
+        return Level;
+    }
+
+    public void setLevel(int level) {
+        Level = level;
+    }
 }

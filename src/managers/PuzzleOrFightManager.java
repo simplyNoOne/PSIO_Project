@@ -1,18 +1,12 @@
 package managers;
 
-import gui.panels.PuzzleOrFight.PuzzleOrFightPanel;
+import interfaces.Interactible;
 import main.StateMachine;
-import data.Texture;
-import gui.panels.PuzzleOrFight.buttons.ChoiceButton;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.util.ArrayList;
 
 public class PuzzleOrFightManager {
-
-    private static final PuzzleButtonListener puzzleButtonListener = new PuzzleButtonListener();
-    private static final FightButtonListener fightButtonListener = new FightButtonListener();
 
     public static class PuzzleButtonListener implements ActionListener
     {
@@ -23,7 +17,6 @@ public class PuzzleOrFightManager {
             StateMachine.nextState();
         }
     }
-
     public static class FightButtonListener implements ActionListener
     {
         @Override
@@ -33,11 +26,13 @@ public class PuzzleOrFightManager {
         }
     }
 
+    private final static PuzzleButtonListener puzzleButtonListener = new PuzzleButtonListener();
+    private final static FightButtonListener fightButtonListener = new FightButtonListener();
 
 
     public static void init() {
-        ((PuzzleOrFightPanel)GUIManager.getPanel("puzzleOrFight")).addButtonListener(puzzleButtonListener, "puzzle");
-        ((PuzzleOrFightPanel)GUIManager.getPanel("puzzleOrFight")).addButtonListener(fightButtonListener, "fight");
+        ((Interactible)GUIManager.getPanel("puzzleOrFight")).addButtonListener(puzzleButtonListener, "puzzle");
+        ((Interactible)GUIManager.getPanel("puzzleOrFight")).addButtonListener(fightButtonListener, "fight");
     }
 
 }

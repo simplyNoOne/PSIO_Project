@@ -1,13 +1,9 @@
 package managers;
 
-import com.sun.tools.javac.Main;
 import data.Collectible;
 import data.Texture;
 import data.Weapon;
-import gui.panels.Prefight.PrefightPanel;
-import gui.panels.Prefight.buttons.CollectibleButton;
-import gui.panels.Prefight.buttons.ConfirmButton;
-import gui.panels.Prefight.buttons.WeaponButton;
+import gui.panels.PrefightPanel;
 import interfaces.Interactible;
 import main.*;
 
@@ -17,9 +13,6 @@ import java.util.ArrayList;
 
 public class PrefightManager {
 
-    private static final WeaponButtonListener weaponButtonListener = new WeaponButtonListener();
-    private static final CollectibleButtonListener collectibleButtonListener = new CollectibleButtonListener();
-    private static final ConfirmButtonListener confirmButtonListener = new ConfirmButtonListener();
 
 
     static PrefightPanel panel;
@@ -27,22 +20,20 @@ public class PrefightManager {
     {
         @Override
         public void actionPerformed(ActionEvent e) {
-            String weaponName = ((PrefightPanel.WPFButton) e.getSource()).name;
+            String weaponName = ((PrefightPanel.WeaponButton) e.getSource()).getName();
             System.out.println(weaponName + " has been clicked!");
 //            MainApp.getPlayer().getInventory().setActiveWeapon(tag);
         }
     }
-
     public static class CollectibleButtonListener implements ActionListener
     {
         @Override
         public void actionPerformed(ActionEvent e) {
-            String collectibleName = ((PrefightPanel.CPFButton) e.getSource()).name;
+            String collectibleName = ((PrefightPanel.CollectibleButton) e.getSource()).getName();
             System.out.println(collectibleName + " has been clicked!");
 //            MainApp.getPlayer().getInventory().setActiveCollectible(tag);
         }
     }
-
     public static class ConfirmButtonListener implements ActionListener
     {
         @Override
@@ -52,6 +43,9 @@ public class PrefightManager {
         }
     }
 
+    private static final WeaponButtonListener weaponButtonListener = new WeaponButtonListener();
+    private static final CollectibleButtonListener collectibleButtonListener = new CollectibleButtonListener();
+    private static final ConfirmButtonListener confirmButtonListener = new ConfirmButtonListener();
 
 
     public static void initWeaponButtons() {
@@ -60,7 +54,7 @@ public class PrefightManager {
         for (int id = 0; id < availableWeapons.size(); id++) {
             Weapon weapon = availableWeapons.get(id);
             Texture weaponTexture = ResourceManager.getTexture(weapon.getName());
-            panel.addWeaponButton(weaponTexture, "weapon" + Integer.toString( id + 1), weapon.getName());
+            panel.addWeaponButton(weaponTexture, "weapon" + (id + 1), weapon.getName());
             ((Interactible)panel).addButtonListener(weaponButtonListener, "weapon" + ( id + 1));
         }
     }
@@ -79,8 +73,8 @@ public class PrefightManager {
 
     public static void init(){
         panel =  ((PrefightPanel)GUIManager.getPanel("prefight"));
-        initCollectibleButtons();
         initWeaponButtons();
+        initCollectibleButtons();
         ((Interactible)panel).addButtonListener(confirmButtonListener, "confirm");
         panel.updatePanel();
     }

@@ -11,7 +11,7 @@ import java.util.Random;
 public class PuzzleResultsManager {
 
     private static final int TITLE_BAR_HEIGHT = 31;
-    private static final PuzzleManager.OkButtonListener okButtonListener = new PuzzleManager.OkButtonListener();
+    private static final OkButtonListener okButtonListener = new OkButtonListener();
 
     public static class OkButtonListener implements ActionListener
     {

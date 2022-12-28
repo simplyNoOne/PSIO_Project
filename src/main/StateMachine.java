@@ -6,6 +6,8 @@ import gui.panels.EnemyStatsPanel;
 import gui.panels.PlayerStatsPanel;
 import managers.GUIManager;
 import gui.panels.BackgroundPanel;
+import managers.MenuManager;
+import managers.PuzzleOrFightManager;
 import managers.ResourceManager;
 
 import javax.swing.*;
@@ -123,7 +125,6 @@ public class StateMachine {
             public void initState(){
                 GUIManager.addPanel("enemyStats", "game" );
                 GUIManager.addPanel("prefight", "game");
-                MainApp.getGameFrame().revalidate();
             }
             public void update(double deltaTime) {}
 

@@ -5,6 +5,7 @@ import managers.FightManager;
 import managers.GUIManager;
 
 import java.awt.*;
+import java.awt.event.ActionListener;
 
 public class FightPanel extends CustomPanel {
 
@@ -18,15 +19,6 @@ public class FightPanel extends CustomPanel {
         super.setBounds((GUIManager.getWidth() - PANEL_WIDTH)/2, (GUIManager.getHeight() - PANEL_HEIGHT)/2, PANEL_WIDTH, PANEL_HEIGHT);
         this.add(FightManager.getConfirmButton());
 
-        
-        
-
     }
-
-
-
-    
-
-
 
 }

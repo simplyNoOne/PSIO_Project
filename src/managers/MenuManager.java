@@ -45,10 +45,10 @@ public class MenuManager {
         }
     }
 
-    static StartListener startListener = new StartListener();
-    static QuittListener quittListener = new QuittListener();
-    static ScoresListener scoresListener = new ScoresListener();
-    static BackListener backListener = new BackListener();
+    private final static StartListener startListener = new StartListener();
+    private final static QuittListener quittListener = new QuittListener();
+    private final static ScoresListener scoresListener = new ScoresListener();
+    private final static BackListener backListener = new BackListener();
 
     public static void init(){
         ((Interactible)GUIManager.getPanel("menu")).addButtonListener(startListener, "start");
