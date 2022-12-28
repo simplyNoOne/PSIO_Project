@@ -4,6 +4,7 @@ import data.Texture;
 import gui.panels.Fight.buttons.CarryOutTheFightButton;
 import gui.panels.FightResults.FightResultsPanel;
 import gui.panels.FightResults.buttons.OkButton;
+import main.MainApp;
 import main.StateMachine;
 
 import java.awt.event.ActionEvent;
@@ -19,7 +20,10 @@ public class FightResultsManager {
         @Override
         public void actionPerformed(ActionEvent e) {
             System.out.println("Ok button has been clicked!");
-            StateMachine.setNextStateVar(StateMachine.State.FINAL_RESULTS);
+            if(MainApp.getPlayer().getHealth()> 0)
+                StateMachine.setNextStateVar((StateMachine.State.SCROLL_BG));
+            else
+                StateMachine.setNextStateVar(StateMachine.State.FINAL_RESULTS);
             StateMachine.nextState();
         }
     }

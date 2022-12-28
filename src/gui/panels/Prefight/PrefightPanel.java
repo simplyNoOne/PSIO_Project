@@ -21,10 +21,10 @@ import java.util.Map;
 
 
 public class PrefightPanel extends CustomPanel implements Interactible {
-    static final int W_BUTTON_WIDTH = 150;
-    static final int W_BUTTON_HEIGHT = 150;
-    static final int C_BUTTON_WIDTH = 100;
-    static final int C_BUTTON_HEIGHT = 100;
+    static final int W_BUTTON_WIDTH = 64;
+    static final int W_BUTTON_HEIGHT = 64;
+    static final int C_BUTTON_WIDTH = 64;
+    static final int C_BUTTON_HEIGHT = 64;
 
      class PFButton extends JButton {
         public String name;

@@ -24,9 +24,9 @@ public abstract class Character
 
     public Character() {
         this.location = new Vector2();
-        this.name = "None";
-        this.health = 0;
-        this.armor = 0;
+        this.name = "LongNoneName";
+        this.health = 100;
+        this.armor = 50;
         this.baseDamage = 0;
         this.dodgeChance = 0;
     }

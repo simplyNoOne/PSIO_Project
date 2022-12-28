@@ -22,6 +22,7 @@ public class Texture extends ImageIcon{
         }
         setImage(image);
     }
+    public ImageIcon getTextureImage(){return this;}
 
     public String getTexturePath()
     {

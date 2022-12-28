@@ -19,12 +19,14 @@ public class Player extends Character {
     private Inventory inventory = new Inventory();
     public ArrayList<Texture> animation ;
     public Texture currentTexture;
+    private int maxHealth;
 
     public Player() {
         super();
         currentTexture = ResourceManager.getTexture("player");
-        getLocation().x = 100;
-        getLocation().y = 400;
+        getLocation().x = 70;
+        getLocation().y = 340;
+        maxHealth = 100;
 
     }
 
@@ -32,6 +34,8 @@ public class Player extends Character {
         return currentTexture;
 
     }
+
+    public int getMaxHealth(){return maxHealth;}
 
 
 

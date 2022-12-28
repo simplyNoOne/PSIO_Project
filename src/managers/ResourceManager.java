@@ -10,43 +10,57 @@ public class ResourceManager {
 
     public static void loadResources(){
 
-        addTexture("hammer", new Texture("resources\\textures\\hammer.png"));
+        addTexture("background", new Texture("resources\\textures\\Background.png"));
 
+        //weapons in color
+        addTexture("axe", new Texture("resources\\textures\\axe.png"));
         addTexture("sword", new Texture("resources\\textures\\sword.png"));
+        addTexture("dagger", new Texture("resources\\textures\\dagger.png"));
+
+        //weapons in gray
+        addTexture("grayAxe", new Texture("resources\\textures\\gAxe.png"));
+        addTexture("graySword", new Texture("resources\\textures\\gSword.png"));
+        addTexture("grayDagger", new Texture("resources\\textures\\gDagger.png"));
 
 
-        addTexture("health_potion", new Texture("resources\\textures\\health_potion.png"));
+        //collectibles in color
+        addTexture("col1", new Texture("resources\\textures\\collectible1.png"));
+        addTexture("col2",new Texture("resources\\textures\\collectible2.png"));
+        addTexture("col3", new Texture("resources\\textures\\collectible3.png"));
+        addTexture("col4",new Texture("resources\\textures\\collectible4.png"));
+        addTexture("col5", new Texture("resources\\textures\\collectible5.png"));
 
-        addTexture("throwable_poison",new Texture("resources\\textures\\throwable_poison.png"));
+        //collectibles grayed out
+        addTexture("grayCol1", new Texture("resources\\textures\\collect1.png"));
+        addTexture("grayCol2",new Texture("resources\\textures\\collect2.png"));
+        addTexture("grayCol3", new Texture("resources\\textures\\collect3.png"));
+        addTexture("grayCol4",new Texture("resources\\textures\\collect4.png"));
+        addTexture("grayCol5", new Texture("resources\\textures\\collect5.png"));
 
-        addTexture("sultans_fart", new Texture("resources\\textures\\sultans_fart.png"));
 
-
+        //buttons, will probably get rid of it
         addTexture("confirm1", new Texture("resources\\textures\\confirm1.png"));
-
         addTexture("confirm2", new Texture("resources\\textures\\confirm2.png"));
-
         addTexture("carry_out_the_battle", new Texture("resources\\textures\\carry_out_the_fight.png"));
-
         addTexture("fight", new Texture("resources\\textures\\fight.png"));
-
         addTexture("puzzle", new Texture("resources\\textures\\puzzle.png"));
+        addTexture("ok", new Texture("resources\\textures\\ok.png"));
 
 
-        addTexture("enemy", new Texture("resources\\textures\\enemy.png"));
-
+        //characters
+        addTexture("enemy1", new Texture("resources\\textures\\enemy1.png"));
+        addTexture("enemy2", new Texture("resources\\textures\\enemy2.png"));
+        addTexture("boss", new Texture("resources\\textures\\boss.png"));
         addTexture("player", new Texture("resources\\textures\\player.png"));
 
 
-
+        //stats? are those even needed?
         addTexture("stat1", new Texture("resources\\textures\\stat1.png"));
-
         addTexture("stat2", new Texture("resources\\textures\\stat2.png"));
-
         addTexture("stat3", new Texture("resources\\textures\\stat3.png"));
 
 
-        addTexture("ok", new Texture("resources\\textures\\ok.png"));
+
     }
 
     public static void unloadResources(){

@@ -5,8 +5,8 @@ import managers.ResourceManager;
 
 public class Enemy extends Character
 {
-    private static final int START_POS_X = 2460;
-    private static final int  MOVE_SPEED = 160;
+    private static final int START_POS_X = 2440;
+    public static final int  MOVE_SPEED = 170;
     private boolean canPuzzle;
     private String abilityName;
     public Texture texture;
@@ -16,9 +16,12 @@ public class Enemy extends Character
         this.canPuzzle =  false;
         this.abilityName = "None";
 
-        texture = ResourceManager.getTexture("enemy");
+        if (Math.random()*2 > 1)
+            texture = ResourceManager.getTexture("enemy2");
+        else
+            texture = ResourceManager.getTexture("enemy1");
         getLocation().x = START_POS_X;
-        getLocation().y = 400;
+        getLocation().y = 350;
        
 
     }
@@ -63,7 +66,7 @@ public class Enemy extends Character
         this.abilityName = abilityName;
     }
 
-    public void moveEnemy(double dT){
-        getLocation().x -= dT* MOVE_SPEED;
+    public void moveEnemy(double distance){
+        getLocation().x -= distance;
     }
 }
