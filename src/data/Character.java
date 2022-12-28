@@ -6,7 +6,7 @@ public abstract class Character
     private int health;
     private int armor;
     private int baseDamage;
-    //TODO private int criticalChance;
+    private int criticalChance;
     private int dodgeChance;
 
     private Vector2 location;
@@ -14,12 +14,13 @@ public abstract class Character
 
     
 
-    public Character(String name, int health, int armor, int baseDamage, int dodgeChance) {
+    public Character(String name, int health, int armor, int baseDamage, int dodgeChance, int criticalChance) {
         this.name = name;
         this.health = health;
         this.armor = armor;
         this.baseDamage = baseDamage;
         this.dodgeChance = dodgeChance;
+        this.criticalChance = criticalChance;
     }
 
     public Character() {
@@ -65,13 +66,13 @@ public abstract class Character
         this.baseDamage = baseDamage;
     }
 
-    //TODO public int getCriticalChance() {
-    //     return criticalChance;
-    // }
+     public int getCriticalChance() {
+        return criticalChance;
+     }
 
-    // public void setCriticalChance(int criticalChance) {
-    //     this.criticalChance = criticalChance;
-    // }
+     public void setCriticalChance(int criticalChance) {
+         this.criticalChance = criticalChance;
+     }
 
     public int getDodgeChance() {
         return dodgeChance;

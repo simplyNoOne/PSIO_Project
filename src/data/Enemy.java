@@ -5,7 +5,7 @@ import managers.ResourceManager;
 
 public class Enemy extends Character
 {
-    private static final int START_POS_X = 2440;
+    private static final int START_POS_X = 2460;
     public static final int  MOVE_SPEED = 170;
     private boolean canPuzzle;
     private String abilityName;
@@ -26,9 +26,9 @@ public class Enemy extends Character
 
     }
 
-    public Enemy(String name, int health, int armor, int baseDamage, int dodgeChance, boolean canPuzzle, String abilityName)
+    public Enemy(String name, int health, int armor, int baseDamage, int dodgeChance, boolean canPuzzle, String abilityName, int criticalChance)
     {
-        super(name, health, armor, baseDamage, dodgeChance);
+        super(name, health, armor, baseDamage, dodgeChance, criticalChance);
         this.canPuzzle = canPuzzle;
         this.abilityName = abilityName;
         texture = ResourceManager.getTexture("enemy");
