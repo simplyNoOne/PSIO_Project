@@ -53,7 +53,7 @@ public class PuzzlePanel extends CustomPanel implements Interactible {
         buttons.get("wrong").setIcon(ResourceManager.getTexture("wrong"));
         int correctButtonX = (PANEL_WIDTH- PuzzleButton.BUTTON_WIDTH)/2 - PuzzleButton.BUTTON_WIDTH -BUTTON_SPACE;
         int correctButtonY = (PANEL_HEIGHT- PuzzleButton.BUTTON_HEIGHT)/2;
-        buttons.get("correct").setBounds(correctButtonX, correctButtonY, PuzzleOrFightPanel.PuzzleOrFightButton.BUTTON_WIDTH, PuzzleOrFightPanel.PuzzleOrFightButton.BUTTON_HEIGHT);
+        buttons.get("correct").setBounds(correctButtonX, correctButtonY, PuzzleButton.BUTTON_WIDTH, PuzzleButton.BUTTON_HEIGHT);
         int wrongButtonX = (PANEL_WIDTH -  PuzzleButton.BUTTON_WIDTH)/2 + PuzzleButton.BUTTON_WIDTH + BUTTON_SPACE;
         int wrongButtonY =  (PANEL_HEIGHT- PuzzleButton.BUTTON_HEIGHT)/2;
         buttons.get("wrong").setBounds(wrongButtonX, wrongButtonY, PuzzleButton.BUTTON_WIDTH, PuzzleButton.BUTTON_HEIGHT);

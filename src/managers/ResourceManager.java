@@ -55,9 +55,20 @@ public class ResourceManager {
 
 
         //stats? are those even needed?
+        addTexture("stat0", new Texture("resources\\textures\\stat0.png"));
+
         addTexture("stat1", new Texture("resources\\textures\\stat1.png"));
+
         addTexture("stat2", new Texture("resources\\textures\\stat2.png"));
-        addTexture("stat3", new Texture("resources\\textures\\stat3.png"));
+
+
+        addTexture("ok", new Texture("resources\\textures\\ok.png"));
+        addTexture("correct", new Texture("resources\\textures\\correct.png"));
+        addTexture("wrong", new Texture("resources\\textures\\wrong.png"));
+
+        addTexture("won", new Texture("resources\\textures\\won.png"));
+        addTexture("lost", new Texture("resources\\textures\\lost.png"));
+        addTexture("levelup", new Texture("resources\\textures\\levelup.png"));
 
 
 
