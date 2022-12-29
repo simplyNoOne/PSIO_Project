@@ -1,31 +1,47 @@
 package data;
 
+import java.util.*;
+
+import javax.imageio.ImageIO;
+
+
 import data.Character;
 import data.Inventory;
+import data.Texture;
+import managers.ResourceManager;
+
 
 public class Player extends Character {
-    private int currentHealth;
-    private int Level;
-    private Inventory inventory;
 
-    public Player()
-    {
-        super("Player",100,5,10,5,5);
-        this.currentHealth = this.getMaxHealth();
+    private Inventory inventory;
+    public ArrayList<Texture> animation ;
+    public Texture currentTexture;
+    private int maxHealth;
+
+    private int Level;
+
+    public Player() {
+        super();
+        currentTexture = ResourceManager.getTexture("player");
+        getLocation().x = 70;
+        getLocation().y = 340;
+        maxHealth = 100;
         this.Level = 1;
         this.inventory = new Inventory();
+
     }
+
+    public Texture getPlayerTexture() {
+        return currentTexture;
+
+    }
+
+    public int getMaxHealth(){return maxHealth;}
+
+
 
     public Inventory getInventory() {
         return inventory;
-    }
-
-    public int getCurrentHealth() {
-        return currentHealth;
-    }
-
-    public void setCurrentHealth(int currentHp) {
-        this.currentHealth = currentHp;
     }
 
     public int getLevel() {

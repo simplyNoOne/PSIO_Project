@@ -1,5 +1,6 @@
 package gui.panels;
 
+import data.Texture;
 import interfaces.Interactible;
 import managers.GUIManager;
 import managers.PrefightManager;
@@ -14,12 +15,9 @@ import java.util.Map;
 
 
 public class PrefightPanel extends CustomPanel implements Interactible {
-    static final int W_BUTTON_WIDTH = 150;
-    static final int W_BUTTON_HEIGHT = 150;
-    static final int C_BUTTON_WIDTH = 100;
-    static final int C_BUTTON_HEIGHT = 100;
 
-     class PrefightButton extends JButton {
+
+    class PrefightButton extends JButton {
         PrefightButton(){
             super();
 
@@ -38,33 +36,62 @@ public class PrefightPanel extends CustomPanel implements Interactible {
         }
     }
     class ConfirmButton extends PrefightButton{
-         ConfirmButton(){
 
-            this.setIcon(ResourceManager.getTexture("confirm2"));
+        static final int BUTTON_WIDTH = 150;
+        static final int BUTTON_HEIGHT = 150;
+        ConfirmButton(){
 
-            this.setBounds(300, 0, this.getIcon().getIconWidth(), this.getIcon().getIconHeight());
-         }
+            Texture texture = ResourceManager.getTexture("confirm2");
+            this.setIcon(texture);
+            int x0 = (PANEL_WIDTH - texture.getIconWidth())/2;
+            int y0 = (PANEL_HEIGHT + CollectibleButton.BUTTON_HEIGHT)/2 + BUTTON_SPACE + 50;
+
+            this.setBounds(x0, y0, this.getIcon().getIconWidth(), this.getIcon().getIconHeight());
+        }
     }
     public  class CollectibleButton extends PrefightButton{
-         CollectibleButton(){
-             super();
-             this.setSize(C_BUTTON_WIDTH, C_BUTTON_HEIGHT);
-         }
+        private static final int BUTTON_WIDTH = 64;
+        private static final int BUTTON_HEIGHT = 64;
+        CollectibleButton(){
+            super();
+            this.setSize(CollectibleButton.BUTTON_WIDTH, CollectibleButton.BUTTON_HEIGHT);
+        }
+
+        public static int getButtonHeight() {
+            return BUTTON_HEIGHT;
+        }
+
+        public static int getButtonWidth() {
+            return BUTTON_WIDTH;
+        }
     }
 
     public class WeaponButton extends PrefightButton{
+        private static final int BUTTON_WIDTH = 64;
+        private static final int BUTTON_HEIGHT = 64;
         WeaponButton(){
             super();
-            this.setSize(W_BUTTON_WIDTH, W_BUTTON_HEIGHT);
+            this.setSize(WeaponButton.BUTTON_WIDTH, WeaponButton.BUTTON_HEIGHT);
+        }
+
+        public static int getButtonHeight() {
+            return BUTTON_HEIGHT;
+        }
+
+        public static int getButtonWidth() {
+            return BUTTON_WIDTH;
         }
     }
 
     private final static int PANEL_WIDTH = 700;
     private final static int PANEL_HEIGHT = 500;
+    private final static int BUTTON_SPACE = 30;
 
-    ConfirmButton confirmButton;
-    Map<String, WeaponButton> weaponButtons = new HashMap<>();
-    Map<String, CollectibleButton> collectibleButtons = new HashMap<>();
+
+
+    private ConfirmButton confirmButton;
+    private Map<String, WeaponButton> weaponButtons = new HashMap<>();
+    private Map<String, CollectibleButton> collectibleButtons = new HashMap<>();
 
 
 
@@ -76,7 +103,7 @@ public class PrefightPanel extends CustomPanel implements Interactible {
         this.add(confirmButton);
 
     }
-    
+
     public void addWeaponButton(ImageIcon texture, String buttonKey, String weaponName){
         WeaponButton wButton = new WeaponButton();
         wButton.setIcon(texture);
@@ -94,11 +121,15 @@ public class PrefightPanel extends CustomPanel implements Interactible {
     public void updatePanel(){
 
         for(int i = 0; i<collectibleButtons.size(); i++){
-            collectibleButtons.get("collectible" + (i + 1)).setLocation( 120*i, 300);
+            int x0 = (PANEL_WIDTH - CollectibleButton.getButtonWidth())/2 + (CollectibleButton.getButtonWidth() + BUTTON_SPACE)*(i-1);
+            int y0 = (PANEL_HEIGHT - CollectibleButton.getButtonHeight())/2 + 50;
+            collectibleButtons.get("collectible" + (i + 1)).setLocation(x0, y0);
             this.add(collectibleButtons.get("collectible" + (i + 1)));
         }
         for(int i = 0; i<weaponButtons.size(); i++){
-            weaponButtons.get("weapon" + (i + 1)).setLocation( 450*i, 300);
+            int x0 = (PANEL_WIDTH - WeaponButton.getButtonWidth())/2 + (WeaponButton.getButtonWidth() + BUTTON_SPACE)*(i-1);
+            int y0 = (PANEL_HEIGHT - CollectibleButton.getButtonHeight())/2 - WeaponButton.getButtonHeight() - BUTTON_SPACE + 50;
+            weaponButtons.get("weapon" + (i + 1)).setLocation(x0, y0);
             this.add(weaponButtons.get("weapon" + (i + 1)));
         }
     }

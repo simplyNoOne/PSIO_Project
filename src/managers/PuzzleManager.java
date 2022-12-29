@@ -12,7 +12,7 @@ public class PuzzleManager {
     {
         @Override
         public void actionPerformed(ActionEvent e) {
-            StateMachine.setNextStateVar(StateMachine.State.PUZZLE_OR_FIGHT);
+            StateMachine.setNextStateVar(StateMachine.State.SCROLL_BG);
             StateMachine.nextState();
         }
     }
