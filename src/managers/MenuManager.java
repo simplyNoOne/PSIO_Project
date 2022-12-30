@@ -1,5 +1,6 @@
 package managers;
 
+import gui.panels.MenuPanel;
 import interfaces.Interactible;
 import main.StateMachine;
 
@@ -30,6 +31,7 @@ public class MenuManager {
         @Override
         public void actionPerformed(ActionEvent e) {
 
+            ((MenuPanel)GUIManager.getPanel("menu")).showButtons(false);
             GUIManager.addPanel("scores", "menu");
             GUIManager.getPane("menu").repaint();
         }
@@ -40,8 +42,10 @@ public class MenuManager {
         public void actionPerformed(ActionEvent e) {
 
             System.out.println("BAck");
+            ((MenuPanel)GUIManager.getPanel("menu")).showButtons(true);
             GUIManager.removePanel("scores", "menu");
             GUIManager.getPane("menu").repaint();
+
         }
     }
 

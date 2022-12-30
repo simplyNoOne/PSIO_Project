@@ -1,5 +1,6 @@
 package main;
 
+import data.Collectible;
 import data.Enemy;
 import data.Weapon;
 import data.Player;
@@ -50,10 +51,13 @@ public class MainApp implements Runnable{
     public static Enemy getEnemy(){return enemy;}
     public static void setEnemy(Enemy e){enemy = e; }
 
-    public static void spawnPlayer(){
+    public static void spawnPlayer() {
 
         player = new Player();
         player.getInventory().addWeapon(new Weapon("sword", 100, 20));
+        player.getInventory().addCollectible(new Collectible("collectible1"));
+        player.getInventory().addCollectible(new Collectible("collectible4"));
+        player.getInventory().addWeapon(new Weapon("axe", 100, 20));
     }
     @Override
     public void run() {

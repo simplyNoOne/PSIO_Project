@@ -1,11 +1,8 @@
 package main;
 
 import data.Enemy;
-import gui.panels.CharactersPanel;
-import gui.panels.EnemyStatsPanel;
-import gui.panels.PlayerStatsPanel;
+import gui.panels.*;
 import managers.GUIManager;
-import gui.panels.BackgroundPanel;
 import managers.MenuManager;
 import managers.PuzzleOrFightManager;
 import managers.ResourceManager;
@@ -66,8 +63,7 @@ public class StateMachine {
                 MainApp.getGameFrame().repaint();
 
             }
-            public void update(double deltaTime) {System.out.println("in meun");
-            }
+            public void update(double deltaTime) {}
 
             public void nextState() {
                 GUIManager.removePanel("menu", "menu");
@@ -125,6 +121,7 @@ public class StateMachine {
             public void initState(){
                 GUIManager.addPanel("enemyStats", "game" );
                 GUIManager.addPanel("prefight", "game");
+                ((PrefightPanel)GUIManager.getPanel("prefight")).refreshButtons();
             }
             public void update(double deltaTime) {}
 
