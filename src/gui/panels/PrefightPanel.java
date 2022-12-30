@@ -208,7 +208,7 @@ public class PrefightPanel extends CustomPanel implements Interactible {
         temp = new ArrayList<>();
 
         temp.add( ResourceManager.getTexture("grayCol4"));
-        temp.add( ResourceManager.getTexture("col5"));
+        temp.add( ResourceManager.getTexture("col4"));
         collectibleTextures.put("collectible4", temp );
         temp = new ArrayList<>();
 
