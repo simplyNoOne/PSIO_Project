@@ -7,6 +7,7 @@ import gui.panels.PrefightPanel;
 import interfaces.Interactible;
 import main.*;
 
+import javax.swing.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
@@ -20,6 +21,10 @@ public class PrefightManager {
         @Override
         public void actionPerformed(ActionEvent e) {
             String weaponName = ((PrefightPanel.WeaponButton) e.getSource()).getName();
+            if(((PrefightPanel.WeaponButton) e.getSource()).getSelected())
+                ((PrefightPanel.WeaponButton) e.getSource()).buttonDeselected();
+            else
+                ((PrefightPanel.WeaponButton) e.getSource()).buttonSelected();
             System.out.println(weaponName + " has been clicked!");
 //            MainApp.getPlayer().getInventory().setActiveWeapon(tag);
         }
@@ -29,6 +34,10 @@ public class PrefightManager {
         @Override
         public void actionPerformed(ActionEvent e) {
             String collectibleName = ((PrefightPanel.CollectibleButton) e.getSource()).getName();
+            if(((PrefightPanel.CollectibleButton) e.getSource()).getSelected())
+                ((PrefightPanel.CollectibleButton) e.getSource()).buttonDeselected();
+            else
+                ((PrefightPanel.CollectibleButton) e.getSource()).buttonSelected();
             System.out.println(collectibleName + " has been clicked!");
 //            MainApp.getPlayer().getInventory().setActiveCollectible(tag);
         }
@@ -47,33 +56,29 @@ public class PrefightManager {
     private static final ConfirmButtonListener confirmButtonListener = new ConfirmButtonListener();
 
 
-    public static void initWeaponButtons() {
-        ArrayList<Weapon> availableWeapons = MainApp.getPlayer().getInventory().getWeapons();
-
-        for (int id = 0; id < availableWeapons.size(); id++) {
-            Weapon weapon = availableWeapons.get(id);
-            Texture weaponTexture = ResourceManager.getTexture(weapon.getName());
-            ((PrefightPanel) GUIManager.getPanel("prefight")).addWeaponButton(weaponTexture, "weapon" + (id + 1), weapon.getName());
-            ((Interactible) GUIManager.getPanel("prefight")).addButtonListener(weaponButtonListener, "weapon" + ( id + 1));
+    public static ArrayList<String> getActiveCollectibles() {
+        ArrayList<Collectible> availableCollectibles = MainApp.getPlayer().getInventory().getCollectibles();
+        ArrayList<String> collectibleNames = new ArrayList<>();
+        for (Collectible collectible : availableCollectibles) {
+            collectibleNames.add(collectible.getName());
+            ((Interactible) GUIManager.getPanel("prefight")).addButtonListener(collectibleButtonListener, collectible.getName());
         }
+        return collectibleNames;
     }
 
-    public static void initCollectibleButtons() {
-        ArrayList<Collectible> availableCollectibles = MainApp.getPlayer().getInventory().getCollectibles();
-
-        for (int id = 0; id < availableCollectibles.size(); id++) {
-            Collectible collectible = availableCollectibles.get(id);
-            Texture collectibleTexture = ResourceManager.getTexture(collectible.getName());
-            ((PrefightPanel) GUIManager.getPanel("prefight")).addCollectibleButton(collectibleTexture, "collectible" + ( id + 1), collectible.getName());
-            ((Interactible) GUIManager.getPanel("prefight")).addButtonListener(collectibleButtonListener, "collectible" + ( id + 1));
+    public static ArrayList<String> getActiveWeapons() {
+        ArrayList<Weapon> availableWeapons = MainApp.getPlayer().getInventory().getWeapons();
+        ArrayList<String> weaponNames = new ArrayList<>();
+        for (Weapon weapon : availableWeapons) {
+            weaponNames.add(weapon.getName());
+            ((Interactible) GUIManager.getPanel("prefight")).addButtonListener(weaponButtonListener, weapon.getName());
         }
+        return weaponNames;
     }
 
 
     public static void init(){
-        initWeaponButtons();
-        initCollectibleButtons();
         ((Interactible)GUIManager.getPanel("prefight")).addButtonListener(confirmButtonListener, "confirm");
-        ((PrefightPanel) GUIManager.getPanel("prefight")).updatePanel();
+        ((PrefightPanel) GUIManager.getPanel("prefight")).refreshButtons();
     }
 }
