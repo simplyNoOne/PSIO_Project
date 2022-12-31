@@ -20,7 +20,7 @@ public class WeaponGenerator {
 
         switch (rng.nextInt(0, 3)) {
             case 0 -> {
-                weaponName = "Axe";
+                weaponName = "axe";
                 weaponDamage = (weaponPower - 1);
                 weaponCriticalChance = 1;
 
@@ -32,7 +32,7 @@ public class WeaponGenerator {
 
             }
             case 1 -> {
-                weaponName = "Hammer";
+                weaponName = "hammer";
                 weaponCriticalChance = (weaponPower - 1);
                 weaponDamage = 1;
 
@@ -44,7 +44,7 @@ public class WeaponGenerator {
 
             }
             case 2 -> {
-                weaponName = "Sword";
+                weaponName = "sword";
                 weaponDamage = weaponPower / 2;
                 weaponCriticalChance = weaponPower / 2;
 
