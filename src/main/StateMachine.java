@@ -2,10 +2,7 @@ package main;
 
 import data.Enemy;
 import gui.panels.*;
-import managers.GUIManager;
-import managers.MenuManager;
-import managers.PuzzleOrFightManager;
-import managers.ResourceManager;
+import managers.*;
 
 import javax.swing.*;
 
@@ -135,11 +132,14 @@ public class StateMachine {
             public void initState(){
                 GUIManager.addPanel("fight", "game");
                 MainApp.getGameFrame().setVisible(true); //TODO check if this line is important
+
+                FightManager.startFight();
             }
             public void update(double deltaTime) {}
 
             public void nextState() {
                 GUIManager.removePanel("fight", "game");
+
                 StateMachine.setCurrentState(FIGHT_RESULTS);
                 currentState.initState();
             }

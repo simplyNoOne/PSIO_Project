@@ -1,6 +1,10 @@
 package managers;
 
+import data.Character;
+import data.Enemy;
+import data.Player;
 import interfaces.Interactible;
+import main.MainApp;
 import main.StateMachine;
 
 import java.awt.event.ActionEvent;
@@ -8,9 +12,12 @@ import java.awt.event.ActionListener;
 import java.util.Random;
 
 public class FightManager {
+    private static Character attacker; // abstract handle, can change between Player and Enemy. Convenient to use as a class field
+    private static Character defender; // the other character
+    private static Boolean playerWon = null; // Fight result. Wrapping as a non-primitive boolean gives possibility to set result as null when it's unknown
+    private static final int DAMAGE_RANDOMIZATION_PERCENT = 10; // Damage slightly randomized e.g. base hit 100 will really be a random from 90 ... 110
 
-    public static class WonFightButtonListener implements ActionListener
-    {
+    public static class WonFightButtonListener implements ActionListener {
         @Override
         public void actionPerformed(ActionEvent e) {
             StateMachine.setNextStateVar(StateMachine.State.SCROLL_BG);
@@ -18,8 +25,7 @@ public class FightManager {
         }
     }
 
-    public static class LostFightButtonListener implements ActionListener
-    {
+    public static class LostFightButtonListener implements ActionListener {
         @Override
         public void actionPerformed(ActionEvent e) {
 
@@ -28,8 +34,7 @@ public class FightManager {
         }
     }
 
-    public static class WonAndLevelupFightButtonListener implements ActionListener
-    {
+    public static class WonAndLevelupFightButtonListener implements ActionListener {
         @Override
         public void actionPerformed(ActionEvent e) {
 
@@ -51,5 +56,158 @@ public class FightManager {
     }
 
 
-}
 
+    public static Boolean hasPlayerWon() {
+        return playerWon;
+    }
+
+    public static void startFight() {
+        resetFightResult();
+
+        // Handles for explicit objects info display e.g. player & enemy health
+        Player player = MainApp.getPlayer();
+        Enemy enemy = MainApp.getEnemy();
+
+        // Setup who attacks first and the other one defends. Based on flipping a coin (50/50 chance).
+        chooseAttackerAndDefender();
+
+        System.out.println("Fight!");
+        while (attacker.getHealth() > 0 & defender.getHealth() > 0) {
+            System.out.println("Player: " + player.getHealth() + " HP");
+            System.out.println("Enemy: " + enemy.getHealth() + " HP");
+            System.out.println("Now " + attacker.getName() + " hits...");
+
+            if (hasDefenderDodged()) {
+                System.out.println(defender.getName() + " has dodged the attack!");
+            } else {
+                dealDamage();
+            }
+
+            System.out.println();
+            switchAttacker();
+        }
+
+        setFightResult();
+        if (hasPlayerWon()) {
+            System.out.println("Player won!");
+        }
+        else System.out.println("Enemy won!");
+
+        fightCleanup();
+    }
+
+    private static void resetFightResult() {
+        playerWon = null;
+    }
+
+    private static void chooseAttackerAndDefender() {
+        // Flips a coin to decide who attacks
+        boolean playerAttacks = (new Random()).nextBoolean();
+
+        if (playerAttacks) {
+            attacker = MainApp.getPlayer(); // set the player as an attacker
+            defender = MainApp.getEnemy();
+        } else { // enemy attacks
+            attacker = MainApp.getEnemy(); // set the enemy as an attacker
+            defender = MainApp.getPlayer();
+        }
+    }
+
+    /**
+     * TODO best to create new small class e.g. RandomEventManager with method: public boolean hasProbabilisticEventOccurred(int eventChance) -> used for critical hit, dodge etc.
+     **/
+    private static boolean hasDefenderDodged() {
+        // dodgeChance: 0 ... 100 %
+
+        if (defender.getDodgeChance() == 0)
+            return false;
+        else if (defender.getDodgeChance() == 100)
+            return true;
+
+        int dodgeGenerated = (new Random()).nextInt(100);
+        if (dodgeGenerated < defender.getDodgeChance()) // e.g. if 35 is in [0, 70) == set representing probability = 70 %
+        {
+            return true;
+        } else {
+            return false;
+        }
+    }
+
+    private static void dealDamage() {
+        int damage = calculateDamage();
+        damage -= defender.getArmor();
+
+        if (damage > 0) {
+            defender.setHealth(defender.getHealth() - damage);
+            System.out.printf("Boom! %s (%s) hits %s (%s) with %d damage!\n", attacker.getName(), attacker.getClass(), defender.getName(), defender.getClass(), damage);
+        }
+        else {
+            System.out.printf("%s (%s)'s armor has blocked the attack!\n", defender.getName(), defender.getClass());
+        }
+    }
+
+    private static int calculateDamage() {
+        int damage = 0;
+
+        if (attacker instanceof Player) {
+            damage += attacker.getBaseDamage();
+
+            // FIXME TODO how to get the weapon selected for the fight? Any getActiveWeapon() there?
+            /*if (((Player) attacker).getInventory().hasChosenWeapon()) {
+                damage += ((Player) attacker).getInventory().getActiveWeapon().getDamage();
+            }*/
+        } else if (attacker instanceof Enemy) {
+            damage = attacker.getBaseDamage();
+        } else throw new RuntimeException("Unhandled Character child class: " + attacker.getClass());
+
+        int damageBonusPercent = (new Random()).nextInt(-DAMAGE_RANDOMIZATION_PERCENT, DAMAGE_RANDOMIZATION_PERCENT + 1); // bound exclusive so +1
+        damage = (int) Math.round((1.0 + damageBonusPercent / 100.0) * damage);
+
+        if (isCriticalAttack()) {
+            damage *= 2; // critical multiplier
+            System.out.println("Critical Attack!"); // temp
+        }
+
+        return damage;
+    }
+
+    // TODO probably should also include critical chance from weapons
+    private static boolean isCriticalAttack() {
+        // criticalChance: 0 ... 100 %
+
+        if (attacker.getCriticalChance() == 0)
+            return false;
+        else if (attacker.getCriticalChance() == 100)
+            return true;
+
+        int criticalGenerated = (new Random()).nextInt(100);
+        if (criticalGenerated < attacker.getCriticalChance()) // e.g. if 35 is in [0, 70) == set representing probability = 70 %
+        {
+            return true;
+        } else {
+            return false;
+        }
+    }
+
+    // swap attacker and defender
+    private static void switchAttacker() {
+        Character temp = attacker;
+        attacker = defender;
+        defender = temp;
+    }
+
+    private static void setFightResult() {
+        if (MainApp.getEnemy().getHealth() <= 0) {
+            playerWon = true;
+        } else if (MainApp.getPlayer().getHealth() <= 0) {
+            playerWon = false;
+        } else {
+            playerWon = null;
+        }
+    }
+
+    private static void fightCleanup() {
+        attacker = null;
+        defender = null;
+    }
+}

@@ -28,7 +28,7 @@ public abstract class Character
         this.name = "LongNoneName";
         this.health = 100;
         this.armor = 50;
-        this.baseDamage = 0;
+        this.baseDamage = 100;
         this.dodgeChance = 0;
     }
 
