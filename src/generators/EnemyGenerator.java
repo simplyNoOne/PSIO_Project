@@ -45,9 +45,8 @@ public class EnemyGenerator {
         enemyHealth += max(1, enemyCombatStats);
 
 
-        Enemy generatedEnemy = new Enemy(enemyName,enemyHealth,enemyArmor,enemyDamage,enemyDodgeChance, enemyCanPuzzle,
-                                         enemyAbilityName, enemyCriticalChance);
-        return generatedEnemy;
+        return new Enemy(enemyName,enemyHealth,enemyArmor,enemyDamage,enemyDodgeChance, enemyCanPuzzle,
+                         enemyAbilityName, enemyCriticalChance);
     }
     public static int  calculateTotalAverageWeaponCombatStats()
     {
