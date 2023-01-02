@@ -3,28 +3,48 @@ package managers;
 import java.io.*;
 import java.util.*;
 
+/**
+ * <p>Manager of high scores file database. I/O operations, updating scores, getting sorted scores.</p>
+ * <p>Usage: loadEntries() to load scores to Map, then do some operations, and saveEntries() to update. Finally unloadEntries() to release memory.</p>
+ * <p>Short usage for single entry update: updateEntryInFile()</p>**/
 public class ScoreManager {
     private static final String SCORES_PATH = "scores.dat"; // TODO modify to the proper path of score assets / saves
     private static Map<String, Integer> scores = new HashMap<>();
 
-
-    public static void loadEntries() throws IOException, ClassNotFoundException {
-        try {
-            ObjectInputStream objectInputStream = new ObjectInputStream(new FileInputStream(SCORES_PATH));
+    /** Shortcut for: load, updateEntry (1 entry), save & unload **/
+    public static void updateEntryInFile(String playerNickname, int score) {
+        if (scores.isEmpty()) {
+            loadEntries();
+            updateEntry(playerNickname, score);
+            saveEntries();
+            unloadEntries();
+        }
+        else {
+            throw new RuntimeException("Attempt to override non-empty score Map! " +
+                    "Entries must be unloaded at first in order to prevent unexpected data loss.");
+        }
+    }
+    public static void loadEntries() {
+        // auto-closeable
+        try (ObjectInputStream objectInputStream = new ObjectInputStream(new FileInputStream(SCORES_PATH))) {
 
             scores = (Map<String, Integer>) objectInputStream.readObject();
-            objectInputStream.close();
         }
         catch (FileNotFoundException e) {
             saveEntries(); // call saveScores to create an empty database file
+        } catch (IOException | ClassNotFoundException e) {
+            throw new RuntimeException(e);
         }
     }
 
-    public static void saveEntries() throws IOException {
-        ObjectOutputStream objectOutputStream = new ObjectOutputStream(new FileOutputStream(SCORES_PATH));
+    public static void saveEntries() {
+        // auto-closeable
+        try (ObjectOutputStream objectOutputStream = new ObjectOutputStream(new FileOutputStream(SCORES_PATH))) {
 
-        objectOutputStream.writeObject(scores);
-        objectOutputStream.close();
+            objectOutputStream.writeObject(scores);
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
     }
 
     public static void unloadEntries() {
@@ -47,7 +67,7 @@ public class ScoreManager {
         return sortedEntries;
     }
 
-    public static void addEntry(String playerNickname, int score) {
+    public static void updateEntry(String playerNickname, int score) {
         scores.put(playerNickname, score);
     }
 

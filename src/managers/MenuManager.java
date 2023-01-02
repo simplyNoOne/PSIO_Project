@@ -2,8 +2,10 @@ package managers;
 
 import gui.panels.MenuPanel;
 import interfaces.Interactible;
+import main.MainApp;
 import main.StateMachine;
 
+import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
@@ -13,8 +15,15 @@ public class MenuManager {
 
         @Override
         public void actionPerformed(ActionEvent e) {
+            setPlayerNick(); // loads nickname from text field after clicking start button
+
             StateMachine.setNextStateVar(StateMachine.State.GAME);
             StateMachine.nextState();
+        }
+
+        private void setPlayerNick() {
+            String nickname = ((MenuPanel) GUIManager.getPanel("menu")).getNickField().getText();
+            MainApp.getPlayer().setName(nickname);
         }
     }
     static class QuittListener implements ActionListener {
@@ -34,6 +43,11 @@ public class MenuManager {
             ((MenuPanel)GUIManager.getPanel("menu")).showButtons(false);
             GUIManager.addPanel("scores", "menu");
             GUIManager.getPane("menu").repaint();
+
+            // TODO FIXME add GUI instead of println
+            ScoreManager.loadEntries();
+            System.out.println(ScoreManager.getEntriesSortedByScoreDescending());
+            ScoreManager.unloadEntries();
         }
     }
     static class BackListener implements ActionListener {
