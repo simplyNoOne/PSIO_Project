@@ -5,8 +5,7 @@ import managers.ResourceManager;
 
 public class Enemy extends Character
 {
-    private static final int START_POS_X = 2460;
-    public static final int  MOVE_SPEED = 170;
+    private static final int START_POS_X = 2335;
     private boolean canPuzzle;
     private String abilityName;
     public Texture texture;
@@ -69,4 +68,5 @@ public class Enemy extends Character
     public void moveEnemy(double distance){
         getLocation().x -= distance;
     }
+
 }

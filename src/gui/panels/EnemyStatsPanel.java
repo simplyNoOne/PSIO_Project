@@ -3,54 +3,41 @@ package gui.panels;
 import main.MainApp;
 import managers.GUIManager;
 
-import javax.swing.*;
-import java.awt.*;
-import java.awt.event.ActionListener;
 
 public class EnemyStatsPanel extends StatsPanel{
-    JLabel nameVal;
-    JLabel currentHealthVal;
-    JLabel armorVal;
+
     public EnemyStatsPanel(){
 
         super();
         this.setBounds(GUIManager.getWidth() - PANEL_WIDTH - 30, 10, PANEL_WIDTH, PANEL_HEIGHT);
         this.setLayout(null);
 
-        JLabel nameTitle = new TitleLabel("Name: ");
-        JLabel currentHealthTitle = new TitleLabel("Current Health: ");
-        JLabel armorTitle =new TitleLabel("Armor: ");
 
-        nameVal = new ValueLabel();
-        currentHealthVal = new ValueLabel();
-        armorVal =new ValueLabel();
-
-
-        nameTitle.setBounds(20, 25, 100, 25);
-        currentHealthTitle.setBounds(20, 75, 100, 25);
-        armorTitle.setBounds(20, 125, 100, 25);
-
-        nameVal.setBounds(80, 25, 200, 25);
-        currentHealthVal.setBounds(120, 75, 200, 25);
-        armorVal.setBounds(100, 125, 200, 25);
+        nameTitle.setLocation(20, 25);
+        currentHealthTitle.setLocation(20, 50);
+        armorTitle.setLocation(20, 75);
+        baseDamageTitle.setLocation(20, 100);
+        critChanceTitle.setLocation(20, 125);
+        dodgeChanceTitle.setLocation(20, 150);
 
 
+        nameVal.setLocation(70, 25);
+        currentHealthVal.setLocation(120, 50);
+        armorVal.setLocation(70, 75);
+        baseDamageVal.setLocation(120, 100);
+        critChanceVal.setLocation(120, 125);
+        dodgeChanceVal.setLocation(120, 150);
 
-        armorTitle.setBackground(Color.green);
-        armorVal.setBackground(Color.orange);
 
-        this.add(nameTitle);
-        this.add(nameVal);
-        this.add(currentHealthTitle);
-        this.add(currentHealthVal);
-        this.add(armorTitle);
-        this.add(armorVal);
     }
 
     public void updateStats(){
         nameVal.setText(MainApp.getEnemy().getName());
         currentHealthVal.setText(Integer.toString(MainApp.getEnemy().getHealth()));
         armorVal.setText(Integer.toString(MainApp.getEnemy().getArmor()));
+        baseDamageVal.setText(Integer.toString(MainApp.getEnemy().getBaseDamage()));
+        critChanceVal.setText(Integer.toString(MainApp.getEnemy().getCriticalChance()));
+        dodgeChanceVal.setText(Integer.toString(MainApp.getEnemy().getDodgeChance()));
         this.revalidate();
     }
 }

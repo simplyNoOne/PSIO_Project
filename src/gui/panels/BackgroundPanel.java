@@ -10,6 +10,8 @@ import java.awt.event.ActionListener;
 
 public class BackgroundPanel extends CustomPanel{
 
+    private final static int SPEED = 200;
+
     JLabel currentBg;
     JLabel prevBg;
 
@@ -33,8 +35,10 @@ public class BackgroundPanel extends CustomPanel{
             currentBg.setLocation(GUIManager.getWidth(), 0);
         }
         else {
-            currentBg.setLocation(currentBg.getX() - (int) (dT * 200), 0);
-            prevBg.setLocation(prevBg.getX() - (int) (dT * 200), 0);
+            currentBg.setLocation(currentBg.getX() - (int) (dT * SPEED), 0);
+            prevBg.setLocation(prevBg.getX() - (int) (dT * SPEED), 0);
         }
-        }
+    }
+
+    public static int getSpeed(){return SPEED;}
 }

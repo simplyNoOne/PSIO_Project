@@ -180,13 +180,13 @@ public class StateMachine {
                 //here a new enemy will be generated, using a generator, ofc
                 MainApp.setEnemy(new Enemy());
                 ((CharactersPanel)GUIManager.getPanel("characters")).updateEnemyTexture();
-                MainApp.getGameFrame().setVisible(true);
             }
             public void update(double deltaTime) {
+
+                ((BackgroundPanel)GUIManager.getPanel("background")).scroll(deltaTime);
+                ((CharactersPanel)GUIManager.getPanel("characters")).moveCharacters(deltaTime);
                 GUIManager.getPanel("background").repaint();
                 GUIManager.getPanel("characters").repaint();
-                ((BackgroundPanel)GUIManager.getPanel("background")).scroll(deltaTime);
-                ((CharactersPanel)GUIManager.getPanel("characters")).moveEnemies(deltaTime);
             }
 
             public void nextState() {
@@ -208,6 +208,7 @@ public class StateMachine {
                 GUIManager.removePanel("finalResults", "game");
                 GUIManager.removePanel("playerStats", "game");
                 GUIManager.removePanel("characters", "game");
+                ((CharactersPanel)GUIManager.getPanel("characters")).dispatchEnemy();
                 StateMachine.setCurrentState(MENU);
                 currentState.initState();
             }
