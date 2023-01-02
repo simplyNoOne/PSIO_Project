@@ -12,7 +12,10 @@ import managers.ResourceManager;
 
 
 public class Player extends Character {
+    private final int BASE_HOVER_HEIGHT = 350;
 
+    private int dirMultp = 1;
+    private double diff;
     private Inventory inventory;
     public ArrayList<Texture> animation ;
     public Texture currentTexture;
@@ -24,7 +27,7 @@ public class Player extends Character {
         super();
         currentTexture = ResourceManager.getTexture("player");
         getLocation().x = 70;
-        getLocation().y = 340;
+        getLocation().y = BASE_HOVER_HEIGHT;
         maxHealth = 100;
         this.Level = 1;
         this.inventory = new Inventory();
@@ -50,5 +53,19 @@ public class Player extends Character {
 
     public void setLevel(int level) {
         Level = level;
+    }
+
+    public void hover(int distance){
+        double temp = distance/4.5;
+         diff += temp;
+         if(diff > 1) {
+             getLocation().y += diff * dirMultp;
+             if (getLocation().y > BASE_HOVER_HEIGHT + 20)
+                 dirMultp = -1;
+             if (getLocation().y < BASE_HOVER_HEIGHT - 20)
+                 dirMultp = 1;
+             diff = 0;
+         }
+
     }
 }
