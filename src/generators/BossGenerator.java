@@ -45,9 +45,8 @@ public class BossGenerator {
         bossHealth += max(1, bossCombatStats);
 
 
-        Enemy generatedBoss = new Enemy(bossName,bossHealth,bossArmor,bossDamage,bossDodgeChance, bossCanPuzzle,
-                bossAbilityName, bossCriticalChance);
-        return generatedBoss;
+        return new Enemy(bossName,bossHealth,bossArmor,bossDamage,bossDodgeChance, bossCanPuzzle,
+                         bossAbilityName, bossCriticalChance);
     }
     public static int  calculateTotalAverageWeaponCombatStats()
     {
