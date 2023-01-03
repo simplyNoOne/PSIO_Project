@@ -15,6 +15,7 @@ public abstract class Character
     
 
     public Character(String name, int health, int armor, int baseDamage, int dodgeChance, int criticalChance) {
+        this.location = new Vector2();
         this.name = name;
         this.health = health;
         this.armor = armor;
@@ -27,9 +28,10 @@ public abstract class Character
         this.location = new Vector2();
         this.name = "LongNoneName";
         this.health = 100;
-        this.armor = 50;
-        this.baseDamage = 0;
-        this.dodgeChance = 0;
+        this.armor = 10;
+        this.baseDamage = 15;
+        this.dodgeChance = 10;
+        this.criticalChance = 10;
     }
 
     public String getName() {

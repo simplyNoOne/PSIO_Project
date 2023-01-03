@@ -20,7 +20,7 @@ public class StateMachine {
 
 
                 MainApp.spawnPlayer();
-                MainApp.setEnemy(new Enemy());
+                MainApp.setEnemy(generators.EnemyGenerator.generateEnemy());
                 GUIManager.initAllPanels();
                 nextState();
 
@@ -178,7 +178,7 @@ public class StateMachine {
             public void initState(){
                 ((CharactersPanel)GUIManager.getPanel("characters")).updatePrevEnemy();
                 //here a new enemy will be generated, using a generator, ofc
-                MainApp.setEnemy(new Enemy());
+                MainApp.setEnemy(generators.EnemyGenerator.generateEnemy());
                 ((CharactersPanel)GUIManager.getPanel("characters")).updateEnemyTexture();
             }
             public void update(double deltaTime) {

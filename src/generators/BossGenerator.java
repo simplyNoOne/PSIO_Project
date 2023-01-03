@@ -1,6 +1,8 @@
 package generators;
 import data.*;
 import main.MainApp;
+import managers.ResourceManager;
+
 import java.util.Random;
 import static java.lang.Math.max;
 import static java.lang.Math.min;
@@ -12,20 +14,21 @@ public class BossGenerator {
         Random rng = new Random();
         Player player = MainApp.getPlayer();
 
-        String bossName = "DefaultBoss";
+        String bossName = "Demon King";
         int bossHealth;
         int bossDamage;
         int bossArmor;
         int bossCriticalChance;
         int bossDodgeChance;
         int bossCombatStats;
-        boolean bossCanPuzzle = false;
+        boolean bossIsBoss = true;
+        Texture bossTexture = ResourceManager.getTexture("boss");
         String bossAbilityName = "DefaultAbility";
 
         int playerCombatStats = player.getMaxHealth() + player.getBaseDamage() + player.getDodgeChance() +
                 player.getArmor() + player.getCriticalChance() + calculateTotalAverageWeaponCombatStats();
 
-        bossCombatStats = (int)(rng.nextFloat(1f,1.2f)*playerCombatStats);
+        bossCombatStats = (int)(rng.nextFloat(1f,1.1f)*playerCombatStats);
 
         bossHealth = max(50, (int) (rng.nextFloat(0, 1) * bossCombatStats));
         bossCombatStats -= bossHealth;
@@ -45,8 +48,8 @@ public class BossGenerator {
         bossHealth += max(1, bossCombatStats);
 
 
-        return new Enemy(bossName,bossHealth,bossArmor,bossDamage,bossDodgeChance, bossCanPuzzle,
-                         bossAbilityName, bossCriticalChance);
+        return new Enemy(bossName,bossHealth,bossArmor,bossDamage,bossDodgeChance, bossIsBoss,
+                         bossAbilityName, bossCriticalChance, bossTexture);
     }
     public static int  calculateTotalAverageWeaponCombatStats()
     {
