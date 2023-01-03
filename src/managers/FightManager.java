@@ -122,12 +122,8 @@ public class FightManager {
             return true;
 
         int dodgeGenerated = (new Random()).nextInt(100);
-        if (dodgeGenerated < defender.getDodgeChance()) // e.g. if 35 is in [0, 70) == set representing probability = 70 %
-        {
-            return true;
-        } else {
-            return false;
-        }
+        return (dodgeGenerated < defender.getDodgeChance()); // e.g. if 35 is in [0, 70) == set representing probability = 70 %
+
     }
 
     private static void dealDamage() {
@@ -189,12 +185,8 @@ public class FightManager {
             return true;
 
         int criticalGenerated = (new Random()).nextInt(100);
-        if (criticalGenerated < criticalChance) // e.g. if 35 is in [0, 70) == set representing probability = 70 %
-        {
-            return true;
-        } else {
-            return false;
-        }
+       return (criticalGenerated < criticalChance); // e.g. if 35 is in [0, 70) == set representing probability = 70 %
+
     }
 
     // swap attacker and defender
