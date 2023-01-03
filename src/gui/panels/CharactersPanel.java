@@ -36,9 +36,8 @@ public class CharactersPanel extends CustomPanel{
     public void updatePrevEnemy(){
 
         prevEnemyTexture = enemyTexture;
-        prevEnemyX = MainApp.getEnemy().getLocation().x;
-        prevEnemyY = MainApp.getEnemy().getLocation().y;
-
+            prevEnemyX = MainApp.getEnemy().getLocation().x;
+            prevEnemyY = MainApp.getEnemy().getLocation().y;
     }
 
     public void dispatchEnemy(){

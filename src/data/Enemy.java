@@ -6,13 +6,13 @@ import managers.ResourceManager;
 public class Enemy extends Character
 {
     private static final int START_POS_X = 2335;
-    private boolean canPuzzle;
+    private boolean isBoss;
     private String abilityName;
     public Texture texture;
 
     public Enemy() {
         super();
-        this.canPuzzle =  false;
+        this.isBoss =  false;
         this.abilityName = "None";
 
         if (Math.random()*2 > 1)
@@ -25,13 +25,14 @@ public class Enemy extends Character
 
     }
 
-    public Enemy(String name, int health, int armor, int baseDamage, int dodgeChance, boolean canPuzzle, String abilityName, int criticalChance)
+    public Enemy(String name, int health, int armor, int baseDamage, int dodgeChance, boolean isBoss, String abilityName, int criticalChance, Texture texture)
     {
         super(name, health, armor, baseDamage, dodgeChance, criticalChance);
-        this.canPuzzle = canPuzzle;
+        this.isBoss = isBoss;
         this.abilityName = abilityName;
-        texture = ResourceManager.getTexture("enemy");
-
+        this.texture = texture;
+        getLocation().x = START_POS_X;
+        getLocation().y = 350;
     }
 
     public Texture getEnemyTexture() {
@@ -49,12 +50,12 @@ public class Enemy extends Character
         return this;
     }
 
-    public boolean isCanPuzzle() {
-        return canPuzzle;
+    public boolean getIsBoss() {
+        return isBoss;
     }
 
-    public void setCanPuzzle(boolean canPuzzle) {
-        this.canPuzzle = canPuzzle;
+    public void setIsBoss(boolean isBoss) {
+        this.isBoss = isBoss;
     }
 
     public String getAbilityName() {
