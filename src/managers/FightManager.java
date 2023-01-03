@@ -5,12 +5,8 @@ import data.Enemy;
 import data.Player;
 import gui.panels.FightPanel;
 import gui.panels.StatsPanel;
-import interfaces.Interactible;
 import main.MainApp;
 import main.StateMachine;
-
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 import java.util.Random;
 
 public class FightManager {
@@ -36,12 +32,7 @@ public class FightManager {
     }
 
 
-
-
-
-
     public static void fightRound(double dT) {
-
 
         elapsedTime += dT;
         if(elapsedTime > 2) {
@@ -82,7 +73,6 @@ public class FightManager {
                     MainApp.getGameFrame().repaint();
 
                     setFightResult();
-
                 }
             }
         }
