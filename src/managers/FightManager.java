@@ -1,6 +1,7 @@
 package managers;
 
 import interfaces.Interactible;
+import main.MainApp;
 import main.StateMachine;
 
 import java.awt.event.ActionEvent;
@@ -22,6 +23,8 @@ public class FightManager {
     {
         @Override
         public void actionPerformed(ActionEvent e) {
+            int score = 10; // FIXME TODO dummy value, replace with score earned by the player
+            ScoreManager.updateEntryInFile(MainApp.getPlayer().getName(), score);
 
             StateMachine.setNextStateVar(StateMachine.State.FINAL_RESULTS);
             StateMachine.nextState();

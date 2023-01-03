@@ -18,7 +18,7 @@ public class MenuPanel extends CustomPanel implements Interactible {
     NickField nick;
     JLabel title;
 
-    class NickField extends JTextField{
+    public class NickField extends JTextField{
         boolean empty;
         NickField(){
             empty = true;
@@ -43,6 +43,10 @@ public class MenuPanel extends CustomPanel implements Interactible {
                 setText("Enter nickname");
             }
         }
+    }
+
+    public NickField getNickField() {
+        return nick;
     }
 
     class NickListener implements MouseListener {
