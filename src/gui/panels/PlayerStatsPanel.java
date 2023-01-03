@@ -62,6 +62,7 @@ public class PlayerStatsPanel extends StatsPanel{
         currentHealthVal.setText(Integer.toString(MainApp.getPlayer().getHealth()));
         armorVal.setText(Integer.toString(MainApp.getPlayer().getArmor()));
         this.revalidate();
+        this.repaint();
     }
 
 }

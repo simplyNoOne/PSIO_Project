@@ -3,6 +3,8 @@ package managers;
 import data.Character;
 import data.Enemy;
 import data.Player;
+import gui.panels.FightPanel;
+import gui.panels.StatsPanel;
 import interfaces.Interactible;
 import main.MainApp;
 import main.StateMachine;
@@ -12,6 +14,7 @@ import java.awt.event.ActionListener;
 import java.util.Random;
 
 public class FightManager {
+    private static String message;
     private static Character attacker; // abstract handle, can change between Player and Enemy. Convenient to use as a class field
     private static Character defender; // the other character
     private static Boolean playerWon = null; // Fight result. Wrapping as a non-primitive boolean gives possibility to set result as null when it's unknown
@@ -73,25 +76,38 @@ public class FightManager {
 
         System.out.println("Fight!");
         while (attacker.getHealth() > 0 & defender.getHealth() > 0) {
-            System.out.println("Player: " + player.getHealth() + " HP");
-            System.out.println("Enemy: " + enemy.getHealth() + " HP");
-            System.out.println("Now " + attacker.getName() + " hits...");
+            message = "Now " + attacker.getName() + " hits...";
+            ((FightPanel)GUIManager.getPanel("fight")).setMessage(message);
+            GUIManager.getPanel("fight").revalidate();
+            MainApp.getGameFrame().repaint();
+            try {
+                Thread.sleep(1500);
+            }catch (InterruptedException ex){
+                ex.printStackTrace();
+            }
 
             if (hasDefenderDodged()) {
-                System.out.println(defender.getName() + " has dodged the attack!");
+                message = defender.getName() + " has dodged the attack!";
             } else {
                 dealDamage();
             }
+            if( defender instanceof Player)
+                ((StatsPanel)GUIManager.getPanel("playerStats")).updateStats();
+            else
+                ((StatsPanel)GUIManager.getPanel("enemyStats")).updateStats();
 
+            ((FightPanel)GUIManager.getPanel("fight")).setMessage(message);
+            GUIManager.getPanel("fight").revalidate();
+            MainApp.getGameFrame().repaint();
             System.out.println();
             switchAttacker();
         }
 
         setFightResult();
         if (hasPlayerWon()) {
-            System.out.println("Player won!");
+           message = "Player won!";
         }
-        else System.out.println("Enemy won!");
+        else message = "Enemy won!";
 
         fightCleanup();
     }
@@ -139,10 +155,10 @@ public class FightManager {
 
         if (damage > 0) {
             defender.setHealth(defender.getHealth() - damage);
-            System.out.printf("Boom! %s (%s) hits %s (%s) with %d damage!\n", attacker.getName(), attacker.getClass(), defender.getName(), defender.getClass(), damage);
+            message += String.format("Boom! %s (%s) hits %s (%s) with %d damage!\n", attacker.getName(), attacker.getClass(), defender.getName(), defender.getClass(), damage);
         }
         else {
-            System.out.printf("%s (%s)'s armor has blocked the attack!\n", defender.getName(), defender.getClass());
+            message += String.format("%s (%s)'s armor has blocked the attack!\n", defender.getName(), defender.getClass());
         }
     }
 
@@ -153,9 +169,9 @@ public class FightManager {
             damage += attacker.getBaseDamage();
 
             // FIXME TODO how to get the weapon selected for the fight? Any getActiveWeapon() there?
-            /*if (((Player) attacker).getInventory().hasChosenWeapon()) {
-                damage += ((Player) attacker).getInventory().getActiveWeapon().getDamage();
-            }*/
+            if (((Player) attacker).getActiveWeapon() != null) {
+                damage += ((Player) attacker).getActiveWeapon().getDamage();
+            }
         } else if (attacker instanceof Enemy) {
             damage = attacker.getBaseDamage();
         } else throw new RuntimeException("Unhandled Character child class: " + attacker.getClass());
@@ -165,7 +181,7 @@ public class FightManager {
 
         if (isCriticalAttack()) {
             damage *= 2; // critical multiplier
-            System.out.println("Critical Attack!"); // temp
+            message = "Critical Attack!... "; // temp
         }
 
         return damage;
@@ -175,13 +191,22 @@ public class FightManager {
     private static boolean isCriticalAttack() {
         // criticalChance: 0 ... 100 %
 
-        if (attacker.getCriticalChance() == 0)
+        int criticalChance = attacker.getCriticalChance();
+        if(attacker instanceof  Player) {
+            if(((Player) attacker).getActiveWeapon() != null)
+                criticalChance += ((Player) attacker).getActiveWeapon().getCriticalChance();
+        }
+
+        if(criticalChance > 100)
+            criticalChance = 100;
+
+        if (criticalChance == 0)
             return false;
-        else if (attacker.getCriticalChance() == 100)
+        else if (criticalChance == 100)
             return true;
 
         int criticalGenerated = (new Random()).nextInt(100);
-        if (criticalGenerated < attacker.getCriticalChance()) // e.g. if 35 is in [0, 70) == set representing probability = 70 %
+        if (criticalGenerated < criticalChance) // e.g. if 35 is in [0, 70) == set representing probability = 70 %
         {
             return true;
         } else {

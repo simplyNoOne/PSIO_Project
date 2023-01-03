@@ -52,5 +52,6 @@ public class EnemyStatsPanel extends StatsPanel{
         currentHealthVal.setText(Integer.toString(MainApp.getEnemy().getHealth()));
         armorVal.setText(Integer.toString(MainApp.getEnemy().getArmor()));
         this.revalidate();
+        this.repaint();
     }
 }

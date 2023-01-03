@@ -124,6 +124,8 @@ public class StateMachine {
 
             public void nextState() {
                 GUIManager.removePanel("prefight", "game");
+                MainApp.getGameFrame().revalidate();
+                MainApp.getGameFrame().repaint();
                 StateMachine.setCurrentState(FIGHT);
                 currentState.initState();
             }
@@ -131,9 +133,12 @@ public class StateMachine {
         FIGHT{
             public void initState(){
                 GUIManager.addPanel("fight", "game");
-                MainApp.getGameFrame().setVisible(true); //TODO check if this line is important
+                MainApp.getGameFrame().revalidate();
+                MainApp.getGameFrame().repaint();
 
                 FightManager.startFight();
+
+                System.out.println("done");
             }
             public void update(double deltaTime) {}
 
@@ -156,7 +161,6 @@ public class StateMachine {
             public void nextState() {
                 GUIManager.removePanel("fightResults", "game");
                 StateMachine.setCurrentState(nextStateVar);
-
                 currentState.initState();
             }
         },
