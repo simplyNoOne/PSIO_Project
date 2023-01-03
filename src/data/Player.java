@@ -14,9 +14,11 @@ import managers.ResourceManager;
 public class Player extends Character {
 
     private Inventory inventory;
-    public ArrayList<Texture> animation ;
     public Texture currentTexture;
     private int maxHealth;
+
+    private Weapon activeWeapon;
+    private Collectible activeCollectible;
 
     private int Level;
 
@@ -51,4 +53,25 @@ public class Player extends Character {
     public void setLevel(int level) {
         Level = level;
     }
+
+    public void setActiveWeapon(String weaponName){
+        for(Weapon weapon : this.getInventory().getWeapons())
+            if(weapon.getName().equals(weaponName)) {
+                activeWeapon = weapon;
+                break;
+            }
+    }
+    public void resetActiveWeapon(){activeWeapon = null;}
+    public Weapon getActiveWeapon(){return activeWeapon;}
+    public void setActiveCollectible(String collectibleName){
+        for(Collectible collectible : this.getInventory().getCollectibles())
+            if(collectible.getName().equals(collectibleName)) {
+                activeCollectible = collectible;
+                break;
+            }
+    }
+
+    public void resetActiveCollectible(){activeCollectible = null;}
+
+    public Collectible getActiveCollectible(){return activeCollectible;}
 }

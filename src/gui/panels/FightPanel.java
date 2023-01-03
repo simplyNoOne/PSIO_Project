@@ -39,10 +39,20 @@ public class FightPanel extends CustomPanel implements Interactible {
     private final static int PANEL_HEIGHT = 500;
     private final static int BUTTON_SPACE = 30;
 
+    private JLabel message;
+
+    //TODO get rid of this shit
     private Map<String, FightButton> buttons = new HashMap<>();
     public FightPanel(){
 
         super();
+        message = new JLabel("", SwingConstants.CENTER);
+        message.setBounds((PANEL_WIDTH - 200)/2, 200, 400, 50);
+        message.setFont(new Font(Font.SANS_SERIF, 1, 25));
+        message.setOpaque(true);
+        message.setBackground(Color.white);
+        this.add(message);
+
         buttons.put("won", new FightButton());
         buttons.put("lost", new FightButton());
         buttons.put("levelup", new FightButton());
@@ -77,6 +87,8 @@ public class FightPanel extends CustomPanel implements Interactible {
     public void addButtonListener(ActionListener listener, String buttonId){
         buttons.get(buttonId).addActionListener(listener);
     }
+
+    public void setMessage(String message){this.message.setText(message);}
 
 }
 
