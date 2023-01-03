@@ -24,6 +24,7 @@ public class Player extends Character {
 
     public Player() {
         super();
+        this.setName("Player");
         currentTexture = ResourceManager.getTexture("player");
         getLocation().x = 70;
         getLocation().y = 340;

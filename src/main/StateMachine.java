@@ -14,14 +14,11 @@ public class StateMachine {
             public void update(double deltaTime) {
 
                 ResourceManager.loadResources();
-
-
                 MainApp.spawnPlayer();
+
                 MainApp.setEnemy(new Enemy());
                 GUIManager.initAllPanels();
                 nextState();
-
-                System.out.println("in start");
 
             }
 
@@ -32,6 +29,7 @@ public class StateMachine {
         },
         GAME{
             public void initState(){
+                MainApp.spawnPlayer();
                 GUIManager.addPane("game");
                 GUIManager.addPanel("background", "game");
                 GUIManager.addPanel("playerStats", "game", 3);
@@ -136,11 +134,11 @@ public class StateMachine {
                 MainApp.getGameFrame().revalidate();
                 MainApp.getGameFrame().repaint();
 
-                FightManager.startFight();
-
                 System.out.println("done");
             }
-            public void update(double deltaTime) {}
+            public void update(double deltaTime) {
+                FightManager.fightRound(deltaTime);
+            }
 
             public void nextState() {
                 GUIManager.removePanel("fight", "game");
