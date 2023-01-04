@@ -2,10 +2,7 @@ package main;
 
 import data.Enemy;
 import gui.panels.*;
-import managers.GUIManager;
-import managers.MenuManager;
-import managers.PuzzleOrFightManager;
-import managers.ResourceManager;
+import managers.*;
 
 import javax.swing.*;
 
@@ -95,6 +92,7 @@ public class StateMachine {
             public void initState(){
                 GUIManager.addPanel("puzzle", "game");
                 MainApp.getGameFrame().setVisible(true);
+                PuzzleManager.refreshPuzzle();
             }
             public void update(double deltaTime) {}
 

@@ -36,34 +36,75 @@ public class PuzzlePanel extends CustomPanel implements Interactible {
     private final static int PANEL_WIDTH = 700;
     private final static int PANEL_HEIGHT = 500;
     private final static int BUTTON_SPACE = 30;
-
-    private Map<String, PuzzleButton> buttons = new HashMap<>();
+    private JLabel question;
+    private Map<String, PuzzleButton> answerButtons = new HashMap<>();
     public PuzzlePanel(){
 
         super();
-        buttons.put("correct", new PuzzleButton());
-        buttons.put("wrong", new PuzzleButton());
+
 
 
         this.setBackground(new Color(0, 0, 0));
         super.setBounds((GUIManager.getWidth() - PANEL_WIDTH)/2, (GUIManager.getHeight() - PANEL_HEIGHT)/2, PANEL_WIDTH, PANEL_HEIGHT);
 
         this.setLayout(null);
-        buttons.get("correct").setIcon(ResourceManager.getTexture("correct"));
-        buttons.get("wrong").setIcon(ResourceManager.getTexture("wrong"));
-        int correctButtonX = (PANEL_WIDTH- PuzzleButton.BUTTON_WIDTH)/2 - PuzzleButton.BUTTON_WIDTH -BUTTON_SPACE;
-        int correctButtonY = (PANEL_HEIGHT- PuzzleButton.BUTTON_HEIGHT)/2;
-        buttons.get("correct").setBounds(correctButtonX, correctButtonY, PuzzleButton.BUTTON_WIDTH, PuzzleButton.BUTTON_HEIGHT);
-        int wrongButtonX = (PANEL_WIDTH -  PuzzleButton.BUTTON_WIDTH)/2 + PuzzleButton.BUTTON_WIDTH + BUTTON_SPACE;
-        int wrongButtonY =  (PANEL_HEIGHT- PuzzleButton.BUTTON_HEIGHT)/2;
-        buttons.get("wrong").setBounds(wrongButtonX, wrongButtonY, PuzzleButton.BUTTON_WIDTH, PuzzleButton.BUTTON_HEIGHT);
-        this.add(buttons.get("correct"));
-        this.add(buttons.get("wrong"));
+        for(int i = 0; i < 4; i++){
+            addAnswerButton(Integer.toString(i));
+            this.add(answerButtons.get(Integer.toString(i)));
+        }
+        addQuestion();
+        this.add(question);
 
+    }
+
+    public void setAnswerButtonText(String buttonId,String text){
+        answerButtons.get(buttonId).setText(text);
+    }
+
+    public void setQuestionContent(String text){
+        question.setText(text);
+    }
+
+    private void addAnswerButton(String buttonId){
+        PuzzleButton answerButton = new PuzzleButton();
+        answerButton.setName(buttonId);
+        int x0 = 50;
+        int y0 = 210;
+        int width = 290;
+        int height = 90;
+
+        switch (answerButtons.entrySet().size()){
+            case 1 -> {
+                x0 = 360;
+                y0 = 210;
+            }
+            case 2 -> {
+                x0 = 50;
+                y0 = 345;
+            }
+            case 3 -> {
+                x0 = 360;
+                y0 = 345;
+            }
+        }
+        answerButton.setBounds(x0, y0, width, height);
+        answerButtons.put(buttonId, answerButton);
+        answerButton.setBackground(Color.GRAY);
+    }
+
+
+    private void addQuestion(){
+        question = new JLabel();
+        question.setOpaque(true);
+        question.setHorizontalAlignment(SwingConstants.CENTER);
+        question.setVerticalAlignment(SwingConstants.CENTER);
+        question.setBackground(Color.WHITE);
+        question.setBounds(50, 10, 600, 150);
     }
 
     public void addButtonListener(ActionListener listener, String buttonId){
-        buttons.get(buttonId).addActionListener(listener);
+        answerButtons.get(buttonId).addActionListener(listener);
     }
+
 
 }
