@@ -11,90 +11,89 @@ import java.util.Random;
 
 public class FightManager {
 
-    private static boolean isBeginning;
-
-    private static double elapsedTime;
-    static int rounds;
-    private static String message;
+    private static String message; // fight round info displayed in GUI, like "Player hits enemy..."
     private static Character attacker; // abstract handle, can change between Player and Enemy. Convenient to use as a class field
     private static Character defender; // the other character
     private static Boolean playerWon = null; // Fight result. Wrapping as a non-primitive boolean gives possibility to set result as null when it's unknown
+
     private static final int DAMAGE_RANDOMIZATION_PERCENT = 10; // Damage slightly randomized e.g. base hit 100 will really be a random from 90 ... 110
+    private static final int CRITICAL_MULTIPLIER = 2; // 2x (double) damage in case of a critical hit
+    private static final int PHASE_DELAY_SECS = 2; // time interval between next phases in round (setup attacker, damage). Needed to update GUI for the user
 
-
-
+    private static boolean isRoundStarting = true;
+    private static double timeElapsedSinceHit;
 
 
     public static void init() {
         message = "Opponents approach each other...";
-        rounds = 0;
+
+        attacker = null;
+        defender = null;
+        playerWon = null;
+
+        isRoundStarting = true;
+        timeElapsedSinceHit = 0;
+
         ((FightPanel) GUIManager.getPanel("fight")).setMessage(message);
     }
 
 
-    public static void fightRound(double dT) {
+    public static void attemptToFightRound(double deltaTime) {
+        timeElapsedSinceHit += deltaTime;
+        if (timeElapsedSinceHit > PHASE_DELAY_SECS) {
+            timeElapsedSinceHit = 0;
 
-        elapsedTime += dT;
-        if(elapsedTime > 2) {
-            elapsedTime = 0;
-            if(playerWon != null)
-                fightFinished();
-            else {
-                isBeginning = !isBeginning;
-                if (isBeginning) {
-                    rounds++;
-                    if (rounds == 1) {
-                        resetFightResult();
-                        // Setup who attacks first and the other one defends. Based on flipping a coin (50/50 chance).
-                        chooseAttackerAndDefender();
-                    } else
-                        switchAttacker();
-
-                    System.out.println("Fight!");
-
-                    message = "Now " + attacker.getName() + " charges...";
-                    ((FightPanel) GUIManager.getPanel("fight")).setMessage(message);
-
-                    MainApp.getGameFrame().repaint();
-
-                } else {
-                    message = "";
-                    if (hasDefenderDodged()) {
-                        message = defender.getName() + " has dodged the attack!";
-                    } else {
-                        dealDamage();
-                    }
-                    if (defender instanceof Player)
-                        ((StatsPanel) GUIManager.getPanel("playerStats")).updateStats();
-                    else
-                        ((StatsPanel) GUIManager.getPanel("enemyStats")).updateStats();
-
-                    ((FightPanel) GUIManager.getPanel("fight")).setMessage(message);
-                    MainApp.getGameFrame().repaint();
-
-                    setFightResult();
-                }
+            if (shouldFightContinue()) {
+                fightRound();
+            } else {
+                finishFight();
             }
         }
     }
 
-    private static void fightFinished(){
-        if (playerWon) {
-            if(!((Enemy)defender).isCanPuzzle())
-                StateMachine.setNextStateVar(StateMachine.State.LEVELUP);
-            else
-                StateMachine.setNextStateVar(StateMachine.State.SCROLL_BG);
+    public static boolean shouldFightContinue() {
+        if (playerWon == null) {
+            return true;
+        }
+        return false;
+    }
 
-        } else
-            StateMachine.setNextStateVar(StateMachine.State.FINAL_RESULTS);
+    private static void fightRound() {
+        if (isRoundStarting) {
+            prepareRound();
+        }
+        else { // damage time
+            enterCombat();
+        }
+    }
 
-        fightCleanup();
-        StateMachine.nextState();
+    private static void prepareRound() {
+        if (isFightInitialized()) {
+            switchAttacker();
+        }
+        else { // fight hasn't even started before (= 1st round!)
+           chooseAttackerAndDefender();
+        }
+
+        isRoundStarting = false; // round is set up and damage ready to be dealt
+        message = "Now " + attacker.getName() + " charges...";
+        ((FightPanel) GUIManager.getPanel("fight")).setMessage(message);
+
+        MainApp.getGameFrame().repaint();
     }
 
 
-    private static void resetFightResult() {
-        playerWon = null;
+    private static boolean isFightInitialized() {
+        if (attacker == null || defender == null)
+            return false;
+        return true;
+    }
+
+    // swap attacker and defender
+    private static void switchAttacker() {
+        Character temp = attacker;
+        attacker = defender;
+        defender = temp;
     }
 
     private static void chooseAttackerAndDefender() {
@@ -108,6 +107,27 @@ public class FightManager {
             attacker = MainApp.getEnemy(); // set the enemy as an attacker
             defender = MainApp.getPlayer();
         }
+    }
+
+    private static void enterCombat() {
+        message = "";
+
+        if (hasDefenderDodged()) {
+            message = defender.getName() + " has dodged the attack!";
+        } else {
+            dealDamage();
+        }
+
+        if (defender instanceof Player)
+            ((StatsPanel) GUIManager.getPanel("playerStats")).updateStats();
+        else
+            ((StatsPanel) GUIManager.getPanel("enemyStats")).updateStats();
+
+        ((FightPanel) GUIManager.getPanel("fight")).setMessage(message);
+        MainApp.getGameFrame().repaint();
+
+        setFightResult();
+        isRoundStarting = true;
     }
 
     /**
@@ -132,7 +152,7 @@ public class FightManager {
 
         if (damage > 0) {
             defender.setHealth(defender.getHealth() - damage);
-            if(defender.getHealth() < 0)
+            if (defender.getHealth() < 0)
                 defender.setHealth(0);
             message += String.format("Boom! %s hits %s with %d damage!\n", attacker.getName(),  defender.getName(), damage);
         }
@@ -146,37 +166,35 @@ public class FightManager {
 
         if (attacker instanceof Player) {
             damage += attacker.getBaseDamage();
-
-            // FIXME TODO how to get the weapon selected for the fight? Any getActiveWeapon() there?
             if (((Player) attacker).getActiveWeapon() != null) {
                 damage += ((Player) attacker).getActiveWeapon().getDamage();
             }
+
         } else if (attacker instanceof Enemy) {
             damage = attacker.getBaseDamage();
-        } else throw new RuntimeException("Unhandled Character child class: " + attacker.getClass());
+        }
 
         int damageBonusPercent = (new Random()).nextInt(-DAMAGE_RANDOMIZATION_PERCENT, DAMAGE_RANDOMIZATION_PERCENT + 1); // bound exclusive so +1
         damage = (int) Math.round((1.0 + damageBonusPercent / 100.0) * damage);
 
         if (isCriticalAttack()) {
-            damage *= 2; // critical multiplier
+            damage *= CRITICAL_MULTIPLIER;
             message = "Critical Attack!... "; // temp
         }
 
         return damage;
     }
 
-    // TODO probably should also include critical chance from weapons
     private static boolean isCriticalAttack() {
         // criticalChance: 0 ... 100 %
 
         int criticalChance = attacker.getCriticalChance();
-        if(attacker instanceof  Player) {
+        if (attacker instanceof Player) {
             if(((Player) attacker).getActiveWeapon() != null)
                 criticalChance += ((Player) attacker).getActiveWeapon().getCriticalChance();
         }
 
-        if(criticalChance > 100)
+        if (criticalChance > 100)
             criticalChance = 100;
 
         if (criticalChance == 0)
@@ -185,33 +203,35 @@ public class FightManager {
             return true;
 
         int criticalGenerated = (new Random()).nextInt(100);
-       return (criticalGenerated < criticalChance); // e.g. if 35 is in [0, 70) == set representing probability = 70 %
-
+        return (criticalGenerated < criticalChance); // e.g. if 35 is in [0, 70) == set representing probability = 70 %
     }
 
-    // swap attacker and defender
-    private static void switchAttacker() {
-        Character temp = attacker;
-        attacker = defender;
-        defender = temp;
-    }
-
+    /** If someone's HP goes to zero, fight is over and dead character loses. **/
     private static void setFightResult() {
-        if (MainApp.getEnemy().getHealth() <= 0) {
-            playerWon = true;
-        } else if (MainApp.getPlayer().getHealth() <= 0) {
+        // Normally, either player or enemy survives. However, in case of a e.g. bleeding effect, both characters could die
+        // The check of player health is done first, so that if player dies, player lost result is guaranteed
+        // (Killing your enemy while getting bled out is a loss)
+        if (MainApp.getPlayer().getHealth() <= 0) {
             playerWon = false;
+        }
+        else if (MainApp.getEnemy().getHealth() <= 0) {
+            playerWon = true;
         } else {
             playerWon = null;
         }
     }
 
-    private static void fightCleanup() {
-        attacker = null;
-        defender = null;
-        rounds = 0;
-        isBeginning = false;
-        message = "Opponents approach each other...";
-        ((FightPanel) GUIManager.getPanel("fight")).setMessage(message);
+    private static void finishFight(){
+        if (playerWon) {
+            if(! MainApp.getEnemy().isCanPuzzle())
+                StateMachine.setNextStateVar(StateMachine.State.LEVELUP);
+            else
+                StateMachine.setNextStateVar(StateMachine.State.SCROLL_BG);
+
+        } else
+            StateMachine.setNextStateVar(StateMachine.State.FINAL_RESULTS);
+
+        init(); // needed for cleanup, resets FightManager for next fights
+        StateMachine.nextState();
     }
 }

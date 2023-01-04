@@ -137,7 +137,7 @@ public class StateMachine {
                 System.out.println("done");
             }
             public void update(double deltaTime) {
-                FightManager.fightRound(deltaTime);
+                FightManager.attemptToFightRound(deltaTime);
             }
 
             public void nextState() {
@@ -222,7 +222,7 @@ public class StateMachine {
         };
 
         public abstract void nextState();
-        public abstract void update(double delteTime);
+        public abstract void update(double deltaTime);
 
         public abstract void initState();
     }
