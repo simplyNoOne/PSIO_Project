@@ -1,21 +1,23 @@
 package gui.panels;
 
+import data.Puzzle;
 import interfaces.Interactible;
 import managers.GUIManager;
 import managers.ResourceManager;
 
 import javax.swing.*;
 import javax.swing.plaf.basic.BasicBorders;
+import javax.swing.text.StyleConstants;
 import java.awt.*;
 import java.awt.event.ActionListener;
 import java.util.HashMap;
 import java.util.Map;
 
 public class PuzzlePanel extends CustomPanel implements Interactible {
-    class PuzzleButton extends JButton {
+    public class PuzzleButton extends JButton {
 
-        static final int BUTTON_WIDTH = 150;
-        static final int BUTTON_HEIGHT = 150;
+        private static final int BUTTON_WIDTH = 150;
+        private static final int BUTTON_HEIGHT = 150;
         PuzzleButton(){
             super();
             this.setFocusPainted(false);
@@ -29,14 +31,14 @@ public class PuzzlePanel extends CustomPanel implements Interactible {
             this();
             this.setText(text);
             this.setFont(new Font("SansSerif", Font.BOLD, 30 ));
-
         }
+
     }
 
     private final static int PANEL_WIDTH = 700;
     private final static int PANEL_HEIGHT = 500;
     private final static int BUTTON_SPACE = 30;
-    private JLabel question;
+    private JTextPane question;
     private Map<String, PuzzleButton> answerButtons = new HashMap<>();
     public PuzzlePanel(){
 
@@ -59,6 +61,8 @@ public class PuzzlePanel extends CustomPanel implements Interactible {
 
     public void setAnswerButtonText(String buttonId,String text){
         answerButtons.get(buttonId).setText(text);
+        answerButtons.get(buttonId).setEnabled(true);
+
     }
 
     public void setQuestionContent(String text){
@@ -74,14 +78,8 @@ public class PuzzlePanel extends CustomPanel implements Interactible {
         int height = 90;
 
         switch (answerButtons.entrySet().size()){
-            case 1 -> {
-                x0 = 360;
-                y0 = 210;
-            }
-            case 2 -> {
-                x0 = 50;
-                y0 = 345;
-            }
+            case 1 -> x0 = 360;
+            case 2 -> y0 = 345;
             case 3 -> {
                 x0 = 360;
                 y0 = 345;
@@ -94,16 +92,25 @@ public class PuzzlePanel extends CustomPanel implements Interactible {
 
 
     private void addQuestion(){
-        question = new JLabel();
-        question.setOpaque(true);
-        question.setHorizontalAlignment(SwingConstants.CENTER);
-        question.setVerticalAlignment(SwingConstants.CENTER);
+        question = new JTextPane();
+        question.setAlignmentX(1);
+        question.setAlignmentY(1);
         question.setBackground(Color.WHITE);
         question.setBounds(50, 10, 600, 150);
+        question.setEditable(false);
     }
 
     public void addButtonListener(ActionListener listener, String buttonId){
         answerButtons.get(buttonId).addActionListener(listener);
+    }
+
+    public void setAllButtonsAsInactive()
+    {
+        for(Map.Entry set: answerButtons.entrySet())
+        {
+            ((PuzzleButton) set.getValue()).setEnabled(false);
+            ((PuzzleButton) set.getValue()).setText(null);
+        }
     }
 
 

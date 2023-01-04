@@ -8,58 +8,37 @@ import main.StateMachine;
 import javax.swing.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.io.FileInputStream;
-import java.io.IOException;
-import java.io.ObjectInputStream;
+import java.io.*;
+import java.nio.file.Files;
+import java.nio.file.Path;
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Random;
+import java.util.Scanner;
 
 public class PuzzleManager {
-
-
-
-//    public static class CorrectSolutionButtonListener implements ActionListener
-//    {
-//        @Override
-//        public void actionPerformed(ActionEvent e) {
-//            StateMachine.setNextStateVar(StateMachine.State.SCROLL_BG);
-//            StateMachine.nextState();
-//        }
-//    }
-
-//    public static class WrongSolutionButtonListener implements ActionListener
-//    {
-//        @Override
-//        public void actionPerformed(ActionEvent e) {
-//
-//            StateMachine.setNextStateVar(StateMachine.State.PREFIGHT);
-//            StateMachine.nextState();
-//        }
-//    }
 
     public static class AnswerButtonListener implements ActionListener{
 
         @Override
         public void actionPerformed(ActionEvent e) {
-            String buttonId = ((JButton)e.getSource()).getName();
-            if(buttonId.equals(correctAnswer))
-                StateMachine.setNextStateVar(StateMachine.State.SCROLL_BG);
-            else
-                StateMachine.setNextStateVar(StateMachine.State.PREFIGHT);
+            if(((PuzzlePanel.PuzzleButton) e.getSource()).isEnabled()) {
+                String answer = ((JButton) e.getSource()).getText();
+                if (answer.equals(actualPuzzle.getCorrect_answer()))
+                    StateMachine.setNextStateVar(StateMachine.State.SCROLL_BG);
+                else
+                    StateMachine.setNextStateVar(StateMachine.State.PREFIGHT);
 
-            StateMachine.nextState();
-
-
-
+                StateMachine.nextState();
+            }
         }
     }
 
 
-
-
     private static final AnswerButtonListener answerButtonListener = new AnswerButtonListener();
 
-    private static  ArrayList<Puzzle> allQuestions = loadAllQuestions();
-    private static String correctAnswer;
+    private static ArrayList<Puzzle> allQuestions = loadAllQuestions();
+    private static Puzzle actualPuzzle;
 
 
     public static void init() {
@@ -70,32 +49,59 @@ public class PuzzleManager {
     }
 
     public static void refreshPuzzle(){
-        String question = "pytanie";
-        String answerA = "A";
-        String answerB = "B";
-        String answerC = "C";
-        String answerD = "D";
-        ((PuzzlePanel)GUIManager.getPanel("puzzle")).setAnswerButtonText("0", answerA);
-        ((PuzzlePanel)GUIManager.getPanel("puzzle")).setAnswerButtonText("1", answerB);
-        ((PuzzlePanel)GUIManager.getPanel("puzzle")).setAnswerButtonText("2", answerC);
-        ((PuzzlePanel)GUIManager.getPanel("puzzle")).setAnswerButtonText("3", answerD);
-        ((PuzzlePanel)GUIManager.getPanel("puzzle")).setQuestionContent(question);
-        correctAnswer = "0";
+        ((PuzzlePanel)GUIManager.getPanel("puzzle")).setAllButtonsAsInactive();
+        generateRandomPuzzle();
+        ArrayList<String> answers = actualPuzzle.getAnswers();
+        for(int answerId = 0; answerId < answers.size(); answerId++)
+        {
+            ((PuzzlePanel)GUIManager.getPanel("puzzle")).setAnswerButtonText(Integer.toString(answerId), answers.get(answerId));
+        }
+        ((PuzzlePanel)GUIManager.getPanel("puzzle")).setQuestionContent(actualPuzzle.getQuestion());
+    }
+
+    public static void generateRandomPuzzle()
+    {
+        if(allQuestions.size() == 1)
+            actualPuzzle = allQuestions.get(0);
+        else {
+            int puzzleId = new Random().nextInt(0, allQuestions.size());
+            actualPuzzle = allQuestions.get(puzzleId);
+        }
+
+        Collections.shuffle(actualPuzzle.getAnswers());
+
+        allQuestions.remove(actualPuzzle);
+        if(allQuestions.size() == 0)
+            allQuestions = loadAllQuestions();
     }
 
 
     private static ArrayList<Puzzle> loadAllQuestions() {
+
+        ArrayList<Puzzle> puzzleList = new ArrayList<>();
         try {
-            FileInputStream fos = new FileInputStream("riddles.txt");
-            ObjectInputStream out = new ObjectInputStream(fos);
-
-            out.close();
-            fos.close();
-
-        } catch (ClassNotFoundException | IOException e) {
+            File questionsFile = new File("resources\\questions.txt");
+            Scanner myReader = new Scanner(questionsFile);
+            while (myReader.hasNextLine()) {
+                String row = myReader.nextLine();
+                String[] rowTable = row.split("\t");
+                String question = rowTable[0];
+                String[] answers = rowTable[1].replace("<", "").replace(">", "").split(";");
+                int correctAnswerId = Integer.parseInt(rowTable[2]);
+                Puzzle puzzle = new Puzzle();
+                puzzle.setQuestion(question);
+                for (String answer : answers) puzzle.addAnswer(answer);
+                puzzle.setCorrect_answer(answers[correctAnswerId]);
+                puzzleList.add(puzzle);
+            }
+            myReader.close();
+        } catch (FileNotFoundException e) {
+            System.out.println("An error occurred.");
             e.printStackTrace();
         }
 
+
+    return puzzleList;
     }
 
 

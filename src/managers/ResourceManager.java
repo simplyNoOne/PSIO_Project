@@ -70,8 +70,6 @@ public class ResourceManager {
         addTexture("lost", new Texture("resources\\textures\\lost.png"));
         addTexture("levelup", new Texture("resources\\textures\\levelup.png"));
 
-
-
     }
 
     public static void unloadResources(){
