@@ -21,7 +21,7 @@ public class FightManager {
     private static final int PHASE_DELAY_SECS = 2; // time interval between next phases in round (setup attacker, damage). Needed to update GUI for the user
 
     private static boolean isRoundStarting = true;
-    private static double timeElapsedSinceHit;
+    private static double timeSinceLastPhase; // time between FightManager's calls. Phases of each round: 1) preparing, 2) damage
 
 
     public static void init() {
@@ -32,16 +32,16 @@ public class FightManager {
         playerWon = null;
 
         isRoundStarting = true;
-        timeElapsedSinceHit = 0;
+        timeSinceLastPhase = 0;
 
         ((FightPanel) GUIManager.getPanel("fight")).setMessage(message);
     }
 
 
     public static void attemptToFightRound(double deltaTime) {
-        timeElapsedSinceHit += deltaTime;
-        if (timeElapsedSinceHit > PHASE_DELAY_SECS) {
-            timeElapsedSinceHit = 0;
+        timeSinceLastPhase += deltaTime;
+        if (timeSinceLastPhase > PHASE_DELAY_SECS) {
+            timeSinceLastPhase = 0;
 
             if (shouldFightContinue()) {
                 fightRound();
