@@ -223,9 +223,9 @@ public class FightManager {
 
     private static void finishFight(){
         if (playerWon) {
-            if(! MainApp.getEnemy().isCanPuzzle())
-                StateMachine.setNextStateVar(StateMachine.State.LEVELUP);
-            else
+            //if(! MainApp.getEnemy().isCanPuzzle())
+            //    StateMachine.setNextStateVar(StateMachine.State.LEVELUP);
+            //else
                 StateMachine.setNextStateVar(StateMachine.State.SCROLL_BG);
 
         } else

@@ -32,7 +32,7 @@ public class StateMachine {
         },
         GAME{
             public void initState(){
-                MainApp.spawnPlayer();
+                //MainApp.spawnPlayer(); // in current structure, player must be spawned in the menu (earlier), because MenuManager sets player.name to Menu text field string
                 GUIManager.addPane("game");
                 GUIManager.addPanel("background", "game");
                 GUIManager.addPanel("playerStats", "game", 3);
@@ -54,6 +54,7 @@ public class StateMachine {
           },    //probably should be also in here, but I have no idea what is it doing.
         MENU{
             public void initState(){
+                MainApp.spawnPlayer(); // player spawns in Menu instead of in Game as a current fix of player.name reset due to default Player() construction in Game
 
                 GUIManager.addPane("menu");
                 GUIManager.addPanel("menu", "menu");
@@ -206,6 +207,9 @@ public class StateMachine {
             public void initState(){
                 GUIManager.addPanel("finalResults", "game");
                 MainApp.getGameFrame().setVisible(true);
+
+                int score = 10; // TODO FIXME dummy value to be replaced by real counted score
+                ScoreManager.updateEntryInFile(MainApp.getPlayer().getName(), score);
             }
             public void update(double deltaTime) {}
 
