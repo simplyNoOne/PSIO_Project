@@ -234,7 +234,6 @@ public class PrefightPanel extends CustomPanel implements Interactible {
     }
 
 
-
     public void refreshButtons(){
         weaponButtons.forEach((key, value) ->{
             value.buttonDeselected();

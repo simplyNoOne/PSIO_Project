@@ -14,11 +14,14 @@ public class StateMachine {
             public void update(double deltaTime) {
 
                 ResourceManager.loadResources();
-                MainApp.spawnPlayer();
 
-                MainApp.setEnemy(new Enemy());
+
+                MainApp.spawnPlayer();
+                MainApp.setEnemy(generators.EnemyGenerator.generateEnemy());
                 GUIManager.initAllPanels();
                 nextState();
+
+                System.out.println("in start");
 
             }
 
@@ -90,6 +93,7 @@ public class StateMachine {
             public void initState(){
                 GUIManager.addPanel("puzzle", "game");
                 MainApp.getGameFrame().setVisible(true);
+                PuzzleManager.refreshPuzzle();
             }
             public void update(double deltaTime) {}
 
@@ -142,7 +146,6 @@ public class StateMachine {
 
             public void nextState() {
                 GUIManager.removePanel("fight", "game");
-
                 StateMachine.setCurrentState(FIGHT_RESULTS);
                 currentState.initState();
             }
@@ -159,6 +162,7 @@ public class StateMachine {
             public void nextState() {
                 GUIManager.removePanel("fightResults", "game");
                 StateMachine.setCurrentState(nextStateVar);
+
                 currentState.initState();
             }
         },
@@ -180,15 +184,15 @@ public class StateMachine {
             public void initState(){
                 ((CharactersPanel)GUIManager.getPanel("characters")).updatePrevEnemy();
                 //here a new enemy will be generated, using a generator, ofc
-                MainApp.setEnemy(new Enemy());
+                MainApp.setEnemy(generators.EnemyGenerator.generateEnemy());
                 ((CharactersPanel)GUIManager.getPanel("characters")).updateEnemyTexture();
-                MainApp.getGameFrame().setVisible(true);
             }
             public void update(double deltaTime) {
+
+                ((BackgroundPanel)GUIManager.getPanel("background")).scroll(deltaTime);
+                ((CharactersPanel)GUIManager.getPanel("characters")).moveCharacters(deltaTime);
                 GUIManager.getPanel("background").repaint();
                 GUIManager.getPanel("characters").repaint();
-                ((BackgroundPanel)GUIManager.getPanel("background")).scroll(deltaTime);
-                ((CharactersPanel)GUIManager.getPanel("characters")).moveEnemies(deltaTime);
             }
 
             public void nextState() {
@@ -210,6 +214,7 @@ public class StateMachine {
                 GUIManager.removePanel("finalResults", "game");
                 GUIManager.removePanel("playerStats", "game");
                 GUIManager.removePanel("characters", "game");
+                ((CharactersPanel)GUIManager.getPanel("characters")).dispatchEnemy();
                 StateMachine.setCurrentState(MENU);
                 currentState.initState();
             }
