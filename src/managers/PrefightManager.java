@@ -21,12 +21,15 @@ public class PrefightManager {
         @Override
         public void actionPerformed(ActionEvent e) {
             String weaponName = ((PrefightPanel.WeaponButton) e.getSource()).getName();
-            if(((PrefightPanel.WeaponButton) e.getSource()).getSelected())
+            if(((PrefightPanel.WeaponButton) e.getSource()).getSelected()) {
                 ((PrefightPanel.WeaponButton) e.getSource()).buttonDeselected();
-            else
+                MainApp.getPlayer().resetActiveWeapon();
+            }
+            else {
                 ((PrefightPanel.WeaponButton) e.getSource()).buttonSelected();
-            System.out.println(weaponName + " has been clicked!");
-//            MainApp.getPlayer().getInventory().setActiveWeapon(tag);
+                System.out.println(weaponName + " has been clicked!");
+                MainApp.getPlayer().setActiveWeapon(weaponName);
+            }
         }
     }
     public static class CollectibleButtonListener implements ActionListener
@@ -34,12 +37,16 @@ public class PrefightManager {
         @Override
         public void actionPerformed(ActionEvent e) {
             String collectibleName = ((PrefightPanel.CollectibleButton) e.getSource()).getName();
-            if(((PrefightPanel.CollectibleButton) e.getSource()).getSelected())
+            if(((PrefightPanel.CollectibleButton) e.getSource()).getSelected()) {
                 ((PrefightPanel.CollectibleButton) e.getSource()).buttonDeselected();
-            else
+                MainApp.getPlayer().resetActiveCollectible();
+            }
+            else {
                 ((PrefightPanel.CollectibleButton) e.getSource()).buttonSelected();
-            System.out.println(collectibleName + " has been clicked!");
-//            MainApp.getPlayer().getInventory().setActiveCollectible(tag);
+                System.out.println(collectibleName + " has been clicked!");
+                MainApp.getPlayer().setActiveCollectible(collectibleName);
+            }
+//
         }
     }
     public static class ConfirmButtonListener implements ActionListener

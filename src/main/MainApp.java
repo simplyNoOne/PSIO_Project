@@ -6,7 +6,6 @@ import data.Weapon;
 import data.Player;
 import managers.GUIManager;
 import managers.ResourceManager;
-import managers.ScoreManager;
 
 import javax.swing.*;
 
