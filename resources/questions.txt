@@ -1,0 +1,12 @@
+Mathematical analysis of quicksort shows that, on average, the algorithm takes O(n*log(n)) comparisons to sort n items. In the worst case, it makes O(n^2) comparisons. Which of the sorting algorithms fits this description?	<Bubble Sort;Merge Sort;Quick Sort;Selection Sort>	2
+How do you create function in C++?	<void myFunction(){...};def myFunction(){...};function myFunction(){...};myFunction(){…}>	0
+How to cast String to Integer in Java without any errors?	<int variable = (int) "5";int variable = int("5");int variable = String.parseInt("5");int variable = Integer.parseInt("5")>	3
+Java is short for "JavaScript"	<True;False>	1
+Which of the following is a php syntax:	<System.out.println("Hello World");echo("Hello World");print("Hello World"); printf ("Hello World")>	1
+___ is the mechanism of basing an object or class upon another object or class, retaining similar implementation. Which answer should replace the gap?	<Inheritance;Algorithm;Camel Case;Asynchronous learning>	0
+How do you insert comments in Java code?	<//;// or #;/* … */;// or /* … */>	3
+Which one is NOT a legal variable name in Python?	<this_is_my_variable;_thisIsMyVariable;this-is-my-variable;THIS_IS_MY_VARIABLE>	2
+How do you declare a variable with the integer value 5 in C++?	<int x = 5;Integer x = 5;x = 5;x = 5i>	0
+What value will be assigned to X after this operation in Java? float X = 150%15	<X = 0.1;X = 22.5;X = 10.0;0.0>	3
+How do you start writing an if statement in python?	<if(x == y);if x == y:;if x == y then:;if(x == y):>	1
+Which of these is the correct implementation of a loop in Python?	<do: … while(a > b);while(a > b) {…};for i in range(14):...;for i form 0 to 10>	2
