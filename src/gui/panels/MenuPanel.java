@@ -96,7 +96,6 @@ public class MenuPanel extends CustomPanel implements Interactible {
             this.setFont(new Font("SansSerif", Font.BOLD, 30 ));
             this.setBorder(new BasicBorders.ButtonBorder(Color.black, Color.black, Color.black, Color.black));
             this.setFocusPainted(false);
-
         }
     }
 

@@ -16,6 +16,7 @@ public class Player extends Character {
 
     private int dirMultp = 1;
     private double diff;
+    private int score;
     private Inventory inventory;
     public ArrayList<Texture> animation ;
     public Texture currentTexture;
@@ -31,6 +32,7 @@ public class Player extends Character {
         maxHealth = 100;
         this.Level = 1;
         this.inventory = new Inventory();
+        this.score = 0;
 
     }
 
