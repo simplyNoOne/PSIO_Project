@@ -1,24 +1,19 @@
 package gui.panels;
 
-import data.Puzzle;
 import interfaces.Interactible;
 import managers.GUIManager;
-import managers.ResourceManager;
 
 import javax.swing.*;
 import javax.swing.plaf.basic.BasicBorders;
-import javax.swing.text.StyleConstants;
 import java.awt.*;
 import java.awt.event.ActionListener;
 import java.util.HashMap;
 import java.util.Map;
 
-public class PuzzlePanel extends CustomPanel implements Interactible {
-    public class PuzzleButton extends JButton {
+public class QuizPanel extends CustomPanel implements Interactible {
+    public class QuizButton extends JButton {
 
-        private static final int BUTTON_WIDTH = 150;
-        private static final int BUTTON_HEIGHT = 150;
-        PuzzleButton(){
+        QuizButton(){
             super();
             this.setFocusPainted(false);
             this.setBackground(Color.WHITE);
@@ -27,7 +22,7 @@ public class PuzzlePanel extends CustomPanel implements Interactible {
 
             this.setBorder(new BasicBorders.ButtonBorder(Color.black, Color.black, Color.black, Color.black));
         }
-        PuzzleButton(String text){
+        QuizButton(String text){
             this();
             this.setText(text);
             this.setFont(new Font("SansSerif", Font.BOLD, 30 ));
@@ -39,8 +34,8 @@ public class PuzzlePanel extends CustomPanel implements Interactible {
     private final static int PANEL_HEIGHT = 500;
     private final static int BUTTON_SPACE = 30;
     private JTextPane question;
-    private Map<String, PuzzleButton> answerButtons = new HashMap<>();
-    public PuzzlePanel(){
+    private Map<String, QuizButton> answerButtons = new HashMap<>();
+    public QuizPanel(){
 
         super();
 
@@ -70,7 +65,7 @@ public class PuzzlePanel extends CustomPanel implements Interactible {
     }
 
     private void addAnswerButton(String buttonId){
-        PuzzleButton answerButton = new PuzzleButton();
+        QuizButton answerButton = new QuizButton();
         answerButton.setName(buttonId);
         int x0 = 50;
         int y0 = 210;
@@ -108,8 +103,8 @@ public class PuzzlePanel extends CustomPanel implements Interactible {
     {
         for(Map.Entry set: answerButtons.entrySet())
         {
-            ((PuzzleButton) set.getValue()).setEnabled(false);
-            ((PuzzleButton) set.getValue()).setText(null);
+            ((QuizButton) set.getValue()).setEnabled(false);
+            ((QuizButton) set.getValue()).setText(null);
         }
     }
 
