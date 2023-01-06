@@ -1,6 +1,7 @@
 package managers;
 
 import gui.panels.MenuPanel;
+import gui.panels.ScoresPanel;
 import interfaces.Interactible;
 import main.MainApp;
 import main.StateMachine;
@@ -41,13 +42,13 @@ public class MenuManager {
         public void actionPerformed(ActionEvent e) {
 
             ((MenuPanel)GUIManager.getPanel("menu")).showButtons(false);
+
+            ScoreManager.loadEntries();
+            ((ScoresPanel) GUIManager.getPanel("scores")).setScoresContent(ScoreManager.getEntriesSortedByScoreDescending());
+            ScoreManager.unloadEntries();
+
             GUIManager.addPanel("scores", "menu");
             GUIManager.getPane("menu").repaint();
-
-            // TODO FIXME add GUI instead of println
-            ScoreManager.loadEntries();
-            System.out.println(ScoreManager.getEntriesSortedByScoreDescending());
-            ScoreManager.unloadEntries();
         }
     }
     static class BackListener implements ActionListener {
