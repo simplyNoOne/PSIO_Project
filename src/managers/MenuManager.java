@@ -43,12 +43,16 @@ public class MenuManager {
 
             ((MenuPanel)GUIManager.getPanel("menu")).showButtons(false);
 
-            ScoreManager.loadEntries();
-            ((ScoresPanel) GUIManager.getPanel("scores")).setScoresContent(ScoreManager.getEntriesSortedByScoreDescending());
-            ScoreManager.unloadEntries();
+            fillScoresPanel();
 
             GUIManager.addPanel("scores", "menu");
             GUIManager.getPane("menu").repaint();
+        }
+
+        private void fillScoresPanel() {
+            ScoreManager.loadEntries();
+            ((ScoresPanel) GUIManager.getPanel("scores")).setScoresContent(ScoreManager.getEntriesSortedByScoreDescending());
+            ScoreManager.unloadEntries();
         }
     }
     static class BackListener implements ActionListener {
