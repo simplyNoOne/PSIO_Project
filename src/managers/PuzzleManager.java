@@ -80,7 +80,7 @@ public class PuzzleManager {
 
         ArrayList<Puzzle> puzzleList = new ArrayList<>();
         try {
-            File questionsFile = new File("resources\\questions.txt");
+            File questionsFile = new File("resources" + File.separator + "questions.txt");
             Scanner myReader = new Scanner(questionsFile);
             while (myReader.hasNextLine()) {
                 String row = myReader.nextLine();
