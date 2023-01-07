@@ -92,14 +92,13 @@ public class StateMachine {
         },
         PUZZLE{
             public void initState(){
-                GUIManager.addPanel("puzzle", "game");
                 MainApp.getGameFrame().setVisible(true);
-                PuzzleManager.refreshPuzzle();
+                PuzzleManager.newPuzzle();
             }
             public void update(double deltaTime) {}
 
             public void nextState() {
-                GUIManager.removePanel("puzzle", "game");
+                GUIManager.removePanel(PuzzleManager.getPuzzleType(), "game");
                 StateMachine.setCurrentState(PUZZLE_RESULTS);
                 currentState.initState();
             }
