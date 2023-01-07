@@ -7,10 +7,16 @@ import javax.swing.*;
 import javax.swing.plaf.basic.BasicBorders;
 import java.awt.*;
 import java.awt.event.ActionListener;
+import java.awt.event.MouseAdapter;
 import java.util.HashMap;
 import java.util.Map;
 
 public class ColorGamePanel extends CustomPanel implements Interactible {
+    @Override
+    public void addButtonListener(ActionListener listener, String buttonId) {
+
+    }
+
     public class CheckButton extends JButton {
 
         private static final int BUTTON_WIDTH = 150;
@@ -65,14 +71,17 @@ public class ColorGamePanel extends CustomPanel implements Interactible {
 
 
         super();
-        this.setBackground(new Color(0, 0, 0));
+        this.setBackground(new Color(255, 255, 255));
         super.setBounds((GUIManager.getWidth() - PANEL_WIDTH)/2, (GUIManager.getHeight() - PANEL_HEIGHT)/2, PANEL_WIDTH, PANEL_HEIGHT);
         redButton.setLocation(100, 220);
         redButton.setBackground(Color.RED);
+        redButton.setName("red");
         greenButton.setLocation(300, 220);
         greenButton.setBackground(Color.GREEN);
+        greenButton.setName("green");
         blueButton.setLocation(500, 220);
         blueButton.setBackground(Color.BLUE);
+        blueButton.setName("blue");
 
         currentColor.setBounds(100, 10, 250, 200);
         expectedColor.setBounds(350, 10, 250, 200);
@@ -86,11 +95,11 @@ public class ColorGamePanel extends CustomPanel implements Interactible {
     }
 
 
-    public void addButtonListener(ActionListener listener, String buttonId){
+    public void addMouseListener(MouseAdapter adapter, String buttonId){
         switch (buttonId){
-            case "red" -> redButton.addActionListener(listener);
-            case "green" -> greenButton.addActionListener(listener);
-            case "blue" -> blueButton.addActionListener(listener);
+            case "red" -> redButton.addMouseListener(adapter);
+            case "green" -> greenButton.addMouseListener(adapter);
+            case "blue" -> blueButton.addMouseListener(adapter);
         }
     }
 
@@ -115,6 +124,7 @@ public class ColorGamePanel extends CustomPanel implements Interactible {
                 currentColor.setBackground(new Color(red, green, Integer.parseInt(value)));
             }
         }
+        repaint();
     }
     public void setExpectedColor(Color color){
         expectedColor.setBackground(color);

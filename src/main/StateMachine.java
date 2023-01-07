@@ -98,8 +98,7 @@ public class StateMachine {
             public void update(double deltaTime) {}
 
             public void nextState() {
-                GUIManager.removePanel("quiz", "game");
-                GUIManager.removePanel("colorgame", "game");
+                GUIManager.removePanel(PuzzleManager.getPuzzleType(), "game");
                 StateMachine.setCurrentState(PUZZLE_RESULTS);
                 currentState.initState();
             }

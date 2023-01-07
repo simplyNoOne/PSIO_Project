@@ -39,8 +39,6 @@ public class QuizPanel extends CustomPanel implements Interactible {
 
         super();
 
-
-
         this.setBackground(new Color(0, 0, 0));
         super.setBounds((GUIManager.getWidth() - PANEL_WIDTH)/2, (GUIManager.getHeight() - PANEL_HEIGHT)/2, PANEL_WIDTH, PANEL_HEIGHT);
 

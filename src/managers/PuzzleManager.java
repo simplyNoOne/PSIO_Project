@@ -8,8 +8,7 @@ import main.StateMachine;
 
 import javax.swing.*;
 import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
+import java.awt.event.*;
 import java.io.*;
 import java.nio.file.Files;
 import java.nio.file.Path;
@@ -36,21 +35,22 @@ public class PuzzleManager {
         }
     }
 
-    public static class ColorButtonListner implements ActionListener{
+    public static class MouseAdapterForColorGame extends MouseAdapter {
 
-        @Override
-        public void actionPerformed(ActionEvent e) {
-            //MouseInfo.getPointerInfo().getLocation().y;
-            System.out.println(MouseInfo.getPointerInfo().getLocation().y);
-            System.out.println(((JButton)e.getSource()).getY());
+        public void mouseClicked(MouseEvent e) {
+            if (((JButton) e.getSource()).isEnabled())
+                ((ColorGamePanel) GUIManager.getPanel("colorgame")).showValueOnButton(((JButton)e.getSource()).getName(), ""+(255-e.getY()));
         }
+
     }
 
 
     private static final QuizAnswerButtonListener quizAnswerButtonListener = new QuizAnswerButtonListener();
+    private static final MouseAdapterForColorGame colorButtonAdapter = new MouseAdapterForColorGame();
 
     private static ArrayList<Quiz> allQuestions = loadAllQuestions();
     private static Quiz actualQuiz;
+    private static String puzzleType;
 
 
     public static void init() {
@@ -58,21 +58,24 @@ public class PuzzleManager {
         ((Interactible)GUIManager.getPanel("quiz")).addButtonListener(quizAnswerButtonListener, "1");
         ((Interactible)GUIManager.getPanel("quiz")).addButtonListener(quizAnswerButtonListener, "2");
         ((Interactible)GUIManager.getPanel("quiz")).addButtonListener(quizAnswerButtonListener, "3");
+        ((ColorGamePanel)GUIManager.getPanel("colorgame")).addMouseListener(colorButtonAdapter, "red");
+        ((ColorGamePanel)GUIManager.getPanel("colorgame")).addMouseListener(colorButtonAdapter, "green");
+        ((ColorGamePanel)GUIManager.getPanel("colorgame")).addMouseListener(colorButtonAdapter, "blue");
     }
 
     public static void newPuzzle(){
 
         if(new Random().nextInt(0, 2) == 0){
             GUIManager.addPanel("quiz", "game");
-            GUIManager.removePanel("colorgame", "game");
             refreshQuiz();
             GUIManager.getPane("game").repaint();
+            puzzleType = "quiz";
         }
         else {
-            GUIManager.removePanel("quiz", "game");
             GUIManager.addPanel("colorgame", "game");
             refreshColorGame();
             GUIManager.getPane("game").repaint();
+            puzzleType = "colorgame";
         }
     }
 
@@ -141,6 +144,7 @@ public class PuzzleManager {
     return quizList;
     }
 
-
-
+    public static String getPuzzleType() {
+        return puzzleType;
+    }
 }
