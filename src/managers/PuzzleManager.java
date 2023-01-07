@@ -3,6 +3,8 @@ package managers;
 import data.Puzzle;
 import gui.panels.PuzzlePanel;
 import interfaces.Interactible;
+import interfaces.ScoreModifier;
+import main.ManagerHandler;
 import main.StateMachine;
 
 import javax.swing.*;
@@ -16,50 +18,57 @@ import java.util.Collections;
 import java.util.Random;
 import java.util.Scanner;
 
-public class PuzzleManager {
+public class PuzzleManager implements ScoreModifier {
 
-    public static class AnswerButtonListener implements ActionListener{
+    public static class AnswerButtonListener implements ActionListener {
 
         @Override
         public void actionPerformed(ActionEvent e) {
             if(((PuzzlePanel.PuzzleButton) e.getSource()).isEnabled()) {
                 String answer = ((JButton) e.getSource()).getText();
-                if (answer.equals(actualPuzzle.getCorrect_answer()))
+                if (answer.equals(actualPuzzle.getCorrect_answer())) {
                     StateMachine.setNextStateVar(StateMachine.State.SCROLL_BG);
-                else
+                    puzzleAnsweredRight = true;
+                }
+                else {
                     StateMachine.setNextStateVar(StateMachine.State.PREFIGHT);
+                    puzzleAnsweredRight = false;
+                }
 
                 StateMachine.nextState();
             }
         }
+
     }
 
 
-    private static final AnswerButtonListener answerButtonListener = new AnswerButtonListener();
+    private final AnswerButtonListener answerButtonListener = new AnswerButtonListener();
 
-    private static ArrayList<Puzzle> allQuestions = loadAllQuestions();
+    private ArrayList<Puzzle> allQuestions = loadAllQuestions();
     private static Puzzle actualPuzzle;
 
+    private static boolean puzzleAnsweredRight;
 
-    public static void init() {
-        ((Interactible)GUIManager.getPanel("puzzle")).addButtonListener(answerButtonListener, "0");
-        ((Interactible)GUIManager.getPanel("puzzle")).addButtonListener(answerButtonListener, "1");
-        ((Interactible)GUIManager.getPanel("puzzle")).addButtonListener(answerButtonListener, "2");
-        ((Interactible)GUIManager.getPanel("puzzle")).addButtonListener(answerButtonListener, "3");
+
+    public void init() {
+        ((Interactible) ManagerHandler.getGUIManager().getPanel("puzzle")).addButtonListener(answerButtonListener, "0");
+        ((Interactible)ManagerHandler.getGUIManager().getPanel("puzzle")).addButtonListener(answerButtonListener, "1");
+        ((Interactible)ManagerHandler.getGUIManager().getPanel("puzzle")).addButtonListener(answerButtonListener, "2");
+        ((Interactible)ManagerHandler.getGUIManager().getPanel("puzzle")).addButtonListener(answerButtonListener, "3");
     }
 
-    public static void refreshPuzzle(){
-        ((PuzzlePanel)GUIManager.getPanel("puzzle")).setAllButtonsAsInactive();
+    public void refreshPuzzle(){
+        ((PuzzlePanel)ManagerHandler.getGUIManager().getPanel("puzzle")).setAllButtonsAsInactive();
         generateRandomPuzzle();
         ArrayList<String> answers = actualPuzzle.getAnswers();
         for(int answerId = 0; answerId < answers.size(); answerId++)
         {
-            ((PuzzlePanel)GUIManager.getPanel("puzzle")).setAnswerButtonText(Integer.toString(answerId), answers.get(answerId));
+            ((PuzzlePanel)ManagerHandler.getGUIManager().getPanel("puzzle")).setAnswerButtonText(Integer.toString(answerId), answers.get(answerId));
         }
-        ((PuzzlePanel)GUIManager.getPanel("puzzle")).setQuestionContent(actualPuzzle.getQuestion());
+        ((PuzzlePanel)ManagerHandler.getGUIManager().getPanel("puzzle")).setQuestionContent(actualPuzzle.getQuestion());
     }
 
-    public static void generateRandomPuzzle()
+    public void generateRandomPuzzle()
     {
         if(allQuestions.size() == 1)
             actualPuzzle = allQuestions.get(0);
@@ -76,7 +85,7 @@ public class PuzzleManager {
     }
 
 
-    private static ArrayList<Puzzle> loadAllQuestions() {
+    private ArrayList<Puzzle> loadAllQuestions() {
 
         ArrayList<Puzzle> puzzleList = new ArrayList<>();
         try {
@@ -104,6 +113,13 @@ public class PuzzleManager {
     return puzzleList;
     }
 
+    @Override
+    public int getScoreModifier() {
+        if (puzzleAnsweredRight)
+            return actualPuzzle.getScoreModifier();
+        else
+            return -10;
+    }
 
 
 }

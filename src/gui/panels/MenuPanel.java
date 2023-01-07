@@ -1,6 +1,7 @@
 package gui.panels;
 
 import interfaces.Interactible;
+import main.ManagerHandler;
 import managers.GUIManager;
 import managers.ResourceManager;
 
@@ -109,7 +110,7 @@ public class MenuPanel extends CustomPanel implements Interactible {
 
         nick = new NickField();
         this.add(nick);
-        JLabel bg = new JLabel(ResourceManager.getTexture("background"));
+        JLabel bg = new JLabel(ManagerHandler.getResourceManager().getTexture("background"));
         bg.setSize(GUIManager.getWidth(), GUIManager.getHeight());
 
         title = new JLabel("THE LAS OF US",SwingConstants.CENTER);

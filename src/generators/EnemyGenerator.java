@@ -1,6 +1,7 @@
 package generators;
 import data.*;
 import main.MainApp;
+import main.ManagerHandler;
 import managers.ResourceManager;
 
 import java.util.Random;
@@ -21,7 +22,7 @@ public class EnemyGenerator {
         int enemyCriticalChance;
         int enemyDodgeChance;
         int enemyCombatStats;
-        Texture enemyTexture = ResourceManager.getTexture("enemy");
+        Texture enemyTexture = ManagerHandler.getResourceManager().getTexture("enemy");
         boolean enemyIsBoss = false;
         String enemyAbilityName = "DefaultAbility";
 
@@ -50,11 +51,11 @@ public class EnemyGenerator {
         switch (rng.nextInt(0, 2)) {
             case 0 -> {
                 enemyName = "Blue Demon";
-                enemyTexture = ResourceManager.getTexture("enemy2");
+                enemyTexture = ManagerHandler.getResourceManager().getTexture("enemy2");
             }
             case 1 -> {
                 enemyName = "Purple Clown";
-                enemyTexture = ResourceManager.getTexture("enemy1");
+                enemyTexture = ManagerHandler.getResourceManager().getTexture("enemy1");
             }
         }
 

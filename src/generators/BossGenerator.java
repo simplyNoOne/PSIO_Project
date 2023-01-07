@@ -1,6 +1,7 @@
 package generators;
 import data.*;
 import main.MainApp;
+import main.ManagerHandler;
 import managers.ResourceManager;
 
 import java.util.Random;
@@ -22,7 +23,7 @@ public class BossGenerator {
         int bossDodgeChance;
         int bossCombatStats;
         boolean bossIsBoss = true;
-        Texture bossTexture = ResourceManager.getTexture("boss");
+        Texture bossTexture = ManagerHandler.getResourceManager().getTexture("boss");
         String bossAbilityName = "DefaultAbility";
 
         int playerCombatStats = player.getMaxHealth() + player.getBaseDamage() + player.getDodgeChance() +

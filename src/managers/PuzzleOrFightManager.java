@@ -1,6 +1,7 @@
 package managers;
 
 import interfaces.Interactible;
+import main.ManagerHandler;
 import main.StateMachine;
 
 import java.awt.event.ActionEvent;
@@ -30,9 +31,9 @@ public class PuzzleOrFightManager {
     private final static FightButtonListener fightButtonListener = new FightButtonListener();
 
 
-    public static void init() {
-        ((Interactible)GUIManager.getPanel("puzzleOrFight")).addButtonListener(puzzleButtonListener, "puzzle");
-        ((Interactible)GUIManager.getPanel("puzzleOrFight")).addButtonListener(fightButtonListener, "fight");
+    public void init() {
+        ((Interactible) ManagerHandler.getGUIManager().getPanel("puzzleOrFight")).addButtonListener(puzzleButtonListener, "puzzle");
+        ((Interactible) ManagerHandler.getGUIManager().getPanel("puzzleOrFight")).addButtonListener(fightButtonListener, "fight");
     }
 
 }

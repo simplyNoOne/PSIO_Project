@@ -1,6 +1,7 @@
 package gui.panels;
 
 import interfaces.Interactible;
+import main.ManagerHandler;
 import managers.GUIManager;
 import managers.ScoreManager;
 
@@ -52,7 +53,7 @@ public class ScoresPanel extends CustomPanel implements Interactible {
             this.setForeground(Color.white);
             this.setSize(100, 50);
             this.setFont(new Font(Font.SANS_SERIF, Font.PLAIN, 25));
-            this.setText(Integer.toString(place)+".");
+            this.setText(place+".");
             ScoresPanel.this.add(this);
         }
     }
@@ -84,17 +85,17 @@ public class ScoresPanel extends CustomPanel implements Interactible {
         this.setBackground(new Color(0, 0, 0, 225));
         this.setVisible(true);
 
-        ScoreManager.updateEntry("Piotr",20000);
-        ScoreManager.updateEntry("Kamil",10000);
-        ScoreManager.updateEntry("Dawid",30000);
-        ScoreManager.updateEntry("Krzysztof",40000);
-        ScoreManager.updateEntry("Wiktoria",50000);
-        ScoreManager.updateEntry("Nina",70000);
-        ScoreManager.updateEntry("Kamila",80000);
-        ScoreManager.updateEntry("Lena",60000);
-        ScoreManager.updateEntry("Konrad",90000);
+        ManagerHandler.getScoreManager().updateEntry("Piotr",20000);
+        ManagerHandler.getScoreManager().updateEntry("Kamil",10000);
+        ManagerHandler.getScoreManager().updateEntry("Dawid",30000);
+        ManagerHandler.getScoreManager().updateEntry("Krzysztof",40000);
+        ManagerHandler.getScoreManager().updateEntry("Wiktoria",50000);
+        ManagerHandler.getScoreManager().updateEntry("Nina",70000);
+        ManagerHandler.getScoreManager().updateEntry("Kamila",80000);
+        ManagerHandler.getScoreManager().updateEntry("Lena",60000);
+        ManagerHandler.getScoreManager().updateEntry("Konrad",90000);
 
-        SortedSet<Map.Entry<String, Integer>> sortedScores = ScoreManager.getEntriesSortedByScoreDescending();
+        SortedSet<Map.Entry<String, Integer>> sortedScores = ManagerHandler.getScoreManager().getEntriesSortedByScoreDescending();
 
 
             AtomicInteger i = new AtomicInteger();

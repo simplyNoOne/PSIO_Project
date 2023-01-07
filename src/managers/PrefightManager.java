@@ -58,34 +58,34 @@ public class PrefightManager {
         }
     }
 
-    private static final WeaponButtonListener weaponButtonListener = new WeaponButtonListener();
-    private static final CollectibleButtonListener collectibleButtonListener = new CollectibleButtonListener();
-    private static final ConfirmButtonListener confirmButtonListener = new ConfirmButtonListener();
+    private final WeaponButtonListener weaponButtonListener = new WeaponButtonListener();
+    private final CollectibleButtonListener collectibleButtonListener = new CollectibleButtonListener();
+    private final ConfirmButtonListener confirmButtonListener = new ConfirmButtonListener();
 
 
-    public static ArrayList<String> getActiveCollectibles() {
+    public ArrayList<String> getActiveCollectibles() {
         ArrayList<Collectible> availableCollectibles = MainApp.getPlayer().getInventory().getCollectibles();
         ArrayList<String> collectibleNames = new ArrayList<>();
         for (Collectible collectible : availableCollectibles) {
             collectibleNames.add(collectible.getName());
-            ((Interactible) GUIManager.getPanel("prefight")).addButtonListener(collectibleButtonListener, collectible.getName());
+            ((Interactible) ManagerHandler.getGUIManager().getPanel("prefight")).addButtonListener(collectibleButtonListener, collectible.getName());
         }
         return collectibleNames;
     }
 
-    public static ArrayList<String> getActiveWeapons() {
+    public ArrayList<String> getActiveWeapons() {
         ArrayList<Weapon> availableWeapons = MainApp.getPlayer().getInventory().getWeapons();
         ArrayList<String> weaponNames = new ArrayList<>();
         for (Weapon weapon : availableWeapons) {
             weaponNames.add(weapon.getName());
-            ((Interactible) GUIManager.getPanel("prefight")).addButtonListener(weaponButtonListener, weapon.getName());
+            ((Interactible) ManagerHandler.getGUIManager().getPanel("prefight")).addButtonListener(weaponButtonListener, weapon.getName());
         }
         return weaponNames;
     }
 
 
-    public static void init(){
-        ((Interactible)GUIManager.getPanel("prefight")).addButtonListener(confirmButtonListener, "confirm");
-        ((PrefightPanel) GUIManager.getPanel("prefight")).refreshButtons();
+    public void init(){
+        ((Interactible) ManagerHandler.getGUIManager().getPanel("prefight")).addButtonListener(confirmButtonListener, "confirm");
+        ((PrefightPanel) ManagerHandler.getGUIManager().getPanel("prefight")).refreshButtons();
     }
 }

@@ -6,9 +6,9 @@ import java.util.HashMap;
 
 public class ResourceManager {
 
-    private static HashMap<String, Texture> textures = new HashMap<>(); //name -> texture
+    private HashMap<String, Texture> textures = new HashMap<>(); //name -> texture
 
-    public static void loadResources(){
+    public void loadResources(){
 
         addTexture("background", new Texture("resources\\textures\\Background.png"));
 
@@ -72,18 +72,18 @@ public class ResourceManager {
 
     }
 
-    public static void unloadResources(){
+    public void unloadResources(){
         textures.clear();
     }
 
-    public static void addTexture(String textureName, Texture texture) {
+    public void addTexture(String textureName, Texture texture) {
         textures.put(textureName, texture);
     }
-    public static void removeTexture(String textureName)
+    public void removeTexture(String textureName)
     {
         textures.remove(textureName);
     }
 
-    public static Texture getTexture(String textureName) {return textures.get(textureName); }
-    public static void setTextures(String textureName, Texture texture) { textures.replace(textureName, texture);}
+    public Texture getTexture(String textureName) {return textures.get(textureName); }
+    public void setTextures(String textureName, Texture texture) { textures.replace(textureName, texture);}
 }

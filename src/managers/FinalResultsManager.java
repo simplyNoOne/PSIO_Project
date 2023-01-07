@@ -2,6 +2,7 @@ package managers;
 
 import data.Texture;
 import interfaces.Interactible;
+import main.ManagerHandler;
 import main.StateMachine;
 
 import java.awt.event.ActionEvent;
@@ -21,9 +22,9 @@ public class FinalResultsManager {
     private static final OkButtonListener okButtonListener = new OkButtonListener();
 
 
-    public static void init()
+    public void init()
     {
-        ((Interactible)GUIManager.getPanel("finalResults")).addButtonListener(okButtonListener, "ok");
+        ((Interactible) ManagerHandler.getGUIManager().getPanel("finalResults")).addButtonListener(okButtonListener, "ok");
     }
 
 }

@@ -85,7 +85,7 @@ public class MainApp implements Runnable{
                 throw new RuntimeException(e);
             }
         }
-        ResourceManager.unloadResources();
+        ManagerHandler.getResourceManager().unloadResources();
         System.exit(0);
     }
 

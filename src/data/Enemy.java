@@ -1,11 +1,15 @@
 package data;
 
 
+import interfaces.ScoreModifier;
+import main.ManagerHandler;
 import managers.ResourceManager;
 
-public class Enemy extends Character
+public class Enemy extends Character implements ScoreModifier
 {
     private static final int START_POS_X = 2335;
+
+    private int initialHealth;
     private boolean isBoss;
     private String abilityName;
     public Texture texture;
@@ -16,9 +20,9 @@ public class Enemy extends Character
         this.abilityName = "None";
 
         if (Math.random()*2 > 1)
-            texture = ResourceManager.getTexture("enemy2");
+            texture = ManagerHandler.getResourceManager().getTexture("enemy2");
         else
-            texture = ResourceManager.getTexture("enemy1");
+            texture = ManagerHandler.getResourceManager().getTexture("enemy1");
         getLocation().x = START_POS_X;
         getLocation().y = 350;
        
@@ -28,6 +32,7 @@ public class Enemy extends Character
     public Enemy(String name, int health, int armor, int baseDamage, int dodgeChance, boolean isBoss, String abilityName, int criticalChance, Texture texture)
     {
         super(name, health, armor, baseDamage, dodgeChance, criticalChance);
+        initialHealth = health;
         this.isBoss = isBoss;
         this.abilityName = abilityName;
         this.texture = texture;
@@ -43,7 +48,7 @@ public class Enemy extends Character
     public void setEnemyTexture(Texture texture){this.texture = texture;}
 
 
-    
+    public int getInitialHealth(){return initialHealth;}
 
 
     public Enemy getEnemy(){
@@ -70,4 +75,11 @@ public class Enemy extends Character
         getLocation().x -= distance;
     }
 
+    @Override
+    public int getScoreModifier() {
+        if(isBoss)
+            return 40;
+        else
+            return 20;
+    }
 }

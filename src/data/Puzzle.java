@@ -1,9 +1,11 @@
 package data;
 
+import interfaces.ScoreModifier;
+
 import java.util.ArrayList;
 import java.util.Random;
 
-public class Puzzle {
+public class Puzzle implements ScoreModifier {
     private String question;
     private ArrayList<String> answers = new ArrayList<>();
     private String correct_answer;
@@ -37,4 +39,8 @@ public class Puzzle {
         this.correct_answer = correct_answer;
     }
 
+    @Override
+    public int getScoreModifier() {
+        return 10*answers.size();
+    }
 }
