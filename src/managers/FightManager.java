@@ -24,6 +24,8 @@ public class FightManager {
     private static double timeSinceLastPhase; // time between FightManager's calls. Phases of each round: 1) preparing, 2) damage
 
 
+   
+
     public static void init() {
         message = "Opponents approach each other...";
 
@@ -33,12 +35,20 @@ public class FightManager {
 
         isRoundStarting = true;
         timeSinceLastPhase = 0;
+        
+
 
         ((FightPanel) GUIManager.getPanel("fight")).setMessage(message);
     }
 
 
     public static void attemptToFightRound(double deltaTime) {
+        if(MainApp.getPlayer().getActiveCollectible()!=null && MainApp.getPlayer().getActiveCollectible().getName().equals("collectible3")){
+        playerWon = true;
+        finishFight();
+        MainApp.getPlayer().getInventory().deleteCollectible(MainApp.getPlayer().getActiveCollectible());
+        }
+        else {
         timeSinceLastPhase += deltaTime;
         if (timeSinceLastPhase > PHASE_DELAY_SECS) {
             timeSinceLastPhase = 0;
@@ -50,6 +60,7 @@ public class FightManager {
             }
         }
     }
+}
 
     public static boolean shouldFightContinue() {
         if (playerWon == null) {

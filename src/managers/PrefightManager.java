@@ -3,10 +3,11 @@ package managers;
 import data.Collectible;
 import data.Texture;
 import data.Weapon;
+import gui.panels.PlayerStatsPanel;
 import gui.panels.PrefightPanel;
 import interfaces.Interactible;
 import main.*;
-
+import gui.panels.StatsPanel;
 import javax.swing.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -54,6 +55,34 @@ public class PrefightManager {
         @Override
         public void actionPerformed(ActionEvent e) {
             System.out.println("Confirm button has been clicked!");
+            if(!MainApp.getPlayer().getInventory().getCollectibles().isEmpty() && MainApp.getPlayer().getActiveCollectible()!=null){
+            switch (MainApp.getPlayer().getActiveCollectible().getName()) {
+                case "collectible1":
+
+                    MainApp.getPlayer().getActiveCollectible().increase_health(MainApp.getPlayer());
+                    ((StatsPanel) GUIManager.getPanel("playerStats")).updateStats();
+                    MainApp.getPlayer().getInventory().deleteCollectible(MainApp.getPlayer().getActiveCollectible());
+                    break;
+                
+                case "collectible2":
+                    MainApp.getPlayer().getActiveCollectible().increase_damage(MainApp.getPlayer());
+                    ((StatsPanel) GUIManager.getPanel("playerStats")).updateStats();
+                    MainApp.getPlayer().getInventory().deleteCollectible(MainApp.getPlayer().getActiveCollectible());
+                    break;
+                case "collectible4":
+                    MainApp.getPlayer().getActiveCollectible().increase_dodge(MainApp.getPlayer());
+                    ((StatsPanel) GUIManager.getPanel("playerStats")).updateStats();
+                    MainApp.getPlayer().getInventory().deleteCollectible(MainApp.getPlayer().getActiveCollectible());
+                    break;
+                case "collectible5":
+                    MainApp.getPlayer().getActiveCollectible().increase_critical(MainApp.getPlayer());
+                    ((StatsPanel) GUIManager.getPanel("playerStats")).updateStats();
+                    MainApp.getPlayer().getInventory().deleteCollectible(MainApp.getPlayer().getActiveCollectible());    
+                    break;
+                default:
+                    break;
+            }
+        }
             StateMachine.nextState();
         }
     }
