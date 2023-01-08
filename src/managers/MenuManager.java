@@ -1,6 +1,7 @@
 package managers;
 
 import gui.panels.MenuPanel;
+import gui.panels.ScoresPanel;
 import interfaces.Interactible;
 import main.MainApp;
 import main.StateMachine;
@@ -41,12 +42,16 @@ public class MenuManager {
         public void actionPerformed(ActionEvent e) {
 
             ((MenuPanel)GUIManager.getPanel("menu")).showButtons(false);
+
+            fillScoresPanel();
+
             GUIManager.addPanel("scores", "menu");
             GUIManager.getPane("menu").repaint();
+        }
 
-            // TODO FIXME add GUI instead of println
+        private void fillScoresPanel() {
             ScoreManager.loadEntries();
-            System.out.println(ScoreManager.getEntriesSortedByScoreDescending());
+            ((ScoresPanel) GUIManager.getPanel("scores")).setScoresContent(ScoreManager.getEntriesSortedByScoreDescending());
             ScoreManager.unloadEntries();
         }
     }

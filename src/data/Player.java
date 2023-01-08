@@ -16,10 +16,11 @@ public class Player extends Character {
 
     private int dirMultp = 1;
     private double diff;
+    private int score;
     private Inventory inventory;
     public Texture currentTexture;
     private int maxHealth;
-
+    private int enemiesApproached;
     private Weapon activeWeapon;
     private Collectible activeCollectible;
 
@@ -33,6 +34,8 @@ public class Player extends Character {
         maxHealth = 100;
         this.Level = 1;
         this.inventory = new Inventory();
+        this.score = 0;
+        this.enemiesApproached = 0;
 
     }
 
@@ -42,9 +45,8 @@ public class Player extends Character {
     }
 
     public int getMaxHealth(){return maxHealth;}
-
-
-
+    public int getEnemiesApproached(){return enemiesApproached;}
+    public void setEnemiesApproached(int enemiesApproached){this.enemiesApproached = enemiesApproached;}
     public Inventory getInventory() {
         return inventory;
     }

@@ -8,7 +8,7 @@ import java.util.*;
  * <p>Usage: loadEntries() to load scores to Map, then do some operations, and saveEntries() to update. Finally unloadEntries() to release memory.</p>
  * <p>Short usage for single entry update: updateEntryInFile()</p>**/
 public class ScoreManager {
-    private static final String SCORES_PATH = "scores.dat"; // TODO modify to the proper path of score assets / saves
+    private static final String SCORES_PATH = "resources\\scores.dat";
     private static Map<String, Integer> scores = new HashMap<>();
 
     /** Shortcut for: load, updateEntry (1 entry), save & unload **/

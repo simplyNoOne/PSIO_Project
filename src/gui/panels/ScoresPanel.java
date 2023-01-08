@@ -2,12 +2,15 @@ package gui.panels;
 
 import interfaces.Interactible;
 import managers.GUIManager;
+import managers.ScoreManager;
 
 import javax.swing.*;
 import javax.swing.plaf.basic.BasicBorders;
 import java.awt.*;
 import java.awt.event.ActionListener;
-import java.util.ArrayList;
+import java.util.Map;
+import java.util.SortedSet;
+import java.util.concurrent.atomic.AtomicInteger;
 
 public class ScoresPanel extends CustomPanel implements Interactible {
 
@@ -15,7 +18,7 @@ public class ScoresPanel extends CustomPanel implements Interactible {
         static final int BUTTON_WIDTH = 170;
         static final int BUTTON_HEIGHT = 40;
         static final int POS_X = (PANEL_WIDTH - ScoresButton.BUTTON_WIDTH) / 2;
-        static final int POS_Y = PANEL_HEIGHT - POS_X;
+        static final int POS_Y = PANEL_HEIGHT - POS_X + 30;
 
         ScoresButton() {
             super();
@@ -35,24 +38,38 @@ public class ScoresPanel extends CustomPanel implements Interactible {
     }
 
     public class ScoreLabel extends JLabel {
-        static final int WIDTH = (int) (0.8f * ScoresPanel.PANEL_WIDTH);
-        static final int HEIGHT = calcHeight();
-        ScoreLabel() {
-            this.setBackground(Color.white);
-            this.setForeground(Color.black);
-            this.setSize(WIDTH, HEIGHT);
-            this.setFont(new Font(Font.SANS_SERIF, Font.BOLD, 15));
-            // TODO continue here, need to add labels to the panel
+        ScoreLabel(int score){
+            this.setForeground(Color.white);
+            this.setSize(200, 50);
+            this.setFont(new Font(Font.SANS_SERIF, Font.BOLD, 25));
+            this.setText(Integer.toString(score));
+            ScoresPanel.this.add(this);
         }
-        static int calcHeight() {
-            int verticalWorkingSpace = ScoresPanel.PANEL_HEIGHT - ScoresButton.POS_Y;
-            return (ScoresPanel.HEIGHT - verticalWorkingSpace) / MAX_SCORES_ON_PANEL;
+    }
+
+    public class PlaceLabel extends JLabel {
+        PlaceLabel(int place){
+            this.setForeground(Color.white);
+            this.setSize(100, 50);
+            this.setFont(new Font(Font.SANS_SERIF, Font.PLAIN, 25));
+            this.setText(Integer.toString(place)+".");
+            ScoresPanel.this.add(this);
+        }
+    }
+
+    public class NicknameLabel extends JLabel {
+        NicknameLabel(String text){
+            this.setForeground(Color.white);
+            this.setFont(new Font(Font.SANS_SERIF, Font.PLAIN, 25));
+            this.setText(text);
+            this.setSize(200, 50);
+            ScoresPanel.this.add(this);
         }
     }
 
     static int PANEL_WIDTH = 400;
     private static int PANEL_HEIGHT = 500;
-    private static final int MAX_SCORES_ON_PANEL = 6;
+    private static final int MAX_SCORES_ON_PANEL = 7;
 
     ScoresButton backButton = new ScoresButton("Back");
 
@@ -64,8 +81,66 @@ public class ScoresPanel extends CustomPanel implements Interactible {
         backButton.setBounds(ScoresButton.POS_X, ScoresButton.POS_Y, ScoresButton.BUTTON_WIDTH, ScoresButton.BUTTON_HEIGHT);
 
         this.add(backButton);
-        this.setBackground(Color.red);
+        this.setBackground(new Color(0, 0, 0, 225));
         this.setVisible(true);
+    }
+
+    public void setScoresContent(SortedSet<Map.Entry<String, Integer>> sortedScores) {
+
+        AtomicInteger i = new AtomicInteger();
+        sortedScores.forEach((entry)->
+        {
+            if (i.get() < MAX_SCORES_ON_PANEL)
+            {
+                int space = 50+50* i.get();
+
+                JLabel label1 = new PlaceLabel(i.get() +1);
+                JLabel label2 = new NicknameLabel(entry.getKey());
+                JLabel label3 = new ScoreLabel(entry.getValue());
+                label1.setLocation(103,space);
+                label2.setLocation(133, space);
+                label3.setLocation(253,space);
+                if (i.get() == 0)
+                {
+                    label1.setForeground(new Color(255,215,0));
+                    label2.setForeground(new Color(255,215,0));
+                    label3.setForeground(new Color(255,215,0));
+
+                    label1.setFont(new Font(Font.SANS_SERIF, Font.PLAIN, 34));
+                    label2.setFont(new Font(Font.SANS_SERIF, Font.PLAIN, 34));
+                    label3.setFont(new Font(Font.SANS_SERIF, Font.BOLD, 34));
+
+                    label1.setLocation(83,space);
+                    label2.setLocation(123, space);
+                    label3.setLocation(263,space);
+
+                }
+                else if (i.get() ==1)
+                {
+                    label1.setForeground(new Color(196,202,206));
+                    label2.setForeground(new Color(196,202,206));
+                    label3.setForeground(new Color(196,202,206));
+
+                    label1.setFont(new Font(Font.SANS_SERIF, Font.PLAIN, 31));
+                    label2.setFont(new Font(Font.SANS_SERIF, Font.PLAIN, 31));
+                    label3.setFont(new Font(Font.SANS_SERIF, Font.BOLD, 31));
+
+                } else if (i.get() ==2)
+                {
+                    label1.setForeground(new Color(176,141,87));
+                    label2.setForeground(new Color(176,141,87));
+                    label3.setForeground(new Color(176,141,87));
+
+                    label1.setFont(new Font(Font.SANS_SERIF, Font.PLAIN, 28));
+                    label2.setFont(new Font(Font.SANS_SERIF, Font.PLAIN, 28));
+                    label3.setFont(new Font(Font.SANS_SERIF, Font.BOLD, 28));
+
+                }
+                i.getAndIncrement();
+            }
+
+
+        });
     }
 
     public void addButtonListener(ActionListener listener, String buttonId){

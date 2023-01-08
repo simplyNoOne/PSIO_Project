@@ -238,6 +238,7 @@ public class FightManager {
             StateMachine.setNextStateVar(StateMachine.State.FINAL_RESULTS);
 
         init(); // needed for cleanup, resets FightManager for next fights
+        MainApp.getPlayer().resetActiveWeapon(); // un-equip weapon after fight
         StateMachine.nextState();
     }
 }

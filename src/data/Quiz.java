@@ -3,7 +3,7 @@ package data;
 import java.util.ArrayList;
 import java.util.Random;
 
-public class Puzzle {
+public class Quiz {
     private String question;
     private ArrayList<String> answers = new ArrayList<>();
     private String correct_answer;
