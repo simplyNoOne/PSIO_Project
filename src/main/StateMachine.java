@@ -92,16 +92,16 @@ public class StateMachine {
         },
         PUZZLE{
             public void initState(){
-                ManagerHandler.getGUIManager().addPanel("puzzle", "game");
                 MainApp.getGameFrame().setVisible(true);
-                ManagerHandler.getPuzzleManager().refreshPuzzle();
+                ManagerHandler.getPuzzleManager().newPuzzle();
             }
             public void update(double deltaTime) {}
 
             public void nextState() {
+
                 MainApp.getPlayer().modifyScore(ManagerHandler.getPuzzleManager().getScoreModifier());
                 System.out.println(MainApp.getPlayer().getScore());
-                ManagerHandler.getGUIManager().removePanel("puzzle", "game");
+                ManagerHandler.getGUIManager().removePanel(PuzzleManager.getPuzzleType(), "game");
                 StateMachine.setCurrentState(PUZZLE_RESULTS);
                 currentState.initState();
             }

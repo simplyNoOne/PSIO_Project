@@ -3,10 +3,11 @@ package managers;
 import data.Collectible;
 import data.Texture;
 import data.Weapon;
+import gui.panels.PlayerStatsPanel;
 import gui.panels.PrefightPanel;
 import interfaces.Interactible;
 import main.*;
-
+import gui.panels.StatsPanel;
 import javax.swing.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -54,6 +55,39 @@ public class PrefightManager {
         @Override
         public void actionPerformed(ActionEvent e) {
             System.out.println("Confirm button has been clicked!");
+            if(!MainApp.getPlayer().getInventory().getCollectibles().isEmpty() && MainApp.getPlayer().getActiveCollectible()!=null){
+            switch (MainApp.getPlayer().getActiveCollectible().getName()) {
+                case "collectible1":
+
+                    MainApp.getPlayer().increse_health(MainApp.getPlayer().getActiveCollectible().getValue());
+                  
+                    
+                    break;
+                
+                case "collectible2":
+                    MainApp.getPlayer().increase_damage(MainApp.getPlayer().getActiveCollectible().getValue());
+                    
+                    break;
+
+                case "collectible3":
+                MainApp.getPlayer().increase_armour(MainApp.getPlayer().getActiveCollectible().getValue());
+                break;
+                case "collectible4":
+                    MainApp.getPlayer().increase_dodge(MainApp.getPlayer().getActiveCollectible().getValue());
+                  
+                    
+                    break;
+                case "collectible5":
+                    MainApp.getPlayer().increase_critical(MainApp.getPlayer().getActiveCollectible().getValue());
+                    
+                      
+                    break;
+                default:
+                    break;
+            }
+        }
+        ((StatsPanel) GUIManager.getPanel("playerStats")).updateStats();
+        MainApp.getPlayer().getInventory().deleteCollectible(MainApp.getPlayer().getActiveCollectible());   
             StateMachine.nextState();
         }
     }

@@ -2,7 +2,7 @@ package managers;
 
 import gui.panels.*;
 import gui.panels.PrefightPanel;
-import gui.panels.PuzzlePanel;
+import gui.panels.QuizPanel;
 import gui.panels.PuzzleOrFightPanel;
 import gui.panes.CustomLayerPane;
 import gui.panes.GamePane;
@@ -50,7 +50,8 @@ public class GUIManager {
         panels.put("puzzleOrFight", new PuzzleOrFightPanel());
         panels.put("prefight", new PrefightPanel());
         panels.put("fight", new FightPanel());
-        panels.put("puzzle", new PuzzlePanel());
+        panels.put("quiz", new QuizPanel());
+        panels.put("colorgame", new ColorGamePanel());
         panels.put("fightResults", new FightResultsPanel());
         panels.put("puzzleResults", new PuzzleResultsPanel());
         panels.put("finalResults", new FinalResultsPanel());

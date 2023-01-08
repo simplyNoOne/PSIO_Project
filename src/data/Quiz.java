@@ -5,7 +5,7 @@ import interfaces.ScoreModifier;
 import java.util.ArrayList;
 import java.util.Random;
 
-public class Puzzle implements ScoreModifier {
+public class Quiz implements ScoreModifier {
     private String question;
     private ArrayList<String> answers = new ArrayList<>();
     private String correct_answer;

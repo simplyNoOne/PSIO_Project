@@ -1,6 +1,7 @@
 package managers;
 
 import gui.panels.MenuPanel;
+import gui.panels.ScoresPanel;
 import interfaces.Interactible;
 import main.MainApp;
 import main.ManagerHandler;
@@ -42,10 +43,10 @@ public class MenuManager {
         public void actionPerformed(ActionEvent e) {
 
             ((MenuPanel)ManagerHandler.getGUIManager().getPanel("menu")).showButtons(false);
+            fillScoresPanel();
             ManagerHandler.getGUIManager().addPanel("scores", "menu");
             ManagerHandler.getGUIManager().getPane("menu").repaint();
 
-            // TODO FIXME add GUI instead of println
             ManagerHandler.getScoreManager().loadEntries();
             System.out.println(ManagerHandler.getScoreManager().getEntriesSortedByScoreDescending());
             ManagerHandler.getScoreManager().unloadEntries();

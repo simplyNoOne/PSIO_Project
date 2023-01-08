@@ -47,7 +47,7 @@ public class FightManager implements ScoreModifier {
             timeSinceLastPhase = 0;
 
             if (shouldFightContinue()) {
-                this.fightRound();
+                fightRound();
             } else {
                 finishFight();
             }
@@ -63,10 +63,10 @@ public class FightManager implements ScoreModifier {
 
     private void fightRound() {
         if (isRoundStarting) {
-            this.prepareRound();
+            prepareRound();
         }
         else { // damage time
-            this.enterCombat();
+            enterCombat();
         }
     }
 
@@ -237,6 +237,7 @@ public class FightManager implements ScoreModifier {
             StateMachine.setNextStateVar(StateMachine.State.FINAL_RESULTS);
 
         init(); // needed for cleanup, resets FightManager for next fights
+        MainApp.getPlayer().resetActiveWeapon(); // un-equip weapon after fight
         StateMachine.nextState();
     }
 

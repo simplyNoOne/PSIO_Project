@@ -84,78 +84,66 @@ public class ScoresPanel extends CustomPanel implements Interactible {
         this.add(backButton);
         this.setBackground(new Color(0, 0, 0, 225));
         this.setVisible(true);
-
-        ManagerHandler.getScoreManager().updateEntry("Piotr",20000);
-        ManagerHandler.getScoreManager().updateEntry("Kamil",10000);
-        ManagerHandler.getScoreManager().updateEntry("Dawid",30000);
-        ManagerHandler.getScoreManager().updateEntry("Krzysztof",40000);
-        ManagerHandler.getScoreManager().updateEntry("Wiktoria",50000);
-        ManagerHandler.getScoreManager().updateEntry("Nina",70000);
-        ManagerHandler.getScoreManager().updateEntry("Kamila",80000);
-        ManagerHandler.getScoreManager().updateEntry("Lena",60000);
-        ManagerHandler.getScoreManager().updateEntry("Konrad",90000);
-
-        SortedSet<Map.Entry<String, Integer>> sortedScores = ManagerHandler.getScoreManager().getEntriesSortedByScoreDescending();
-
-
-            AtomicInteger i = new AtomicInteger();
-            sortedScores.forEach((entry)->
-            {
-                if (i.get() < MAX_SCORES_ON_PANEL)
-                {
-                    int space = 50+50* i.get();
-
-                    JLabel label1 = new PlaceLabel(i.get() +1);
-                    JLabel label2 = new NicknameLabel(entry.getKey());
-                    JLabel label3 = new ScoreLabel(entry.getValue());
-                    label1.setLocation(103,space);
-                    label2.setLocation(133, space);
-                    label3.setLocation(253,space);
-                    if (i.get() == 0)
-                    {
-                        label1.setForeground(new Color(255,215,0));
-                        label2.setForeground(new Color(255,215,0));
-                        label3.setForeground(new Color(255,215,0));
-
-                        label1.setFont(new Font(Font.SANS_SERIF, Font.PLAIN, 34));
-                        label2.setFont(new Font(Font.SANS_SERIF, Font.PLAIN, 34));
-                        label3.setFont(new Font(Font.SANS_SERIF, Font.BOLD, 34));
-
-                        label1.setLocation(83,space);
-                        label2.setLocation(123, space);
-                        label3.setLocation(263,space);
-
-                    }
-                    else if (i.get() ==1)
-                    {
-                        label1.setForeground(new Color(196,202,206));
-                        label2.setForeground(new Color(196,202,206));
-                        label3.setForeground(new Color(196,202,206));
-
-                        label1.setFont(new Font(Font.SANS_SERIF, Font.PLAIN, 31));
-                        label2.setFont(new Font(Font.SANS_SERIF, Font.PLAIN, 31));
-                        label3.setFont(new Font(Font.SANS_SERIF, Font.BOLD, 31));
-
-                    } else if (i.get() ==2)
-                    {
-                        label1.setForeground(new Color(176,141,87));
-                        label2.setForeground(new Color(176,141,87));
-                        label3.setForeground(new Color(176,141,87));
-
-                        label1.setFont(new Font(Font.SANS_SERIF, Font.PLAIN, 28));
-                        label2.setFont(new Font(Font.SANS_SERIF, Font.PLAIN, 28));
-                        label3.setFont(new Font(Font.SANS_SERIF, Font.BOLD, 28));
-
-                    }
-                    i.getAndIncrement();
-                }
-
-
-            });
-
-
-
     }
+
+    public void setScoresContent(SortedSet<Map.Entry<String, Integer>> sortedScores) {
+
+        AtomicInteger i = new AtomicInteger();
+        sortedScores.forEach((entry)->
+        {
+            if (i.get() < MAX_SCORES_ON_PANEL)
+            {
+                int space = 50+50* i.get();
+
+                JLabel label1 = new PlaceLabel(i.get() +1);
+                JLabel label2 = new NicknameLabel(entry.getKey());
+                JLabel label3 = new ScoreLabel(entry.getValue());
+                label1.setLocation(103,space);
+                label2.setLocation(133, space);
+                label3.setLocation(253,space);
+                if (i.get() == 0)
+                {
+                    label1.setForeground(new Color(255,215,0));
+                    label2.setForeground(new Color(255,215,0));
+                    label3.setForeground(new Color(255,215,0));
+
+                    label1.setFont(new Font(Font.SANS_SERIF, Font.PLAIN, 34));
+                    label2.setFont(new Font(Font.SANS_SERIF, Font.PLAIN, 34));
+                    label3.setFont(new Font(Font.SANS_SERIF, Font.BOLD, 34));
+
+                    label1.setLocation(83,space);
+                    label2.setLocation(123, space);
+                    label3.setLocation(263,space);
+
+                }
+                else if (i.get() ==1)
+                {
+                    label1.setForeground(new Color(196,202,206));
+                    label2.setForeground(new Color(196,202,206));
+                    label3.setForeground(new Color(196,202,206));
+
+                    label1.setFont(new Font(Font.SANS_SERIF, Font.PLAIN, 31));
+                    label2.setFont(new Font(Font.SANS_SERIF, Font.PLAIN, 31));
+                    label3.setFont(new Font(Font.SANS_SERIF, Font.BOLD, 31));
+
+                } else if (i.get() ==2)
+                {
+                    label1.setForeground(new Color(176,141,87));
+                    label2.setForeground(new Color(176,141,87));
+                    label3.setForeground(new Color(176,141,87));
+
+                    label1.setFont(new Font(Font.SANS_SERIF, Font.PLAIN, 28));
+                    label2.setFont(new Font(Font.SANS_SERIF, Font.PLAIN, 28));
+                    label3.setFont(new Font(Font.SANS_SERIF, Font.BOLD, 28));
+
+                }
+                i.getAndIncrement();
+            }
+
+
+        });
+    }
+
     public void addButtonListener(ActionListener listener, String buttonId){
         backButton.addActionListener(listener);
     }
