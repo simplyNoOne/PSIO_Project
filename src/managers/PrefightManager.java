@@ -86,7 +86,7 @@ public class PrefightManager {
                     break;
             }
         }
-        ((StatsPanel) GUIManager.getPanel("playerStats")).updateStats();
+        ((StatsPanel) ManagerHandler.getGUIManager().getPanel("playerStats")).updateStats();
         MainApp.getPlayer().getInventory().deleteCollectible(MainApp.getPlayer().getActiveCollectible());   
             StateMachine.nextState();
         }

@@ -212,8 +212,7 @@ public class StateMachine {
                 ManagerHandler.getGUIManager().addPanel("finalResults", "game");
                 MainApp.getGameFrame().setVisible(true);
 
-                int score = 10; // TODO FIXME dummy value to be replaced by real counted score
-                ManagerHandler.getScoreManager().updateEntryInFile(MainApp.getPlayer().getName(), score);
+                ManagerHandler.getScoreManager().updateEntryInFile(MainApp.getPlayer().getName(),MainApp.getPlayer().getScore());
             }
             public void update(double deltaTime) {}
 

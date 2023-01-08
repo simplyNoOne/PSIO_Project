@@ -45,7 +45,7 @@ public class PuzzleManager implements ScoreModifier {
 
         public void mouseClicked(MouseEvent e) {
             if (((JButton) e.getSource()).isEnabled())
-                ((ColorGamePanel) GUIManager.getPanel("colorgame")).showValueOnButton(((JButton)e.getSource()).getName(), ""+(255-e.getY()));
+                ((ColorGamePanel) ManagerHandler.getGUIManager().getPanel("colorgame")).showValueOnButton(((JButton)e.getSource()).getName(), ""+(255-e.getY()));
         }
 
     }
@@ -70,7 +70,7 @@ public class PuzzleManager implements ScoreModifier {
         ((ColorGamePanel)ManagerHandler.getGUIManager().getPanel("colorgame")).addMouseListener(colorButtonAdapter, "blue");
     }
 
-    public static void newPuzzle(){
+    public void newPuzzle(){
 
         if(new Random().nextInt(0, 2) == 0){
             ManagerHandler.getGUIManager().addPanel("quiz", "game");
@@ -86,14 +86,14 @@ public class PuzzleManager implements ScoreModifier {
         }
     }
 
-    public static void refreshColorGame(){
+    public void refreshColorGame(){
         int red = new Random().nextInt(0, 256);
         int green = new Random().nextInt(0, 256);
         int blue = new Random().nextInt(0, 256);
         ((ColorGamePanel)ManagerHandler.getGUIManager().getPanel("colorgame")).setExpectedColor(new Color(red, green, blue));
     }
 
-    public static void refreshQuiz(){
+    public void refreshQuiz(){
         ((QuizPanel)ManagerHandler.getGUIManager().getPanel("quiz")).setAllButtonsAsInactive();
         generateRandomQuiz();
         ArrayList<String> answers = actualQuiz.getAnswers();
@@ -155,7 +155,7 @@ public class PuzzleManager implements ScoreModifier {
     @Override
     public int getScoreModifier() {
         if (puzzleAnsweredRight)
-            return actualPuzzle.getScoreModifier();
+            return actualQuiz.getScoreModifier();
         else
             return -10;
     }

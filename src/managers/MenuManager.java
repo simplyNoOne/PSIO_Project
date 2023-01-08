@@ -51,6 +51,12 @@ public class MenuManager {
             System.out.println(ManagerHandler.getScoreManager().getEntriesSortedByScoreDescending());
             ManagerHandler.getScoreManager().unloadEntries();
         }
+
+        private void fillScoresPanel() {
+            ManagerHandler.getScoreManager().loadEntries();
+            ((ScoresPanel) ManagerHandler.getGUIManager().getPanel("scores")).setScoresContent(ManagerHandler.getScoreManager().getEntriesSortedByScoreDescending());
+            ManagerHandler.getScoreManager().unloadEntries();
+        }
     }
     static class BackListener implements ActionListener {
 

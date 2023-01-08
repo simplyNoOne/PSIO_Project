@@ -157,8 +157,6 @@ public class FightManager implements ScoreModifier {
 
         if (damage > 0) {
             defender.setHealth(defender.getHealth() - damage);
-            if (defender.getHealth() < 0)
-                defender.setHealth(0);
             message += String.format("Boom! %s hits %s with %d damage!\n", attacker.getName(),  defender.getName(), damage);
         }
         else {

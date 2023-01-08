@@ -31,7 +31,7 @@ public class EnemyGenerator {
 
             enemyName = "Demon King";
             enemyIsBoss = true;
-            enemyTexture = ResourceManager.getTexture("boss");
+            enemyTexture = ManagerHandler.getResourceManager().getTexture("boss");
 
             int playerCombatStats = player.getMaxHealth() + player.getBaseDamage() + player.getDodgeChance() +
                     player.getArmor() + player.getCriticalChance() + calculateTotalAverageWeaponCombatStats();
