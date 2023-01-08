@@ -4,6 +4,7 @@ import interfaces.Interactible;
 import managers.GUIManager;
 
 import javax.swing.*;
+import javax.swing.border.LineBorder;
 import javax.swing.plaf.basic.BasicBorders;
 import java.awt.*;
 import java.awt.event.ActionListener;
@@ -39,7 +40,7 @@ public class QuizPanel extends CustomPanel implements Interactible {
 
         super();
 
-        this.setBackground(new Color(0, 0, 0));
+        this.setBackground(new Color(1, 1, 56, 225));
         super.setBounds((GUIManager.getWidth() - PANEL_WIDTH)/2, (GUIManager.getHeight() - PANEL_HEIGHT)/2, PANEL_WIDTH, PANEL_HEIGHT);
 
         this.setLayout(null);
@@ -80,7 +81,9 @@ public class QuizPanel extends CustomPanel implements Interactible {
         }
         answerButton.setBounds(x0, y0, width, height);
         answerButtons.put(buttonId, answerButton);
-        answerButton.setBackground(Color.GRAY);
+        answerButton.setBackground(new Color(8, 8, 201, 235));
+        answerButton.setForeground(new Color(196,172,11));
+        answerButton.setBorder(new LineBorder(new Color(196, 172, 11)));
     }
 
 
@@ -88,9 +91,11 @@ public class QuizPanel extends CustomPanel implements Interactible {
         question = new JTextPane();
         question.setAlignmentX(1);
         question.setAlignmentY(1);
-        question.setBackground(Color.WHITE);
+        question.setBackground(new Color(8, 8, 201, 235));
         question.setBounds(50, 10, 600, 150);
         question.setEditable(false);
+        question.setForeground(new Color(224, 199, 29));
+        question.setFont(new Font(Font.SANS_SERIF, Font.PLAIN, 19));
     }
 
     public void addButtonListener(ActionListener listener, String buttonId){
