@@ -57,6 +57,31 @@ public class Player extends Character {
         Level = level;
     }
 
+
+    public void increse_health(double value){
+        if(this.getHealth()*value>=this.getMaxHealth()) {
+            this.setHealth(this.getMaxHealth());
+        }
+        else this.setHealth((int) Math.round(this.getHealth()*value));
+    }
+
+    public void increase_damage(double value){
+        this.setBaseDamage((int) Math.round(this.getBaseDamage()*value));
+    }
+
+    public void increase_dodge(double value){
+        this.setDodgeChance((int) Math.round(this.getDodgeChance()*value));
+    }
+
+    public void increase_critical(double value){
+        this.setCriticalChance((int) Math.round(this.getCriticalChance()*value));
+    }
+
+    public void increase_armour(double value){
+        this.setArmor((int) Math.round(this.getArmor()*value));
+    }
+
+
     public void setActiveWeapon(String weaponName){
         for(Weapon weapon : this.getInventory().getWeapons())
             if(weapon.getName().equals(weaponName)) {

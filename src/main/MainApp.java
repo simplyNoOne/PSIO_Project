@@ -55,11 +55,11 @@ public class MainApp implements Runnable{
 
         player = new Player();
         player.getInventory().addWeapon(new Weapon("sword", 10, 10));
-         player.getInventory().addCollectible(new Collectible("collectible1"));
-        // player.getInventory().addCollectible(new Collectible("collectible2"));
-        // player.getInventory().addCollectible(new Collectible("collectible3"));
-        // player.getInventory().addCollectible(new Collectible("collectible4"));
-        // player.getInventory().addCollectible(new Collectible("collectible5"));
+        player.getInventory().addCollectible(new Collectible("collectible1" , 1.2));
+        player.getInventory().addCollectible(new Collectible("collectible2" , 1.2));
+        player.getInventory().addCollectible(new Collectible("collectible3",  1.2));
+        player.getInventory().addCollectible(new Collectible("collectible4" , 1.2));
+        player.getInventory().addCollectible(new Collectible("collectible5" , 1.2));
         player.getInventory().addWeapon(new Weapon("axe", 19, 1));
     }
     @Override

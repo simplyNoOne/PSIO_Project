@@ -43,12 +43,7 @@ public class FightManager {
 
 
     public static void attemptToFightRound(double deltaTime) {
-        if(MainApp.getPlayer().getActiveCollectible()!=null && MainApp.getPlayer().getActiveCollectible().getName().equals("collectible3")){
-        playerWon = true;
-        finishFight();
-        MainApp.getPlayer().getInventory().deleteCollectible(MainApp.getPlayer().getActiveCollectible());
-        }
-        else {
+       
         timeSinceLastPhase += deltaTime;
         if (timeSinceLastPhase > PHASE_DELAY_SECS) {
             timeSinceLastPhase = 0;
@@ -58,7 +53,7 @@ public class FightManager {
             } else {
                 finishFight();
             }
-        }
+        
     }
 }
 

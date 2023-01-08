@@ -59,30 +59,35 @@ public class PrefightManager {
             switch (MainApp.getPlayer().getActiveCollectible().getName()) {
                 case "collectible1":
 
-                    MainApp.getPlayer().getActiveCollectible().increase_health(MainApp.getPlayer());
-                    ((StatsPanel) GUIManager.getPanel("playerStats")).updateStats();
-                    MainApp.getPlayer().getInventory().deleteCollectible(MainApp.getPlayer().getActiveCollectible());
+                    MainApp.getPlayer().increse_health(MainApp.getPlayer().getActiveCollectible().getValue());
+                  
+                    
                     break;
                 
                 case "collectible2":
-                    MainApp.getPlayer().getActiveCollectible().increase_damage(MainApp.getPlayer());
-                    ((StatsPanel) GUIManager.getPanel("playerStats")).updateStats();
-                    MainApp.getPlayer().getInventory().deleteCollectible(MainApp.getPlayer().getActiveCollectible());
+                    MainApp.getPlayer().increase_damage(MainApp.getPlayer().getActiveCollectible().getValue());
+                    
                     break;
+
+                case "collectible3":
+                MainApp.getPlayer().increase_armour(MainApp.getPlayer().getActiveCollectible().getValue());
+                break;
                 case "collectible4":
-                    MainApp.getPlayer().getActiveCollectible().increase_dodge(MainApp.getPlayer());
-                    ((StatsPanel) GUIManager.getPanel("playerStats")).updateStats();
-                    MainApp.getPlayer().getInventory().deleteCollectible(MainApp.getPlayer().getActiveCollectible());
+                    MainApp.getPlayer().increase_dodge(MainApp.getPlayer().getActiveCollectible().getValue());
+                  
+                    
                     break;
                 case "collectible5":
-                    MainApp.getPlayer().getActiveCollectible().increase_critical(MainApp.getPlayer());
-                    ((StatsPanel) GUIManager.getPanel("playerStats")).updateStats();
-                    MainApp.getPlayer().getInventory().deleteCollectible(MainApp.getPlayer().getActiveCollectible());    
+                    MainApp.getPlayer().increase_critical(MainApp.getPlayer().getActiveCollectible().getValue());
+                    
+                      
                     break;
                 default:
                     break;
             }
         }
+        ((StatsPanel) GUIManager.getPanel("playerStats")).updateStats();
+        MainApp.getPlayer().getInventory().deleteCollectible(MainApp.getPlayer().getActiveCollectible());   
             StateMachine.nextState();
         }
     }
