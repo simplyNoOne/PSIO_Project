@@ -9,8 +9,9 @@ import static java.lang.Math.min;
 
 public class EnemyGenerator {
 
-    public static Enemy generateEnemy()
-    {
+
+    public static Enemy generateEnemy() {
+        MainApp.getPlayer().setEnemiesApproached(MainApp.getPlayer().getEnemiesApproached()+1);
         Random rng = new Random();
         Player player = MainApp.getPlayer();
 
@@ -21,45 +22,82 @@ public class EnemyGenerator {
         int enemyCriticalChance;
         int enemyDodgeChance;
         int enemyCombatStats;
+        boolean enemyIsBoss;
         Texture enemyTexture = ResourceManager.getTexture("enemy");
-        boolean enemyIsBoss = false;
         String enemyAbilityName = "DefaultAbility";
 
-        int playerCombatStats = player.getMaxHealth() + player.getBaseDamage() + player.getDodgeChance() +
-                                   player.getArmor() + player.getCriticalChance() + calculateTotalAverageWeaponCombatStats();
+        if (MainApp.getPlayer().getEnemiesApproached() % 4 == 0) {
 
-        enemyCombatStats = (int)(rng.nextFloat(0.35f,0.45f)*playerCombatStats);
+            enemyName = "Demon King";
+            enemyIsBoss = true;
+            enemyTexture = ResourceManager.getTexture("boss");
 
-        enemyHealth = max(25, (int) (rng.nextFloat(0, 1) * enemyCombatStats));
-        enemyCombatStats -= enemyHealth;
+            int playerCombatStats = player.getMaxHealth() + player.getBaseDamage() + player.getDodgeChance() +
+                    player.getArmor() + player.getCriticalChance() + calculateTotalAverageWeaponCombatStats();
 
-        enemyDamage = max(10, (int) (rng.nextFloat(0, 1) * enemyCombatStats));
-        enemyCombatStats -= enemyDamage;
+            enemyCombatStats = (int)(rng.nextFloat(0.9f,1f)*playerCombatStats);
 
-        enemyCriticalChance = min(75, max(5, (int) (rng.nextFloat(0, 1) * enemyCombatStats)));
-        enemyCombatStats -= enemyCriticalChance;
+            enemyHealth = max(50, (int) (rng.nextFloat(0, 1) * enemyCombatStats));
+            enemyCombatStats -= enemyHealth;
 
-        enemyDodgeChance = min(75, max(5, (int) (rng.nextFloat(0, 1) * enemyCombatStats)));
-        enemyCombatStats -= enemyDodgeChance;
+            enemyDamage = max(30, (int) (rng.nextFloat(0, 1) * enemyCombatStats));
+            enemyCombatStats -= enemyDamage;
 
-        enemyArmor = min(75, max(5, (int) (rng.nextFloat(0, 1) * enemyCombatStats)));
-        enemyCombatStats -= enemyArmor;
+            enemyCriticalChance = min(75, max(10, (int) (rng.nextFloat(0, 1) * enemyCombatStats)));
+            enemyCombatStats -= enemyCriticalChance;
 
-        enemyHealth += max(1, enemyCombatStats);
+            enemyDodgeChance = min(75, max(10, (int) (rng.nextFloat(0, 1) * enemyCombatStats)));
+            enemyCombatStats -= enemyDodgeChance;
 
-        switch (rng.nextInt(0, 2)) {
-            case 0 -> {
-                enemyName = "Blue Demon";
-                enemyTexture = ResourceManager.getTexture("enemy2");
-            }
-            case 1 -> {
-                enemyName = "Purple Clown";
-                enemyTexture = ResourceManager.getTexture("enemy1");
-            }
+            enemyArmor = min(75, max(10, (int) (rng.nextFloat(0, 1) * enemyCombatStats)));
+            enemyCombatStats -= enemyArmor;
+
+            enemyHealth += max(1, enemyCombatStats);
+
+
+            return new Enemy(enemyName,enemyHealth,enemyArmor,enemyDamage,enemyDodgeChance, enemyIsBoss,
+                    enemyAbilityName, enemyCriticalChance, enemyTexture);
         }
+        else
+        {
+            enemyIsBoss = false;
 
-        return new Enemy(enemyName,enemyHealth,enemyArmor,enemyDamage,enemyDodgeChance, enemyIsBoss,
-                         enemyAbilityName, enemyCriticalChance, enemyTexture);
+            int playerCombatStats = player.getMaxHealth() + player.getBaseDamage() + player.getDodgeChance() +
+                    player.getArmor() + player.getCriticalChance() + calculateTotalAverageWeaponCombatStats();
+
+            enemyCombatStats = (int) (rng.nextFloat(0.4f, 0.5f) * playerCombatStats);
+
+            enemyHealth = max(25, (int) (rng.nextFloat(0, 1) * enemyCombatStats));
+            enemyCombatStats -= enemyHealth;
+
+            enemyDamage = max(10, (int) (rng.nextFloat(0, 1) * enemyCombatStats));
+            enemyCombatStats -= enemyDamage;
+
+            enemyCriticalChance = min(75, max(5, (int) (rng.nextFloat(0, 1) * enemyCombatStats)));
+            enemyCombatStats -= enemyCriticalChance;
+
+            enemyDodgeChance = min(75, max(5, (int) (rng.nextFloat(0, 1) * enemyCombatStats)));
+            enemyCombatStats -= enemyDodgeChance;
+
+            enemyArmor = min(75, max(5, (int) (rng.nextFloat(0, 1) * enemyCombatStats)));
+            enemyCombatStats -= enemyArmor;
+
+            enemyHealth += max(1, enemyCombatStats);
+
+            switch (rng.nextInt(0, 2)) {
+                case 0 -> {
+                    enemyName = "Blue Demon";
+                    enemyTexture = ResourceManager.getTexture("enemy2");
+                }
+                case 1 -> {
+                    enemyName = "Purple Clown";
+                    enemyTexture = ResourceManager.getTexture("enemy1");
+                }
+            }
+
+            return new Enemy(enemyName, enemyHealth, enemyArmor, enemyDamage, enemyDodgeChance, enemyIsBoss,
+                    enemyAbilityName, enemyCriticalChance, enemyTexture);
+        }
     }
     public static int  calculateTotalAverageWeaponCombatStats()
     {
