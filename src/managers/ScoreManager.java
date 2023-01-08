@@ -12,7 +12,7 @@ public class ScoreManager {
     private static Map<String, Integer> scores = new HashMap<>();
 
     /** Shortcut for: load, updateEntry (1 entry), save & unload **/
-    public static void updateEntryInFile(String playerNickname, int score) {
+    public void updateEntryInFile(String playerNickname, int score) {
         if (scores.isEmpty()) {
             loadEntries();
             updateEntry(playerNickname, score);
@@ -24,7 +24,7 @@ public class ScoreManager {
                     "Entries must be unloaded at first in order to prevent unexpected data loss.");
         }
     }
-    public static void loadEntries() {
+    public void loadEntries() {
         // auto-closeable
         try (ObjectInputStream objectInputStream = new ObjectInputStream(new FileInputStream(SCORES_PATH))) {
 
@@ -37,7 +37,7 @@ public class ScoreManager {
         }
     }
 
-    public static void saveEntries() {
+    public void saveEntries() {
         // auto-closeable
         try (ObjectOutputStream objectOutputStream = new ObjectOutputStream(new FileOutputStream(SCORES_PATH))) {
 
@@ -47,11 +47,11 @@ public class ScoreManager {
         }
     }
 
-    public static void unloadEntries() {
+    public void unloadEntries() {
         scores.clear();
     }
 
-    public static SortedSet<Map.Entry<String, Integer>> getEntriesSortedByScoreDescending() {
+    public SortedSet<Map.Entry<String, Integer>> getEntriesSortedByScoreDescending() {
         // creates an empty TreeSet with a rule that new entries will be inserted in a sorted way, score descending
         SortedSet<Map.Entry<String, Integer>> sortedEntries = new TreeSet<>(
                 new Comparator<>() {
@@ -67,17 +67,17 @@ public class ScoreManager {
         return sortedEntries;
     }
 
-    public static void updateEntry(String playerNickname, int score) {
+    public void updateEntry(String playerNickname, int score) {
         scores.put(playerNickname, score);
     }
 
-    public static void removeEntry(String playerNickname) {
+    public void removeEntry(String playerNickname) {
         scores.remove(playerNickname);
     }
 
-    public static int getScoreByNickname(String playerNickname) {
+    public int getScoreByNickname(String playerNickname) {
         return scores.get(playerNickname);
     }
 
-    private ScoreManager() {} // Utility class = can't create objects
+    public ScoreManager() {}
 }

@@ -8,6 +8,7 @@ import javax.imageio.ImageIO;
 import data.Character;
 import data.Inventory;
 import data.Texture;
+import main.ManagerHandler;
 import managers.ResourceManager;
 
 
@@ -21,6 +22,7 @@ public class Player extends Character {
     public Texture currentTexture;
     private int maxHealth;
     private int enemiesApproached;
+
     private Weapon activeWeapon;
     private Collectible activeCollectible;
 
@@ -28,7 +30,7 @@ public class Player extends Character {
 
     public Player() {
         super();
-        currentTexture = ResourceManager.getTexture("player");
+        currentTexture = ManagerHandler.getResourceManager().getTexture("player");
         getLocation().x = 70;
         getLocation().y = BASE_HOVER_HEIGHT;
         maxHealth = 100;
@@ -58,6 +60,10 @@ public class Player extends Character {
     public void setLevel(int level) {
         Level = level;
     }
+
+    public int getScore(){return score;}
+
+    public void modifyScore(int modifier){score += modifier;}
 
 
     public void increse_health(double value){

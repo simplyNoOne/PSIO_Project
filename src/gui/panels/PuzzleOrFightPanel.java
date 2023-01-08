@@ -1,6 +1,7 @@
 package gui.panels;
 
 import interfaces.Interactible;
+import main.ManagerHandler;
 import managers.GUIManager;
 import managers.ResourceManager;
 
@@ -53,8 +54,8 @@ public class PuzzleOrFightPanel extends CustomPanel implements Interactible {
         super.setBounds((GUIManager.getWidth() - PANEL_WIDTH)/2, (GUIManager.getHeight() - PANEL_HEIGHT)/2, PANEL_WIDTH, PANEL_HEIGHT);
 
         this.setLayout(null);
-        buttons.get("puzzle").setIcon(ResourceManager.getTexture("puzzle"));
-        buttons.get("fight").setIcon(ResourceManager.getTexture("fight"));
+        buttons.get("puzzle").setIcon(ManagerHandler.getResourceManager().getTexture("puzzle"));
+        buttons.get("fight").setIcon(ManagerHandler.getResourceManager().getTexture("fight"));
         int puzzleButtonX = (PANEL_WIDTH- PuzzleOrFightButton.BUTTON_WIDTH)/2 - PuzzleOrFightButton.BUTTON_WIDTH -BUTTON_SPACE;
         int puzzleButtonY = (PANEL_HEIGHT- PuzzleOrFightButton.BUTTON_HEIGHT)/2;
         buttons.get("puzzle").setBounds(puzzleButtonX, puzzleButtonY, PuzzleOrFightButton.BUTTON_WIDTH, PuzzleOrFightButton.BUTTON_HEIGHT);

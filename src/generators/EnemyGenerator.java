@@ -1,6 +1,7 @@
 package generators;
 import data.*;
 import main.MainApp;
+import main.ManagerHandler;
 import managers.ResourceManager;
 
 import java.util.Random;
@@ -23,14 +24,14 @@ public class EnemyGenerator {
         int enemyDodgeChance;
         int enemyCombatStats;
         boolean enemyIsBoss;
-        Texture enemyTexture = ResourceManager.getTexture("enemy");
+        Texture enemyTexture = ManagerHandler.getResourceManager().getTexture("enemy");
         String enemyAbilityName = "DefaultAbility";
 
         if (MainApp.getPlayer().getEnemiesApproached() % 4 == 0) {
 
             enemyName = "Demon King";
             enemyIsBoss = true;
-            enemyTexture = ResourceManager.getTexture("boss");
+            enemyTexture = ManagerHandler.getResourceManager().getTexture("boss");
 
             int playerCombatStats = player.getMaxHealth() + player.getBaseDamage() + player.getDodgeChance() +
                     player.getArmor() + player.getCriticalChance() + calculateTotalAverageWeaponCombatStats();
@@ -84,16 +85,16 @@ public class EnemyGenerator {
 
             enemyHealth += max(1, enemyCombatStats);
 
-            switch (rng.nextInt(0, 2)) {
-                case 0 -> {
-                    enemyName = "Blue Demon";
-                    enemyTexture = ResourceManager.getTexture("enemy2");
-                }
-                case 1 -> {
-                    enemyName = "Purple Clown";
-                    enemyTexture = ResourceManager.getTexture("enemy1");
-                }
+        switch (rng.nextInt(0, 2)) {
+            case 0 -> {
+                enemyName = "Blue Demon";
+                enemyTexture = ManagerHandler.getResourceManager().getTexture("enemy2");
             }
+            case 1 -> {
+                enemyName = "Purple Clown";
+                enemyTexture = ManagerHandler.getResourceManager().getTexture("enemy1");
+            }
+        }
 
             return new Enemy(enemyName, enemyHealth, enemyArmor, enemyDamage, enemyDodgeChance, enemyIsBoss,
                     enemyAbilityName, enemyCriticalChance, enemyTexture);

@@ -5,21 +5,11 @@ import javax.swing.*;
 
 public class PlayerStatsPanel extends StatsPanel{
 
-    JLabel levelVal;
-    JLabel maxHealthVal;
 
     public PlayerStatsPanel(){
 
         super();
         this.setBounds(10, 10, PANEL_WIDTH, PANEL_HEIGHT);
-        this.setLayout(null);
-
-        JLabel levelTitle = new TitleLabel("Level: ");
-        JLabel maxHealthTitle = new TitleLabel("Max Health: ");
-
-
-        levelVal = new ValueLabel();
-        maxHealthVal= new ValueLabel();
 
 
         nameTitle.setLocation(20, 25);

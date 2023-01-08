@@ -1,6 +1,7 @@
 package gui.panels;
 
 import interfaces.Interactible;
+import main.ManagerHandler;
 import managers.GUIManager;
 import managers.ScoreManager;
 
@@ -52,7 +53,7 @@ public class ScoresPanel extends CustomPanel implements Interactible {
             this.setForeground(Color.white);
             this.setSize(100, 50);
             this.setFont(new Font(Font.SANS_SERIF, Font.PLAIN, 25));
-            this.setText(Integer.toString(place)+".");
+            this.setText(place+".");
             ScoresPanel.this.add(this);
         }
     }

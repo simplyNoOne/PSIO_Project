@@ -8,6 +8,7 @@ import gui.panes.CustomLayerPane;
 import gui.panes.GamePane;
 import gui.panes.MenuPane;
 import main.MainApp;
+import main.ManagerHandler;
 
 import javax.swing.*;
 import java.awt.*;
@@ -20,14 +21,14 @@ public class GUIManager {
     private static final int POS_X = (int)(Toolkit.getDefaultToolkit().getScreenSize().getWidth() - WIDTH)/2;
     private static final int POS_Y = (int)(Toolkit.getDefaultToolkit().getScreenSize().getHeight() - HEIGHT)/2;
 
-    private static Map<String, CustomPanel>  panels = new HashMap<>();
-    private static Map<String, CustomLayerPane>  panes = new HashMap<>();
+    private Map<String, CustomPanel>  panels = new HashMap<>();
+    private Map<String, CustomLayerPane>  panes = new HashMap<>();
 
 
-    public static JPanel getPanel(String id){
+    public JPanel getPanel(String id){
         return panels.get(id);
     }
-    public static JPanel getPane(String id){
+    public JPanel getPane(String id){
         return panes.get(id);
     }
 
@@ -36,7 +37,7 @@ public class GUIManager {
     public static int getPosX(){return POS_X;}
     public static int getPosY(){return POS_Y;}
 
-    public static void initAllPanels() {
+    public void initAllPanels() {
         panes.put("menu", new MenuPane());
         panes.put("game", new GamePane());
 
@@ -57,34 +58,34 @@ public class GUIManager {
         panels.put("levelup", new LevelUpPanel());
         panels.put("characters", new CharactersPanel());
 
-        MenuManager.init();
-        PuzzleOrFightManager.init();
-        PuzzleManager.init();
-        PuzzleResultsManager.init();
-        PrefightManager.init();
-        FightManager.init();
-        FightResultsManager.init();
-        FinalResultsManager.init();
-        LevelUpManager.init();
+        ManagerHandler.getMenuManager().init();
+        ManagerHandler.getPuzzleOrFightManager().init();
+        ManagerHandler.getPuzzleManager().init();
+        ManagerHandler.getPuzzleResultsManager().init();
+        ManagerHandler.getPrefightManager().init();
+        ManagerHandler.getFightManager().init();
+        ManagerHandler.getFightResultsManager().init();
+        ManagerHandler.getFinalResultsManager().init();
+        ManagerHandler.getLevelUpManager().init();
     }
 
 
 
-    public static void addPane(String id){
+    public void addPane(String id){
         MainApp.getGameFrame().setContentPane(panes.get(id));
     }
 
 
-    public static void addPanel(String id, String targetId){
+    public void addPanel(String id, String targetId){
         panes.get(targetId).addLayer(panels.get(id));
         panels.get(id).setVisible(true);
     }
 
-    public static void addPanel(String id, String targetId, int layer){
+    public void addPanel(String id, String targetId, int layer){
         panes.get(targetId).addLayer(panels.get(id), layer);
         panels.get(id).setVisible(true);
     }
-    public static void removePanel(String id, String targetId){
+    public void removePanel(String id, String targetId){
 
         panes.get(targetId).removeLayer(panels.get(id));
     }
