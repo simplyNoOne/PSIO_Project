@@ -4,7 +4,8 @@ import java.util.*;
 
 public class Inventory {
     private ArrayList<Weapon> weapons = new ArrayList<Weapon>();
-    private ArrayList<Collectible> collectibles = new ArrayList<Collectible>();          //For Wlad!!!!!!
+    private ArrayList<Collectible> collectibles = new ArrayList<Collectible>();
+
 
     public int getNumOfWeapons(){
         return this.weapons.size();
@@ -31,6 +32,12 @@ public class Inventory {
 
     public void deleteWeaponAt(int x){
         weapons.remove(weapons.get(x));
+    }
+
+    public void deleteCollectible(Collectible col){
+        
+            collectibles.remove(col);
+        
     }
 
 
