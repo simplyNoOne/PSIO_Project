@@ -45,7 +45,9 @@ public class Player extends Character {
 
     public int getMaxHealth(){return maxHealth;}
 
-
+    public void setMaxHealth(int maxHealth) {
+        this.maxHealth = maxHealth;
+    }
 
     public Inventory getInventory() {
         return inventory;
@@ -55,8 +57,8 @@ public class Player extends Character {
         return Level;
     }
 
-    public void setLevel(int level) {
-        Level = level;
+    public void increaseLevel() {
+        Level += 1;
     }
 
     public void setActiveWeapon(String weaponName){

@@ -46,7 +46,8 @@ public class StateMachine {
 
               public void nextState() {
 
-                  setCurrentState(SCROLL_BG);
+                  //setCurrentState(SCROLL_BG);
+                  setCurrentState(LEVELUP);
                   currentState.initState();
               }
 
@@ -169,7 +170,10 @@ public class StateMachine {
         LEVELUP{
             public void initState(){
                 GUIManager.addPanel("levelup", "game");
-                MainApp.getGameFrame().setVisible(true);
+                MainApp.getGameFrame().revalidate();
+                MainApp.getGameFrame().repaint();
+
+                LevelUpManager.levelUp();
             }
             public void update(double deltaTime) {}
 
@@ -184,7 +188,10 @@ public class StateMachine {
             public void initState(){
                 ((CharactersPanel)GUIManager.getPanel("characters")).updatePrevEnemy();
                 //here a new enemy will be generated, using a generator, ofc
-                MainApp.setEnemy(generators.EnemyGenerator.generateEnemy());
+                //MainApp.setEnemy(generators.EnemyGenerator.generateEnemy());
+                // TODO FIXME temporarily, boss is always generated for testing purposes
+                MainApp.setEnemy(generators.BossGenerator.generateBoss());
+
                 ((CharactersPanel)GUIManager.getPanel("characters")).updateEnemyTexture();
             }
             public void update(double deltaTime) {
