@@ -7,6 +7,8 @@ import interfaces.Interactible;
 import main.StateMachine;
 
 import javax.swing.*;
+import javax.swing.event.ChangeEvent;
+import javax.swing.event.ChangeListener;
 import java.awt.*;
 import java.awt.event.*;
 import java.io.*;
@@ -35,71 +37,40 @@ public class PuzzleManager {
         }
     }
 
-    public static class MouseAdapterForColorGame extends MouseAdapter {
-        private boolean redSet = false;
-        private boolean greenSet = false;
-        private boolean blueSet = false;
-        private int redValue = 0;
-        private int greenValue = 0;
-        private int blueValue = 0;
+    public static class SliderChangeListener implements ChangeListener{
 
-
-        public void mouseClicked(MouseEvent e) {
-            if (((JButton) e.getSource()).isEnabled()){
-                ((ColorGamePanel) GUIManager.getPanel("colorgame")).setValueOnButton(((JButton)e.getSource()).getName(), ""+(255-e.getY()));
-                switch (((JButton)e.getSource()).getName()){
-                    case "red" ->{
-                        redSet = true;
-                        redValue = (255-e.getY());
-                    }
-                    case "green" ->{
-                        greenSet = true;
-                        greenValue = (255-e.getY());
-                    }
-                    case "blue" -> {
-                        blueSet = true;
-                        blueValue = (255-e.getY());
-                    }
-                }
-                if(redSet && greenSet && blueSet){
-                    checkIfColorIsCorrect(new Color(redValue, greenValue, blueValue));
-                }
+        @Override
+        public void stateChanged(ChangeEvent e) {
+            ((ColorGamePanel)GUIManager.getPanel("colorgame")).setPreviewColor(((JSlider) e.getSource()).getName(), ((JSlider) e.getSource()).getValue());
+            switch (((JSlider) e.getSource()).getName()){
+                case "red" -> currentColor = new Color(((JSlider) e.getSource()).getValue(), currentColor.getGreen(), currentColor.getBlue());
+                case "green" -> currentColor = new Color(currentColor.getRed(), ((JSlider) e.getSource()).getValue(), currentColor.getBlue());
+                case "blue" -> currentColor = new Color(currentColor.getRed(), currentColor.getGreen(), ((JSlider) e.getSource()).getValue());
             }
-        }
-
-
-
-        public void mouseEntered(MouseEvent e){
-            if (((JButton) e.getSource()).isEnabled()){
-                ((ColorGamePanel) GUIManager.getPanel("colorgame")).showValueOnButton(((JButton)e.getSource()).getName(), ""+(255-e.getY()));
-
-            }
-        }
-
-        public void setRedSet(boolean redSet) {
-            this.redSet = redSet;
-        }
-
-        public void setGreenSet(boolean greenSet) {
-            this.greenSet = greenSet;
-        }
-
-        public void setBlueSet(boolean blueSet) {
-            this.blueSet = blueSet;
+            ((ColorGamePanel)GUIManager.getPanel("colorgame")).specialRepaint();
         }
     }
 
+    public static class ColorGameConfirmButtonListener implements ActionListener{
+        @Override
+        public void actionPerformed(ActionEvent e) {
+            ((ColorGamePanel)GUIManager.getPanel("colorgame")).setCurrentColorColor(currentColor);
+            checkIfColorIsCorrect();
+        }
+    }
 
     private static final QuizAnswerButtonListener quizAnswerButtonListener = new QuizAnswerButtonListener();
-    private static final
-    MouseAdapterForColorGame colorButtonAdapter = new MouseAdapterForColorGame();
-
+    private static SliderChangeListener sliderChangeListener = new SliderChangeListener();
+    private static ColorGameConfirmButtonListener colorGameConfirmButtonListener = new ColorGameConfirmButtonListener();
     private static ArrayList<Quiz> allQuestions = loadAllQuestions();
     private static Quiz actualQuiz;
     private static String puzzleType;
     private static Color expectedColor;
+    private static Color currentColor = new Color(255, 255, 255);
     private static int tolerance = 20;
     private static int leftChanceNumber;
+
+
 
 
     public static void init() {
@@ -107,9 +78,10 @@ public class PuzzleManager {
         ((Interactible)GUIManager.getPanel("quiz")).addButtonListener(quizAnswerButtonListener, "1");
         ((Interactible)GUIManager.getPanel("quiz")).addButtonListener(quizAnswerButtonListener, "2");
         ((Interactible)GUIManager.getPanel("quiz")).addButtonListener(quizAnswerButtonListener, "3");
-        ((ColorGamePanel)GUIManager.getPanel("colorgame")).addMouseListener(colorButtonAdapter, "red");
-        ((ColorGamePanel)GUIManager.getPanel("colorgame")).addMouseListener(colorButtonAdapter, "green");
-        ((ColorGamePanel)GUIManager.getPanel("colorgame")).addMouseListener(colorButtonAdapter, "blue");
+        ((ColorGamePanel)GUIManager.getPanel("colorgame")).addSliderChangeListener(sliderChangeListener, "red");
+        ((ColorGamePanel)GUIManager.getPanel("colorgame")).addSliderChangeListener(sliderChangeListener, "green");
+        ((ColorGamePanel)GUIManager.getPanel("colorgame")).addSliderChangeListener(sliderChangeListener, "blue");
+        ((ColorGamePanel)GUIManager.getPanel("colorgame")).addButtonListener(colorGameConfirmButtonListener, "empty");
     }
 
     public static void newPuzzle(){
@@ -202,46 +174,39 @@ public class PuzzleManager {
         return puzzleType;
     }
 
-    private static void checkIfColorIsCorrect(Color color) {
+    private static void checkIfColorIsCorrect() {
         boolean redCorrect = false;
         boolean greenCorrect = false;
         boolean blueCorrect = false;
 
         System.out.println(leftChanceNumber);
-        if(Math.abs(expectedColor.getRed() - color.getRed()) <= tolerance)
+        if(Math.abs(expectedColor.getRed() - currentColor.getRed()) <= tolerance)
             redCorrect = true;
 
-        if(Math.abs(expectedColor.getGreen() - color.getGreen()) <= tolerance)
+        if(Math.abs(expectedColor.getGreen() - currentColor.getGreen()) <= tolerance)
             greenCorrect = true;
 
-        if(Math.abs(expectedColor.getBlue() - color.getBlue()) <= tolerance)
+        if(Math.abs(expectedColor.getBlue() - currentColor.getBlue()) <= tolerance)
             blueCorrect = true;
 
         if(redCorrect && greenCorrect && blueCorrect){
             StateMachine.setNextStateVar(StateMachine.State.SCROLL_BG);
             StateMachine.nextState();
         }
-        else
-            if(leftChanceNumber > 0){
+        else {
+            if (leftChanceNumber > 0) {
                 leftChanceNumber--;
-                if(!redCorrect) {
-                    ((ColorGamePanel)GUIManager.getPanel("colorgame")).setColorButtonIsEnabled("red", true);
-                    colorButtonAdapter.setRedSet(false);
-                }
-                if(!greenCorrect) {
-                    ((ColorGamePanel)GUIManager.getPanel("colorgame")).setColorButtonIsEnabled("green", true);
-                    colorButtonAdapter.setGreenSet(false);
-                }
-                if(!blueCorrect) {
-                    ((ColorGamePanel)GUIManager.getPanel("colorgame")).setColorButtonIsEnabled("blue", true);
-                    colorButtonAdapter.setBlueSet(false);
-                }
-
-            }
-            else{
+                ((ColorGamePanel) GUIManager.getPanel("colorgame")).setLeftChancesLabel(leftChanceNumber);
+                if (!redCorrect)
+                    ((ColorGamePanel) GUIManager.getPanel("colorgame")).setSliderIsEnabled("red", true);
+                if (!greenCorrect)
+                    ((ColorGamePanel) GUIManager.getPanel("colorgame")).setSliderIsEnabled("green", true);
+                if (!blueCorrect)
+                    ((ColorGamePanel) GUIManager.getPanel("colorgame")).setSliderIsEnabled("blue", true);
+            } else {
                 StateMachine.setNextStateVar(StateMachine.State.PREFIGHT);
                 StateMachine.nextState();
             }
-
+        }
     }
 }

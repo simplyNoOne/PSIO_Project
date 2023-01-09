@@ -4,7 +4,9 @@ import interfaces.Interactible;
 import managers.GUIManager;
 
 import javax.swing.*;
+import javax.swing.event.ChangeListener;
 import javax.swing.plaf.basic.BasicBorders;
+import javax.swing.plaf.basic.BasicSliderUI;
 import java.awt.*;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
@@ -12,16 +14,12 @@ import java.util.HashMap;
 import java.util.Map;
 
 public class ColorGamePanel extends CustomPanel implements Interactible {
-    @Override
-    public void addButtonListener(ActionListener listener, String buttonId) {
 
-    }
-
-    public class CheckButton extends JButton {
+    public class ConfirmButton extends JButton {
 
         private static final int BUTTON_WIDTH = 150;
         private static final int BUTTON_HEIGHT = 150;
-        CheckButton(){
+        ConfirmButton(){
             super();
             this.setFocusPainted(false);
             this.setBackground(Color.WHITE);
@@ -30,136 +28,155 @@ public class ColorGamePanel extends CustomPanel implements Interactible {
 
             this.setBorder(new BasicBorders.ButtonBorder(Color.black, Color.black, Color.black, Color.black));
         }
-        CheckButton(String text){
-            this();
-            this.setText(text);
-            this.setFont(new Font("SansSerif", Font.BOLD, 30 ));
-        }
-
     }
 
-    public class ColorButton extends JButton {
+    public class JSliderUI extends BasicSliderUI {
 
-        private static final int BUTTON_WIDTH = 100;
-        private static final int BUTTON_HEIGHT = 256;
-        ColorButton(){
-            super();
-            this.setFocusPainted(false);
-            this.setBackground(Color.WHITE);
-            this.setForeground(Color.BLACK);
-            this.setFocusable(false);
-            this.setSize(BUTTON_WIDTH, BUTTON_HEIGHT);
-
-            this.setBorder(new BasicBorders.ButtonBorder(Color.black, Color.black, Color.black, Color.black));
-        }
-        ColorButton(String text){
-            this();
-            this.setText(text);
-            this.setFont(new Font("SansSerif", Font.BOLD, 30 ));
+        public JSliderUI(JSlider slider) {
+            super(slider);
         }
 
+        @Override
+        public void paintFocus(Graphics grphcs) {
+
+        }
+
+        @Override
+        protected Dimension getThumbSize() {
+            return new Dimension(14, 14);
+        }
+
+        @Override
+        public void paintThumb(Graphics grphcs) {
+            Graphics2D g2 = (Graphics2D) grphcs;
+            g2.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
+            g2.setColor(slider.getForeground());
+            g2.fillOval(thumbRect.x, thumbRect.y, thumbRect.width, thumbRect.height);
+        }
+
+        @Override
+        public void paintTrack(Graphics grphcs) {
+            Graphics2D g2 = (Graphics2D) grphcs;
+            g2.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
+            g2.setColor(slider.getBackground());
+            if (slider.getOrientation() == JSlider.VERTICAL) {
+                g2.fillRoundRect(slider.getWidth() / 2 - 2, 2, 4, slider.getHeight(), 1, 1);
+            } else {
+                g2.fillRoundRect(2, slider.getHeight() / 2 - 2, slider.getWidth() - 5, 4, 1, 1);
+            }
+        }
     }
+
+    public class JsliderCustom extends JSlider {
+
+        public JsliderCustom() {
+            setOpaque(false);
+            setBackground(new Color(180, 180, 180));
+            setForeground(new Color(69, 124, 235));
+            setUI(new JSliderUI(this));
+        }
+    }
+
+
 
     private final static int PANEL_WIDTH = 700;
     private final static int PANEL_HEIGHT = 500;
-    private ColorButton redButton = new ColorButton();
-    private ColorButton greenButton = new ColorButton();
-    private ColorButton blueButton = new ColorButton();
-    private JLabel currentColor = new JLabel("Current");
-    private JLabel expectedColor = new JLabel("Expected");
+    private JLabel currentColor = new JLabel();
+    private JLabel currentColorText = new JLabel("Current color");
+    private JLabel expectedColor = new JLabel();
+    private JLabel expectedColorText = new JLabel("Expected");
+    private JsliderCustom redSlider = new JsliderCustom();
+    private JsliderCustom greenSlider = new JsliderCustom();
+    private JsliderCustom blueSlider = new JsliderCustom();
+    private JLabel redColorPreview = new JLabel();
+    private JLabel greenColorPreview = new JLabel();
+    private JLabel blueColorPreview = new JLabel();
+    private JLabel leftChancesLabel = new JLabel();
+    private ConfirmButton confirmButton = new ConfirmButton();
     public ColorGamePanel(){
 
 
         super();
-        this.setBackground(new Color(255, 255, 255));
+        this.setBackground(new Color(0, 0, 0, 220));
         super.setBounds((GUIManager.getWidth() - PANEL_WIDTH)/2, (GUIManager.getHeight() - PANEL_HEIGHT)/2, PANEL_WIDTH, PANEL_HEIGHT);
-        redButton.setLocation(100, 220);
-        redButton.setBackground(Color.RED);
-        redButton.setName("red");
-        greenButton.setLocation(300, 220);
-        greenButton.setBackground(Color.GREEN);
-        greenButton.setName("green");
-        blueButton.setLocation(500, 220);
-        blueButton.setBackground(Color.BLUE);
-        blueButton.setName("blue");
 
-        currentColor.setBounds(100, 10, 250, 200);
+        redSlider.setOrientation(JSlider.VERTICAL);
+        redSlider.setMinimum(0);
+        redSlider.setMaximum(255);
+        redSlider.setMajorTickSpacing(51);
+        redSlider.setMinorTickSpacing(1);
+        redSlider.setValue(127);
+        redSlider.setLocation(190, 250);
+        redSlider.setSize(20, 125);
+        redSlider.setName("red");
+        this.add(redSlider);
+
+        redColorPreview.setBounds(175, 180, 50, 50);
+        redColorPreview.setOpaque(true);
+        redColorPreview.setBackground(new Color(redSlider.getValue(), 0, 0));
+        this.add(redColorPreview);
+
+        greenSlider.setOrientation(JSlider.VERTICAL);
+        greenSlider.setMinimum(0);
+        greenSlider.setMaximum(255);
+        greenSlider.setMajorTickSpacing(51);
+        greenSlider.setMinorTickSpacing(1);
+        greenSlider.setValue(127);
+        greenSlider.setLocation(340, 250);
+        greenSlider.setSize(20, 125);
+        greenSlider.setName("green");
+        this.add(greenSlider);
+
+        greenColorPreview.setBounds(325, 180, 50, 50);
+        greenColorPreview.setOpaque(true);
+        greenColorPreview.setBackground(new Color(0, greenSlider.getValue(), 0));
+        this.add(greenColorPreview);
+
+        blueSlider.setOrientation(JSlider.VERTICAL);
+        blueSlider.setMinimum(0);
+        blueSlider.setMaximum(255);
+        blueSlider.setMajorTickSpacing(51);
+        blueSlider.setMinorTickSpacing(1);
+        blueSlider.setValue(127);
+        blueSlider.setLocation(490, 250);
+        blueSlider.setSize(20, 125);
+        blueSlider.setName("blue");
+        this.add(blueSlider);
+
+        blueColorPreview.setBounds(475, 180, 50, 50);
+        blueColorPreview.setOpaque(true);
+        blueColorPreview.setBackground(new Color(0, 0, blueSlider.getValue()));
+        this.add(blueColorPreview);
+
+        currentColor.setBounds(100, 50, 200, 100);
         currentColor.setOpaque(true);
-        currentColor.setBackground(new Color(0, 0, 0));
-        currentColor.setForeground(new Color(255, 255, 255));
-        currentColor.setFont(new Font(Font.SANS_SERIF, Font.PLAIN, 25));
-        expectedColor.setBounds(350, 10, 250, 200);
-        expectedColor.setOpaque(true);
-        expectedColor.setFont(new Font(Font.SANS_SERIF, Font.PLAIN, 25));
-
+        currentColor.setBackground(new Color(255, 255, 255));
         this.add(currentColor);
+
+        currentColorText.setBounds(100, 25, 200, 25);
+        currentColorText.setForeground(new Color(255, 255, 255));
+        this.add(currentColorText);
+
+        expectedColor.setBounds(400, 50, 200, 100);
+        expectedColor.setOpaque(true);
         this.add(expectedColor);
-        this.add(redButton);
-        this.add(greenButton);
-        this.add(blueButton);
+
+        expectedColorText.setBounds(400, 25, 200, 25);
+        expectedColorText.setForeground(new Color(255, 255, 255));
+        this.add(expectedColorText);
+
+        confirmButton.setBounds(225, 400, 250, 50);
+        confirmButton.setText("CONFIRM");
+        this.add(confirmButton);
+
+        leftChancesLabel.setBounds(5, 5, 100, 20);
+        leftChancesLabel.setFont(new Font(Font.SANS_SERIF, Font.PLAIN, 17));
+        leftChancesLabel.setBackground(new Color(255, 255, 255, 220));
+        leftChancesLabel.setForeground(new Color(255, 255, 255));
+        this.add(leftChancesLabel);
 
     }
 
-
-    public void addMouseListener(MouseAdapter adapter, String buttonId){
-        switch (buttonId){
-            case "red" -> redButton.addMouseListener(adapter);
-            case "green" -> greenButton.addMouseListener(adapter);
-            case "blue" -> blueButton.addMouseListener(adapter);
-        }
-    }
-
-    public void setValueOnButton(String buttonColor, String value){
-        int red = currentColor.getBackground().getRed();
-        int green = currentColor.getBackground().getGreen();
-        int blue = currentColor.getBackground().getBlue();
-        switch (buttonColor){
-            case "red" ->{
-                redButton.setText(value);
-                redButton.setEnabled(false);
-                currentColor.setBackground(new Color(Integer.parseInt(value), green, blue));
-                currentColor.setForeground(new Color(255-Integer.parseInt(value), 255-green, 255-blue));
-            }
-            case "green" -> {
-                greenButton.setText(value);
-                greenButton.setEnabled(false);
-                currentColor.setBackground(new Color(red, Integer.parseInt(value), blue));
-                currentColor.setForeground(new Color(255-red, 255-Integer.parseInt(value), 255-blue));
-
-            }
-            case "blue" -> {
-                blueButton.setText(value);
-                blueButton.setEnabled(false);
-                currentColor.setBackground(new Color(red, green, Integer.parseInt(value)));
-                currentColor.setForeground(new Color(255-red, 255-green, 255-Integer.parseInt(value)));
-
-            }
-        }
-
-        repaint();
-    }
-
-    public void showValueOnButton(String buttonColor, String value){
-        switch (buttonColor){
-            case "red" ->{
-                redButton.setText(value);
-                redButton.setBackground(new Color(Integer.parseInt(value), 0, 0));
-                redButton.setForeground(new Color(255-Integer.parseInt(value), 0, 0));
-            }
-            case "green" -> {
-                greenButton.setText(value);
-                greenButton.setBackground(new Color(0, Integer.parseInt(value), 0));
-                greenButton.setForeground(new Color(0, 255-Integer.parseInt(value), 0));
-            }
-            case "blue" -> {
-                blueButton.setText(value);
-                blueButton.setBackground(new Color(0, 0, Integer.parseInt(value)));
-                blueButton.setForeground(new Color(0, 0, 255-Integer.parseInt(value)));
-
-            }
-        }
-        repaint();
-    }
     public void setExpectedColor(Color color){
         expectedColor.setBackground(color);
         expectedColor.setForeground(new Color(255-color.getRed(), 255-color.getGreen(), 255-color.getBlue()));
@@ -173,24 +190,58 @@ public class ColorGamePanel extends CustomPanel implements Interactible {
         return currentColor.getBackground();
     }
 
-    public void setColorButtonIsEnabled(String colorButtonName, boolean isEnabled){
-        switch (colorButtonName){
-            case "red" -> redButton.setEnabled(isEnabled);
-            case "green" -> greenButton.setEnabled(isEnabled);
-            case "blue" -> blueButton.setEnabled(isEnabled);
+    public void resetPanel(){
+        redSlider.setValue(127);
+        redColorPreview.setBackground(new Color(redSlider.getValue(), 0, 0));
+        greenSlider.setValue(127);
+        greenColorPreview.setBackground(new Color(0, greenSlider.getValue(), 0));
+        blueSlider.setValue(127);
+        blueColorPreview.setBackground(new Color(0, 0, blueSlider.getValue()));
+        currentColor.setBackground(new Color(255, 255, 255));
+        leftChancesLabel.setText("Chances: 3");
+    }
+
+    public void setPreviewColor(String colorName, int singleColorValue){
+        switch (colorName){
+            case "red" -> redColorPreview.setBackground(new Color(singleColorValue, 0, 0));
+            case "green" -> greenColorPreview.setBackground(new Color(0, singleColorValue, 0));
+            case "blue" -> blueColorPreview.setBackground(new Color(0, 0, singleColorValue));
         }
     }
 
-    public void resetPanel(){
-        redButton.setEnabled(true);
-        greenButton.setEnabled(true);
-        blueButton.setEnabled(true);
-        currentColor.setBackground(new Color(0,0,0));
-        redButton.setBackground(Color.RED);
-        greenButton.setBackground(Color.GREEN);
-        blueButton.setBackground(Color.BLUE);
-        redButton.setText("");
-        greenButton.setText("");
-        blueButton.setText("");
+    public void setCurrentColorColor(Color color){
+        currentColor.setBackground(color);
+    }
+
+    public void setLeftChancesLabel(int leftChances){
+        leftChancesLabel.setText("Chances: " + leftChances);
+    }
+
+    public void setSliderIsEnabled(String colorName, boolean isEnabled){
+        switch (colorName){
+            case "red" -> redSlider.setEnabled(isEnabled);
+            case "green" -> greenSlider.setEnabled(isEnabled);
+            case "blue" -> blueSlider.setEnabled(isEnabled);
+        }
+    }
+
+    @Override
+    public void addButtonListener(ActionListener listener, String buttonId) {
+        confirmButton.addActionListener(listener);
+    }
+
+
+    public void addSliderChangeListener(ChangeListener listener, String colorName){
+        switch (colorName){
+            case "red" -> redSlider.addChangeListener(listener);
+            case "green" -> greenSlider.addChangeListener(listener);
+            case "blue" -> blueSlider.addChangeListener(listener);
+        }
+    }
+
+    public void specialRepaint() {
+        repaint();
+        this.setBackground(new Color(0, 0, 0, 220));
+        leftChancesLabel.setBackground(new Color(0, 0, 0, 220));
     }
 }
