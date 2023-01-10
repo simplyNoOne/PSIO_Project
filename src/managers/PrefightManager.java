@@ -56,38 +56,40 @@ public class PrefightManager {
         public void actionPerformed(ActionEvent e) {
             System.out.println("Confirm button has been clicked!");
             if(!MainApp.getPlayer().getInventory().getCollectibles().isEmpty() && MainApp.getPlayer().getActiveCollectible()!=null){
-            switch (MainApp.getPlayer().getActiveCollectible().getName()) {
+                for(int i=0;i<MainApp.getPlayer().getActiveCollectible().size();i++){
+            switch (MainApp.getPlayer().getActiveCollectible().get(i).getName()) {
                 case "collectible1":
 
-                    MainApp.getPlayer().increse_health(MainApp.getPlayer().getActiveCollectible().getValue());
+                    MainApp.getPlayer().increse_health(MainApp.getPlayer().getActiveCollectible().get(i).getValue());
                   
                     
                     break;
                 
                 case "collectible2":
-                    MainApp.getPlayer().increase_damage(MainApp.getPlayer().getActiveCollectible().getValue());
+                    MainApp.getPlayer().increase_damage(MainApp.getPlayer().getActiveCollectible().get(i).getValue());
                     
                     break;
 
                 case "collectible3":
-                MainApp.getPlayer().increase_armour(MainApp.getPlayer().getActiveCollectible().getValue());
+                MainApp.getPlayer().increase_armour(MainApp.getPlayer().getActiveCollectible().get(i).getValue());
                 break;
                 case "collectible4":
-                    MainApp.getPlayer().increase_dodge(MainApp.getPlayer().getActiveCollectible().getValue());
+                    MainApp.getPlayer().increase_dodge(MainApp.getPlayer().getActiveCollectible().get(i).getValue());
                   
                     
                     break;
                 case "collectible5":
-                    MainApp.getPlayer().increase_critical(MainApp.getPlayer().getActiveCollectible().getValue());
+                    MainApp.getPlayer().increase_critical(MainApp.getPlayer().getActiveCollectible().get(i).getValue());
                     
                       
                     break;
                 default:
                     break;
             }
+            MainApp.getPlayer().getInventory().deleteCollectible(MainApp.getPlayer().getActiveCollectible().get(i));  
         }
-        ((StatsPanel) ManagerHandler.getGUIManager().getPanel("playerStats")).updateStats();
-        MainApp.getPlayer().getInventory().deleteCollectible(MainApp.getPlayer().getActiveCollectible());   
+    }
+        ((StatsPanel) ManagerHandler.getGUIManager().getPanel("playerStats")).updateStats();   
             StateMachine.nextState();
         }
     }
