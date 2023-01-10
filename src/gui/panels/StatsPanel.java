@@ -75,6 +75,6 @@ abstract public class StatsPanel extends CustomPanel{
 
     }
 
-    public abstract void updateStats();
+    public void updateStats(){this.revalidate();}
 
 }

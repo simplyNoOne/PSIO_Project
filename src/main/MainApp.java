@@ -79,7 +79,6 @@ public class MainApp implements Runnable{
             begin = now = System.nanoTime();
             dT = now - end;
             StateMachine.update( dT/SEC_IN_NANOS);
-            //gameFrame.repaint();
             end = System.nanoTime();
             long wait = (long)((timePerFrame - (begin - end))/1_000_000);
             try {

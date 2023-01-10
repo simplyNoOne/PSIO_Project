@@ -13,20 +13,24 @@ import java.util.Random;
 
 public class FightManager implements ScoreModifier {
 
+
     private String message; // fight round info displayed in GUI, like "Player hits enemy..."
     private Character attacker; // abstract handle, can change between Player and Enemy. Convenient to use as a class field
     private Character defender; // the other character
     private Boolean playerWon = null; // Fight result. Wrapping as a non-primitive boolean gives possibility to set result as null when it's unknown
 
+    private boolean prevFightWon;       //stores the result of the fight, to be accessed by fight results
     private int numPlayerAttacks;
 
     private static final int DAMAGE_RANDOMIZATION_PERCENT = 10; // Damage slightly randomized e.g. base hit 100 will really be a random from 90 ... 110
     private static final int CRITICAL_MULTIPLIER = 2; // 2x (double) damage in case of a critical hit
     private static final int PHASE_DELAY_SECS = 2; // time interval between next phases in round (setup attacker, damage). Needed to update GUI for the user
 
+    private boolean wait = false;       //makes sure that refreshing the screen doesn't happen while changing message text
     private boolean isRoundStarting = true;
     private double timeSinceLastPhase; // time between FightManager's calls. Phases of each round: 1) preparing, 2) damage
 
+   
 
     public void init() {
         message = "Opponents approach each other...";
@@ -42,6 +46,8 @@ public class FightManager implements ScoreModifier {
 
 
     public void attemptToFightRound(double deltaTime) {
+        if(!wait)
+            MainApp.getGameFrame().repaint();
         timeSinceLastPhase += deltaTime;
         if (timeSinceLastPhase > PHASE_DELAY_SECS) {
             timeSinceLastPhase = 0;
@@ -81,9 +87,10 @@ public class FightManager implements ScoreModifier {
 
         isRoundStarting = false; // round is set up and damage ready to be dealt
         message = "Now " + attacker.getName() + " charges...";
+        wait = true;
         ((FightPanel) ManagerHandler.getGUIManager().getPanel("fight")).setMessage(message);
-
         MainApp.getGameFrame().repaint();
+        wait = false;
     }
 
 
@@ -128,9 +135,10 @@ public class FightManager implements ScoreModifier {
             ((StatsPanel) ManagerHandler.getGUIManager().getPanel("enemyStats")).updateStats();
             numPlayerAttacks++;
         }
+        wait = true;
         ((FightPanel) ManagerHandler.getGUIManager().getPanel("fight")).setMessage(message);
         MainApp.getGameFrame().repaint();
-
+        wait = false;
         setFightResult();
         isRoundStarting = true;
     }
@@ -157,10 +165,13 @@ public class FightManager implements ScoreModifier {
 
         if (damage > 0) {
             defender.setHealth(defender.getHealth() - damage);
-            message += String.format("Boom! %s hits %s with %d damage!\n", attacker.getName(),  defender.getName(), damage);
+            String temp = String.format("%s hits %s with %d damage!", attacker.getName(),  defender.getName(), damage);
+            message +="Boom! " + System.lineSeparator();
+            message += temp;
+
         }
         else {
-            message += String.format("%s 's armor has blocked the attack!\n", defender.getName());
+            message += String.format("%s 's armor has blocked the attack!", defender.getName());
         }
     }
 
@@ -225,6 +236,7 @@ public class FightManager implements ScoreModifier {
     }
 
     private void finishFight(){
+        prevFightWon = playerWon;
         if (playerWon) {
             if(MainApp.getEnemy().getIsBoss())
                 StateMachine.setNextStateVar(StateMachine.State.LEVELUP);
@@ -238,6 +250,8 @@ public class FightManager implements ScoreModifier {
         MainApp.getPlayer().resetActiveWeapon(); // un-equip weapon after fight
         StateMachine.nextState();
     }
+
+    public boolean getPrevFightWon(){return prevFightWon;}
 
     @Override
     public int getScoreModifier() {
