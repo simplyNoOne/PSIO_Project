@@ -30,6 +30,7 @@ public class FightManager implements ScoreModifier {
     private boolean isRoundStarting = true;
     private double timeSinceLastPhase; // time between FightManager's calls. Phases of each round: 1) preparing, 2) damage
 
+   
 
     public void init() {
         message = "Opponents approach each other...";

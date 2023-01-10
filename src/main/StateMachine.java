@@ -144,7 +144,6 @@ public class StateMachine {
                 System.out.println("done");
             }
             public void update(double deltaTime) {
-                //MainApp.getGameFrame().repaint();
                 ManagerHandler.getFightManager().attemptToFightRound(deltaTime);
             }
 
