@@ -12,11 +12,7 @@ import javax.swing.event.ChangeListener;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.awt.*;
-import java.awt.event.*;
 import java.io.*;
-import java.nio.file.Files;
-import java.nio.file.Path;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Random;
@@ -30,7 +26,8 @@ public class PuzzleManager {
         public void actionPerformed(ActionEvent e) {
             if(((QuizPanel.QuizButton) e.getSource()).isEnabled()) {
                 String answer = ((JButton) e.getSource()).getText();
-                if (answer.equals(actualQuiz.getCorrect_answer()))
+                answer = answer.replace("<br>", "").replace("</br>", "").replace("<html><center>", "").replace("</center></html>", "");
+                if(answer.equals(actualQuiz.getCorrect_answer()))
                     StateMachine.setNextStateVar(StateMachine.State.SCROLL_BG);
                 else
                     StateMachine.setNextStateVar(StateMachine.State.PREFIGHT);
@@ -50,7 +47,7 @@ public class PuzzleManager {
                 case "green" -> currentColor = new Color(currentColor.getRed(), ((JSlider) e.getSource()).getValue(), currentColor.getBlue());
                 case "blue" -> currentColor = new Color(currentColor.getRed(), currentColor.getGreen(), ((JSlider) e.getSource()).getValue());
             }
-            ((ColorGamePanel)GUIManager.getPanel("colorgame")).specialRepaint();
+            GUIManager.getPanel("colorgame").revalidate();
         }
     }
 
@@ -90,28 +87,29 @@ public class PuzzleManager {
     public static void newPuzzle(){
 
         if(new Random().nextInt(0, 2) == 0)
-             {
+        {
+            puzzleType = "quiz";
             GUIManager.addPanel("quiz", "game");
             refreshQuiz();
             GUIManager.getPane("game").repaint();
-            puzzleType = "quiz";
         }
         else {
+            puzzleType = "colorgame";
             GUIManager.addPanel("colorgame", "game");
             refreshColorGame();
             GUIManager.getPane("game").repaint();
-            puzzleType = "colorgame";
         }
     }
 
     public static void refreshColorGame(){
-        leftChanceNumber = 3;
+        leftChanceNumber = 5;
         ((ColorGamePanel)GUIManager.getPanel("colorgame")).resetPanel();
         int red = new Random().nextInt(0, 256);
         int green = new Random().nextInt(0, 256);
         int blue = new Random().nextInt(0, 256);
         ((ColorGamePanel)GUIManager.getPanel("colorgame")).setExpectedColor(new Color(red, green, blue));
         expectedColor = new Color(red, green, blue);
+        currentColor = new Color(127, 127, 127);
         System.out.println(expectedColor);
     }
 
@@ -178,6 +176,7 @@ public class PuzzleManager {
     }
 
     private static void checkIfColorIsCorrect() {
+        System.out.println(currentColor);
         boolean redCorrect = false;
         boolean greenCorrect = false;
         boolean blueCorrect = false;
@@ -192,24 +191,34 @@ public class PuzzleManager {
         if(Math.abs(expectedColor.getBlue() - currentColor.getBlue()) <= tolerance)
             blueCorrect = true;
 
-        if(redCorrect && greenCorrect && blueCorrect){
-            StateMachine.setNextStateVar(StateMachine.State.SCROLL_BG);
-            StateMachine.nextState();
-        }
-        else {
+        if(!redCorrect || !greenCorrect || !blueCorrect){
             if (leftChanceNumber > 0) {
                 leftChanceNumber--;
                 ((ColorGamePanel) GUIManager.getPanel("colorgame")).setLeftChancesLabel(leftChanceNumber);
-                if (!redCorrect)
-                    ((ColorGamePanel) GUIManager.getPanel("colorgame")).setSliderIsEnabled("red", true);
-                if (!greenCorrect)
-                    ((ColorGamePanel) GUIManager.getPanel("colorgame")).setSliderIsEnabled("green", true);
-                if (!blueCorrect)
-                    ((ColorGamePanel) GUIManager.getPanel("colorgame")).setSliderIsEnabled("blue", true);
+                if (redCorrect)
+                    ((ColorGamePanel) GUIManager.getPanel("colorgame")).setSliderIsEnabled("red", false);
+                if (greenCorrect)
+                    ((ColorGamePanel) GUIManager.getPanel("colorgame")).setSliderIsEnabled("green", false);
+                if (blueCorrect)
+                    ((ColorGamePanel) GUIManager.getPanel("colorgame")).setSliderIsEnabled("blue", false);
             } else {
+                try {
+                    Thread.sleep(3000);
+                } catch (InterruptedException e) {
+                    throw new RuntimeException(e);
+                }
                 StateMachine.setNextStateVar(StateMachine.State.PREFIGHT);
                 StateMachine.nextState();
             }
+        }
+        else {
+            try {
+                Thread.sleep(3000);
+            } catch (InterruptedException e) {
+                throw new RuntimeException(e);
+            }
+            StateMachine.setNextStateVar(StateMachine.State.SCROLL_BG);
+            StateMachine.nextState();
         }
     }
 }

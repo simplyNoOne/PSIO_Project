@@ -60,7 +60,7 @@ public class ColorGamePanel extends CustomPanel implements Interactible {
             g2.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
             g2.setColor(slider.getBackground());
             if (slider.getOrientation() == JSlider.VERTICAL) {
-                g2.fillRoundRect(slider.getWidth() / 2 - 2, 2, 4, slider.getHeight(), 1, 1);
+                g2.fillRoundRect(slider.getWidth() / 2 - 3, 2, 4, slider.getHeight(), 1, 1);
             } else {
                 g2.fillRoundRect(2, slider.getHeight() / 2 - 2, slider.getWidth() - 5, 4, 1, 1);
             }
@@ -103,9 +103,8 @@ public class ColorGamePanel extends CustomPanel implements Interactible {
         redSlider.setOrientation(JSlider.VERTICAL);
         redSlider.setMinimum(0);
         redSlider.setMaximum(255);
-        redSlider.setMajorTickSpacing(51);
-        redSlider.setMinorTickSpacing(1);
         redSlider.setValue(127);
+        redSlider.setForeground(Color.RED);
         redSlider.setLocation(190, 250);
         redSlider.setSize(20, 125);
         redSlider.setName("red");
@@ -114,14 +113,15 @@ public class ColorGamePanel extends CustomPanel implements Interactible {
         redColorPreview.setBounds(175, 180, 50, 50);
         redColorPreview.setOpaque(true);
         redColorPreview.setBackground(new Color(redSlider.getValue(), 0, 0));
+        redColorPreview.setForeground(Color.GREEN);
+        redColorPreview.setBorder(BorderFactory.createLineBorder(Color.WHITE, 1));
         this.add(redColorPreview);
 
         greenSlider.setOrientation(JSlider.VERTICAL);
         greenSlider.setMinimum(0);
         greenSlider.setMaximum(255);
-        greenSlider.setMajorTickSpacing(51);
-        greenSlider.setMinorTickSpacing(1);
         greenSlider.setValue(127);
+        greenSlider.setForeground(Color.GREEN);
         greenSlider.setLocation(340, 250);
         greenSlider.setSize(20, 125);
         greenSlider.setName("green");
@@ -130,14 +130,16 @@ public class ColorGamePanel extends CustomPanel implements Interactible {
         greenColorPreview.setBounds(325, 180, 50, 50);
         greenColorPreview.setOpaque(true);
         greenColorPreview.setBackground(new Color(0, greenSlider.getValue(), 0));
+        greenColorPreview.setForeground(Color.BLUE);
+        greenColorPreview.setBorder(BorderFactory.createLineBorder(Color.WHITE, 1));
+
         this.add(greenColorPreview);
 
         blueSlider.setOrientation(JSlider.VERTICAL);
         blueSlider.setMinimum(0);
         blueSlider.setMaximum(255);
-        blueSlider.setMajorTickSpacing(51);
-        blueSlider.setMinorTickSpacing(1);
         blueSlider.setValue(127);
+        blueSlider.setForeground(Color.BLUE);
         blueSlider.setLocation(490, 250);
         blueSlider.setSize(20, 125);
         blueSlider.setName("blue");
@@ -146,11 +148,16 @@ public class ColorGamePanel extends CustomPanel implements Interactible {
         blueColorPreview.setBounds(475, 180, 50, 50);
         blueColorPreview.setOpaque(true);
         blueColorPreview.setBackground(new Color(0, 0, blueSlider.getValue()));
+        blueColorPreview.setForeground(Color.RED);
+        blueColorPreview.setBorder(BorderFactory.createLineBorder(Color.WHITE, 1));
+
         this.add(blueColorPreview);
 
         currentColor.setBounds(100, 50, 200, 100);
         currentColor.setOpaque(true);
         currentColor.setBackground(new Color(255, 255, 255));
+        currentColor.setBorder(BorderFactory.createLineBorder(Color.WHITE, 1));
+
         this.add(currentColor);
 
         currentColorText.setBounds(100, 25, 200, 25);
@@ -159,6 +166,7 @@ public class ColorGamePanel extends CustomPanel implements Interactible {
 
         expectedColor.setBounds(400, 50, 200, 100);
         expectedColor.setOpaque(true);
+        expectedColor.setBorder(BorderFactory.createLineBorder(Color.WHITE, 1));
         this.add(expectedColor);
 
         expectedColorText.setBounds(400, 25, 200, 25);
@@ -171,7 +179,6 @@ public class ColorGamePanel extends CustomPanel implements Interactible {
 
         leftChancesLabel.setBounds(5, 5, 100, 20);
         leftChancesLabel.setFont(new Font(Font.SANS_SERIF, Font.PLAIN, 17));
-        leftChancesLabel.setBackground(new Color(255, 255, 255, 220));
         leftChancesLabel.setForeground(new Color(255, 255, 255));
         this.add(leftChancesLabel);
 
@@ -182,23 +189,21 @@ public class ColorGamePanel extends CustomPanel implements Interactible {
         expectedColor.setForeground(new Color(255-color.getRed(), 255-color.getGreen(), 255-color.getBlue()));
     }
 
-    public Color getExpectedColor(){
-        return expectedColor.getBackground();
-    }
-
-    public Color getCurrentColor() {
-        return currentColor.getBackground();
-    }
-
     public void resetPanel(){
         redSlider.setValue(127);
+        redSlider.setEnabled(true);
         redColorPreview.setBackground(new Color(redSlider.getValue(), 0, 0));
+        redColorPreview.setText("");
         greenSlider.setValue(127);
+        greenSlider.setEnabled(true);
         greenColorPreview.setBackground(new Color(0, greenSlider.getValue(), 0));
+        greenColorPreview.setText("");
         blueSlider.setValue(127);
+        blueSlider.setEnabled(true);
         blueColorPreview.setBackground(new Color(0, 0, blueSlider.getValue()));
+        blueColorPreview.setText("");
         currentColor.setBackground(new Color(255, 255, 255));
-        leftChancesLabel.setText("Chances: 3");
+        leftChancesLabel.setText("Chances: 5");
     }
 
     public void setPreviewColor(String colorName, int singleColorValue){
@@ -219,9 +224,18 @@ public class ColorGamePanel extends CustomPanel implements Interactible {
 
     public void setSliderIsEnabled(String colorName, boolean isEnabled){
         switch (colorName){
-            case "red" -> redSlider.setEnabled(isEnabled);
-            case "green" -> greenSlider.setEnabled(isEnabled);
-            case "blue" -> blueSlider.setEnabled(isEnabled);
+            case "red" -> {
+                redSlider.setEnabled(isEnabled);
+                redColorPreview.setText("     OK");
+            }
+            case "green" -> {
+                greenSlider.setEnabled(isEnabled);
+                greenColorPreview.setText("     OK");
+            }
+            case "blue" -> {
+                blueSlider.setEnabled(isEnabled);
+                blueColorPreview.setText("     OK");
+            }
         }
     }
 
@@ -239,9 +253,4 @@ public class ColorGamePanel extends CustomPanel implements Interactible {
         }
     }
 
-    public void specialRepaint() {
-        repaint();
-        this.setBackground(new Color(0, 0, 0, 220));
-        leftChancesLabel.setBackground(new Color(0, 0, 0, 220));
-    }
 }

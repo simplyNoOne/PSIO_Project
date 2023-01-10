@@ -10,7 +10,7 @@ What is the correct way to declare a main method in a Java class?	<public static
 What is the correct way to handle an exception in Java?	<throw new Exception();catch(Exception e) {};try {} catch(Exception e) {};All of the above>	2
 What is the base class for all Swing components in Java?	<JComponent;Component;Container;Widget >	0
 What is the correct way to create a new button in Swing?	<JButton button = new Button();JButton button = new JButton();Button button = new JButton();Button button = new Button()>	1
-Mathematical analysis of quicksort shows that, on average, the algorithm takes O(n*log(n)) comparisons to sort n items. In the worst case, it makes O(n^2) comparisons. Which of the sorting algorithms fits this description?	<Bubble Sort;Merge Sort;Quick Sort;Selection Sort>	2
+Mathematical analysis of ___ shows that, on average, the algorithm takes O(n*log(n)) comparisons to sort n items. In the worst case, it makes O(n^2) comparisons. Which of the sorting algorithms fits this description?	<Bubble Sort;Merge Sort;Quick Sort;Selection Sort>	2
 What is the correct way to retrieve a component from a container in Swing?	<container.getComponent(index);container.fetchComponent(index);container.retrieveComponent(index);container.findComponent(index)>	0
 What is the main reason for using Java?	<To write efficient code;To write code that is easy to read and understand;To write code that is easy to maintain and debug;To write code that can run on any device with a Java Virtual Machine (JVM)>	3
 Java is short for "JavaScript"	<True;False>	1
