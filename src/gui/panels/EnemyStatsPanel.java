@@ -42,6 +42,6 @@ public class EnemyStatsPanel extends StatsPanel{
         baseDamageVal.setText(Integer.toString(MainApp.getEnemy().getBaseDamage()));
         critChanceVal.setText(Integer.toString(MainApp.getEnemy().getCriticalChance()));
         dodgeChanceVal.setText(Integer.toString(MainApp.getEnemy().getDodgeChance()));
-        this.revalidate();
+        super.updateStats();
     }
 }

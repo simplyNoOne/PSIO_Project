@@ -42,7 +42,7 @@ public class PlayerStatsPanel extends StatsPanel{
         baseDamageVal.setText(Integer.toString(MainApp.getPlayer().getBaseDamage()));
         critChanceVal.setText(Integer.toString(MainApp.getPlayer().getCriticalChance()));
         dodgeChanceVal.setText(Integer.toString(MainApp.getPlayer().getDodgeChance()));
-        this.revalidate();
+        super.updateStats();
     }
 
 }

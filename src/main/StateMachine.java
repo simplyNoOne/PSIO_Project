@@ -144,6 +144,7 @@ public class StateMachine {
                 System.out.println("done");
             }
             public void update(double deltaTime) {
+                //MainApp.getGameFrame().repaint();
                 ManagerHandler.getFightManager().attemptToFightRound(deltaTime);
             }
 
@@ -157,16 +158,19 @@ public class StateMachine {
         },
         FIGHT_RESULTS{
             public void initState(){
+                MainApp.getGameFrame().revalidate();
+                ManagerHandler.getFightResultsManager().prepResults();
                 ManagerHandler.getGUIManager().removePanel("enemyStats", "game");
                 ManagerHandler.getGUIManager().addPanel("fightResults", "game");
-                MainApp.getGameFrame().setVisible(true);
-                MainApp.getGameFrame().setVisible(true);
+                MainApp.getGameFrame().repaint();
+
             }
             public void update(double deltaTime) {}
 
             public void nextState() {
                 ManagerHandler.getGUIManager().removePanel("fightResults", "game");
                 StateMachine.setCurrentState(nextStateVar);
+
 
                 currentState.initState();
             }

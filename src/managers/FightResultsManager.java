@@ -1,5 +1,6 @@
 package managers;
 
+import gui.panels.FightResultsPanel;
 import interfaces.Interactible;
 import main.ManagerHandler;
 import main.StateMachine;
@@ -25,6 +26,10 @@ public class FightResultsManager {
     public void init()
     {
         ((Interactible) ManagerHandler.getGUIManager().getPanel("fightResults")).addButtonListener(okButtonListener, "ok");
+    }
+
+    public void prepResults(){
+        ((FightResultsPanel)ManagerHandler.getGUIManager().getPanel("fightResults")).updateMessage();
     }
 
 }
