@@ -24,7 +24,8 @@ public class Player extends Character {
     private int enemiesApproached;
 
     private Weapon activeWeapon;
-    private Collectible activeCollectible;
+    private ArrayList<Collectible> activeCollectibles;
+    
 
     private int Level;
 
@@ -38,6 +39,7 @@ public class Player extends Character {
         this.inventory = new Inventory();
         this.score = 0;
         this.enemiesApproached = 0;
+        this.activeCollectibles = new ArrayList<>();
 
     }
 
@@ -102,14 +104,16 @@ public class Player extends Character {
     public void setActiveCollectible(String collectibleName){
         for(Collectible collectible : this.getInventory().getCollectibles())
             if(collectible.getName().equals(collectibleName)) {
-                activeCollectible = collectible;
+                
+
+                activeCollectibles.add(collectible);
                 break;
             }
     }
 
-    public void resetActiveCollectible(){activeCollectible = null;}
+    public void resetActiveCollectible(){activeCollectibles = null;}
 
-    public Collectible getActiveCollectible(){return activeCollectible;}
+    public ArrayList<Collectible> getActiveCollectible(){return activeCollectibles;}
 
     public void hover(int distance){
         double temp = distance/4.5;

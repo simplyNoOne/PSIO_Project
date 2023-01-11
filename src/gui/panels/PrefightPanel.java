@@ -77,10 +77,10 @@ public class PrefightPanel extends CustomPanel implements Interactible {
 
         public void buttonSelected(){
 
-            collectibleButtons.forEach((key, value) -> {
-                value.setBorder(new LineBorder(Color.black, 2));
-                value.selected = false;
-            });
+            // TODO collectibleButtons.forEach((key, value) -> {
+            //     value.setBorder(new LineBorder(Color.black, 2));
+            //     value.selected = false;
+            // });
             this.setBorder(new LineBorder(Color.white, 2));
             selected = true;
         }
