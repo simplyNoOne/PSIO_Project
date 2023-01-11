@@ -5,6 +5,7 @@ import data.Texture;
 import gui.panels.LevelUpPanel;
 import gui.panels.StatsPanel;
 import interfaces.Interactible;
+import main.ManagerHandler;
 import main.MainApp;
 import main.StateMachine;
 
@@ -59,9 +60,9 @@ public class LevelUpManager {
         }
     }
 
-    public static void init() {
+    public void init() {
         initStatsButtons();
-        ((LevelUpPanel) GUIManager.getPanel("levelup")).update();
+        ((LevelUpPanel) ManagerHandler.getGUIManager().getPanel("levelup")).update();
     }
 
     public static void generalLevelUp() {

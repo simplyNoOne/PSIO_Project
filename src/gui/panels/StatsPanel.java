@@ -11,6 +11,9 @@ abstract public class StatsPanel extends CustomPanel{
 
 
     JLabel nameVal;
+
+    JLabel levelVal;
+    JLabel maxHealthVal;
     JLabel currentHealthVal;
     JLabel armorVal;
     JLabel baseDamageVal;
@@ -18,6 +21,8 @@ abstract public class StatsPanel extends CustomPanel{
     JLabel dodgeChanceVal;
 
     JLabel nameTitle;
+    JLabel levelTitle;
+    JLabel maxHealthTitle;
     JLabel currentHealthTitle ;
     JLabel armorTitle ;
     JLabel baseDamageTitle;
@@ -44,10 +49,12 @@ abstract public class StatsPanel extends CustomPanel{
     }
 
     StatsPanel(){
-
         super();
+        this.setLayout(null);
 
         nameVal = new ValueLabel();
+        levelVal = new ValueLabel();
+        maxHealthVal= new ValueLabel();
         currentHealthVal = new ValueLabel();
         armorVal = new ValueLabel();
         baseDamageVal = new ValueLabel();
@@ -55,6 +62,8 @@ abstract public class StatsPanel extends CustomPanel{
         dodgeChanceVal = new ValueLabel();
 
         nameTitle = new TitleLabel("Name: ");
+        levelTitle = new TitleLabel("Level: ");
+        maxHealthTitle = new TitleLabel("Max Health: ");
         currentHealthTitle = new TitleLabel("Current Health: ");
         armorTitle =new TitleLabel("Armor: ");
         baseDamageTitle = new TitleLabel("Base Damage: ");
@@ -66,6 +75,6 @@ abstract public class StatsPanel extends CustomPanel{
 
     }
 
-    public abstract void updateStats();
+    public void updateStats(){this.revalidate();}
 
 }

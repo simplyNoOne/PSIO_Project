@@ -4,6 +4,8 @@ import data.Quiz;
 import gui.panels.ColorGamePanel;
 import gui.panels.QuizPanel;
 import interfaces.Interactible;
+import interfaces.ScoreModifier;
+import main.ManagerHandler;
 import main.StateMachine;
 
 import javax.swing.*;
@@ -17,7 +19,7 @@ import java.util.Collections;
 import java.util.Random;
 import java.util.Scanner;
 
-public class PuzzleManager {
+public class PuzzleManager implements ScoreModifier {
 
     public static class QuizAnswerButtonListener implements ActionListener{
 
@@ -25,10 +27,14 @@ public class PuzzleManager {
         public void actionPerformed(ActionEvent e) {
             if(((QuizPanel.QuizButton) e.getSource()).isEnabled()) {
                 String answer = ((JButton) e.getSource()).getText();
-                if (answer.equals(actualQuiz.getCorrect_answer()))
+                if (answer.equals(actualQuiz.getCorrect_answer())){
                     StateMachine.setNextStateVar(StateMachine.State.SCROLL_BG);
-                else
+                    puzzleAnsweredRight = true;
+                }
+                else {
                     StateMachine.setNextStateVar(StateMachine.State.PREFIGHT);
+                    puzzleAnsweredRight = false;
+                }
 
                 StateMachine.nextState();
             }
@@ -39,7 +45,7 @@ public class PuzzleManager {
 
         public void mouseClicked(MouseEvent e) {
             if (((JButton) e.getSource()).isEnabled())
-                ((ColorGamePanel) GUIManager.getPanel("colorgame")).showValueOnButton(((JButton)e.getSource()).getName(), ""+(255-e.getY()));
+                ((ColorGamePanel) ManagerHandler.getGUIManager().getPanel("colorgame")).showValueOnButton(((JButton)e.getSource()).getName(), ""+(255-e.getY()));
         }
 
     }
@@ -48,58 +54,57 @@ public class PuzzleManager {
     private static final QuizAnswerButtonListener quizAnswerButtonListener = new QuizAnswerButtonListener();
     private static final MouseAdapterForColorGame colorButtonAdapter = new MouseAdapterForColorGame();
 
-    private static ArrayList<Quiz> allQuestions = loadAllQuestions();
+    private ArrayList<Quiz> allQuestions = loadAllQuestions();
     private static Quiz actualQuiz;
     private static String puzzleType;
 
+    private static boolean puzzleAnsweredRight;
 
     public static void init() {
-        ((Interactible)GUIManager.getPanel("quiz")).addButtonListener(quizAnswerButtonListener, "0");
-        ((Interactible)GUIManager.getPanel("quiz")).addButtonListener(quizAnswerButtonListener, "1");
-        ((Interactible)GUIManager.getPanel("quiz")).addButtonListener(quizAnswerButtonListener, "2");
-        ((Interactible)GUIManager.getPanel("quiz")).addButtonListener(quizAnswerButtonListener, "3");
-        ((ColorGamePanel)GUIManager.getPanel("colorgame")).addMouseListener(colorButtonAdapter, "red");
-        ((ColorGamePanel)GUIManager.getPanel("colorgame")).addMouseListener(colorButtonAdapter, "green");
-        ((ColorGamePanel)GUIManager.getPanel("colorgame")).addMouseListener(colorButtonAdapter, "blue");
+        ((Interactible)ManagerHandler.getGUIManager().getPanel("quiz")).addButtonListener(quizAnswerButtonListener, "0");
+        ((Interactible)ManagerHandler.getGUIManager().getPanel("quiz")).addButtonListener(quizAnswerButtonListener, "1");
+        ((Interactible)ManagerHandler.getGUIManager().getPanel("quiz")).addButtonListener(quizAnswerButtonListener, "2");
+        ((Interactible)ManagerHandler.getGUIManager().getPanel("quiz")).addButtonListener(quizAnswerButtonListener, "3");
+        ((ColorGamePanel)ManagerHandler.getGUIManager().getPanel("colorgame")).addMouseListener(colorButtonAdapter, "red");
+        ((ColorGamePanel)ManagerHandler.getGUIManager().getPanel("colorgame")).addMouseListener(colorButtonAdapter, "green");
+        ((ColorGamePanel)ManagerHandler.getGUIManager().getPanel("colorgame")).addMouseListener(colorButtonAdapter, "blue");
     }
 
-    public static void newPuzzle(){
+    public void newPuzzle(){
 
         if(new Random().nextInt(0, 2) == 0){
-            GUIManager.addPanel("quiz", "game");
+            ManagerHandler.getGUIManager().addPanel("quiz", "game");
             refreshQuiz();
-            GUIManager.getPane("game").repaint();
+            ManagerHandler.getGUIManager().getPane("game").repaint();
             puzzleType = "quiz";
         }
         else {
-            GUIManager.addPanel("colorgame", "game");
+            ManagerHandler.getGUIManager().addPanel("colorgame", "game");
             refreshColorGame();
-            GUIManager.getPane("game").repaint();
+            ManagerHandler.getGUIManager().getPane("game").repaint();
             puzzleType = "colorgame";
         }
     }
 
-    public static void refreshColorGame(){
+    public void refreshColorGame(){
         int red = new Random().nextInt(0, 256);
         int green = new Random().nextInt(0, 256);
         int blue = new Random().nextInt(0, 256);
-        ((ColorGamePanel)GUIManager.getPanel("colorgame")).setExpectedColor(new Color(red, green, blue));
+        ((ColorGamePanel)ManagerHandler.getGUIManager().getPanel("colorgame")).setExpectedColor(new Color(red, green, blue));
     }
 
-    public static void refreshQuiz(){
-        ((QuizPanel)GUIManager.getPanel("quiz")).setAllButtonsAsInactive();
+    public void refreshQuiz(){
+        ((QuizPanel)ManagerHandler.getGUIManager().getPanel("quiz")).setAllButtonsAsInactive();
         generateRandomQuiz();
         ArrayList<String> answers = actualQuiz.getAnswers();
         for(int answerId = 0; answerId < answers.size(); answerId++)
         {
-            ((QuizPanel)GUIManager.getPanel("quiz")).setAnswerButtonText(Integer.toString(answerId), answers.get(answerId));
+            ((QuizPanel)ManagerHandler.getGUIManager().getPanel("quiz")).setAnswerButtonText(Integer.toString(answerId), answers.get(answerId));
         }
-        ((QuizPanel)GUIManager.getPanel("quiz")).setQuestionContent(actualQuiz.getQuestion());
+        ((QuizPanel)ManagerHandler.getGUIManager().getPanel("quiz")).setQuestionContent(actualQuiz.getQuestion());
     }
 
-
-
-    public static void generateRandomQuiz()
+    public void generateRandomQuiz()
     {
         if(allQuestions.size() == 1)
             actualQuiz = allQuestions.get(0);
@@ -116,11 +121,11 @@ public class PuzzleManager {
     }
 
 
-    private static ArrayList<Quiz> loadAllQuestions() {
+    private  ArrayList<Quiz> loadAllQuestions() {
 
         ArrayList<Quiz> quizList = new ArrayList<>();
         try {
-            File questionsFile = new File("resources\\questions.txt");
+            File questionsFile = new File("resources" + File.separator + "questions.txt");
             Scanner myReader = new Scanner(questionsFile);
             while (myReader.hasNextLine()) {
                 String row = myReader.nextLine();
@@ -147,4 +152,13 @@ public class PuzzleManager {
     public static String getPuzzleType() {
         return puzzleType;
     }
+    @Override
+    public int getScoreModifier() {
+        if (puzzleAnsweredRight)
+            return actualQuiz.getScoreModifier();
+        else
+            return -10;
+    }
+
+
 }

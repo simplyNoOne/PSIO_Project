@@ -1,5 +1,6 @@
 package gui.panels;
 
+import main.ManagerHandler;
 import main.StateMachine;
 import managers.GUIManager;
 import managers.ResourceManager;
@@ -17,8 +18,8 @@ public class BackgroundPanel extends CustomPanel{
 
     public BackgroundPanel(){
 
-        currentBg = new JLabel(ResourceManager.getTexture("background"));
-        prevBg = new JLabel(ResourceManager.getTexture("background"));
+        currentBg = new JLabel(ManagerHandler.getResourceManager().getTexture("background"));
+        prevBg = new JLabel(ManagerHandler.getResourceManager().getTexture("background"));
         prevBg.setBounds(0, 0, GUIManager.getWidth(), GUIManager.getHeight());
         currentBg.setBounds(GUIManager.getWidth(), 0, GUIManager.getWidth(), GUIManager.getHeight());
 
