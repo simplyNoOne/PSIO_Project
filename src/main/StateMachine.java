@@ -212,9 +212,8 @@ public class StateMachine {
 
         FINAL_RESULTS{
             public void initState(){
+                ((FinalResultsPanel)ManagerHandler.getGUIManager().getPanel("finalResults")).updateMessage();
                 ManagerHandler.getGUIManager().addPanel("finalResults", "game");
-                MainApp.getGameFrame().setVisible(true);
-
                 ManagerHandler.getScoreManager().updateEntryInFile(MainApp.getPlayer().getName(),MainApp.getPlayer().getScore());
             }
             public void update(double deltaTime) {}

@@ -157,7 +157,7 @@ public class PuzzleManager implements ScoreModifier {
         if (puzzleAnsweredRight)
             return actualQuiz.getScoreModifier();
         else
-            return -10;
+            return -100;
     }
 
 

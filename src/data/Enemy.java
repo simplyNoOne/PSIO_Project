@@ -78,8 +78,8 @@ public class Enemy extends Character implements ScoreModifier
     @Override
     public int getScoreModifier() {
         if(isBoss)
-            return 40;
+            return 400;
         else
-            return 20;
+            return 200;
     }
 }
