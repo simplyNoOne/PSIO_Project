@@ -221,7 +221,7 @@ public class FightManager implements ScoreModifier {
         return (criticalGenerated < criticalChance); // e.g. if 35 is in [0, 70) == set representing probability = 70 %
     }
 
-    private static int blockWithArmorAndGetLeftoverDamage(int initialDamage) {
+    private int blockWithArmorAndGetLeftoverDamage(int initialDamage) {
         int damage = initialDamage;
 
         int realBlockedDamage = Math.min(initialDamage, defender.getArmor()); // armor gets worse by 25% of the blocked damage (so that small attacks won't crush an epic armor in a few hits)

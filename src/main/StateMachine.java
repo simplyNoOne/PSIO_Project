@@ -177,7 +177,7 @@ public class StateMachine {
             public void initState(){
                 ManagerHandler.getGUIManager().addPanel("levelup", "game");
                 MainApp.getGameFrame().setVisible(true);
-                GUIManager.addPanel("levelup", "game");
+                ManagerHandler.getGUIManager().addPanel("levelup", "game");
 
                 LevelUpManager.generalLevelUp();
             }

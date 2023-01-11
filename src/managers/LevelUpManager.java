@@ -29,7 +29,7 @@ public class LevelUpManager {
             }
 
             System.out.println(((LevelUpPanel.LevelUpButton) (e.getSource())).getText() + " button clicked!");
-            ((StatsPanel) GUIManager.getPanel("playerStats")).updateStats();
+            ((StatsPanel) ManagerHandler.getGUIManager().getPanel("playerStats")).updateStats();
 
             StateMachine.nextState();
         }
@@ -42,21 +42,21 @@ public class LevelUpManager {
 
         // wrapping hints with HTML to easily represent newlines in JLabels
         String hint = "<html>PHYSICAL GROWTH: <br><br>Increase max health (+30%), increase base damage (+50%)</html>";
-        ((LevelUpPanel) GUIManager.getPanel("levelup")).addChoiceHint(hint, "stat0");
+        ((LevelUpPanel) ManagerHandler.getGUIManager().getPanel("levelup")).addChoiceHint(hint, "stat0");
 
         hint = "<html>DEXTERITY TRAINING: <br><br>Increase dodge chance (+30%), critical chance (+20%)</html>";
-        ((LevelUpPanel) GUIManager.getPanel("levelup")).addChoiceHint(hint, "stat1");
+        ((LevelUpPanel) ManagerHandler.getGUIManager().getPanel("levelup")).addChoiceHint(hint, "stat1");
 
         hint = "<html>ARMOR ENHANCEMENT: <br><br>Improve armor (+100%)</html>";
-        ((LevelUpPanel) GUIManager.getPanel("levelup")).addChoiceHint(hint, "stat2");
+        ((LevelUpPanel) ManagerHandler.getGUIManager().getPanel("levelup")).addChoiceHint(hint, "stat2");
 
         for (int i = 0; i < 3; i++) {
-            Texture texture = new Texture(ResourceManager.getTexture("stat" + i).getTexturePath());
-            //((LevelUpPanel) GUIManager.getPanel("levelup")).addStatButton(statTexture, "stat" + i);
-            //((LevelUpPanel) GUIManager.getPanel("levelup")).addStatButton(Integer.toString(i + 1), "stat" + i);
-            ((LevelUpPanel) GUIManager.getPanel("levelup")).addButton(texture, "stat" + i);
+            Texture texture = new Texture(ManagerHandler.getResourceManager().getTexture("stat" + i).getTexturePath());
+            //((LevelUpPanel) ManagerHandler.getGUIManager().getPanel("levelup")).addStatButton(statTexture, "stat" + i);
+            //((LevelUpPanel) ManagerHandler.getGUIManager().getPanel("levelup")).addStatButton(Integer.toString(i + 1), "stat" + i);
+            ((LevelUpPanel) ManagerHandler.getGUIManager().getPanel("levelup")).addButton(texture, "stat" + i);
 
-            ((Interactible) GUIManager.getPanel("levelup")).addButtonListener(levelUpButtonListener, "stat" + i);
+            ((Interactible) ManagerHandler.getGUIManager().getPanel("levelup")).addButtonListener(levelUpButtonListener, "stat" + i);
         }
     }
 
@@ -70,7 +70,7 @@ public class LevelUpManager {
         player.increaseLevel(); // +1
         player.setHealth(player.getMaxHealth()); // regain life
 
-        ((StatsPanel) GUIManager.getPanel("playerStats")).updateStats(); // update the level counter for the user
+        ((StatsPanel) ManagerHandler.getGUIManager().getPanel("playerStats")).updateStats(); // update the level counter for the user
     }
 
     /** Physical growth: increase max health (+30%), increase base damage (+50%) **/
