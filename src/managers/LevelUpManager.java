@@ -36,20 +36,17 @@ public class LevelUpManager {
 
     private static final LevelUpButtonListener levelUpButtonListener = new LevelUpButtonListener();
 
-    public static void initStatsButtons(){
+    private static void initStatsButtons(){
         //Iterating over all upgradable stats
 
-        // wrapping hints with HTML to easily represent newlines on JLabels
+        // wrapping hints with HTML to easily represent newlines in JLabels
         String hint = "<html>PHYSICAL GROWTH: <br><br>Increase max health (+30%), increase base damage (+50%)</html>";
-        //((LevelUpPanel) GUIManager.getPanel("levelup")).addButton("Physical...", "stat0");
         ((LevelUpPanel) GUIManager.getPanel("levelup")).addChoiceHint(hint, "stat0");
 
         hint = "<html>DEXTERITY TRAINING: <br><br>Increase dodge chance (+30%), critical chance (+20%)</html>";
-        //((LevelUpPanel) GUIManager.getPanel("levelup")).addButton("Dexterity...", "stat1");
         ((LevelUpPanel) GUIManager.getPanel("levelup")).addChoiceHint(hint, "stat1");
 
         hint = "<html>ARMOR ENHANCEMENT: <br><br>Improve armor (+100%)</html>";
-        //((LevelUpPanel) GUIManager.getPanel("levelup")).addButton("Armor...", "stat2");
         ((LevelUpPanel) GUIManager.getPanel("levelup")).addChoiceHint(hint, "stat2");
 
         for (int i = 0; i < 3; i++) {
@@ -67,7 +64,7 @@ public class LevelUpManager {
         ((LevelUpPanel) GUIManager.getPanel("levelup")).update();
     }
 
-    public static void levelUp() {
+    public static void generalLevelUp() {
         Player player = MainApp.getPlayer();
         player.increaseLevel(); // +1
         player.setHealth(player.getMaxHealth()); // regain life

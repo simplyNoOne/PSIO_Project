@@ -1,6 +1,5 @@
 package main;
 
-import data.Enemy;
 import gui.panels.*;
 import managers.*;
 
@@ -46,8 +45,7 @@ public class StateMachine {
 
               public void nextState() {
 
-                  //setCurrentState(SCROLL_BG);
-                  setCurrentState(LEVELUP);
+                  setCurrentState(SCROLL_BG);
                   currentState.initState();
               }
 
@@ -162,6 +160,7 @@ public class StateMachine {
 
             public void nextState() {
                 GUIManager.removePanel("fightResults", "game");
+
                 StateMachine.setCurrentState(nextStateVar);
 
                 currentState.initState();
@@ -170,10 +169,10 @@ public class StateMachine {
         LEVELUP{
             public void initState(){
                 GUIManager.addPanel("levelup", "game");
-                MainApp.getGameFrame().revalidate();
-                MainApp.getGameFrame().repaint();
 
-                LevelUpManager.levelUp();
+                LevelUpManager.generalLevelUp();
+
+                System.out.println("done!");
             }
             public void update(double deltaTime) {}
 
@@ -188,9 +187,7 @@ public class StateMachine {
             public void initState(){
                 ((CharactersPanel)GUIManager.getPanel("characters")).updatePrevEnemy();
                 //here a new enemy will be generated, using a generator, ofc
-                //MainApp.setEnemy(generators.EnemyGenerator.generateEnemy());
-                // TODO FIXME temporarily, boss is always generated for testing purposes
-                MainApp.setEnemy(generators.BossGenerator.generateBoss());
+                MainApp.setEnemy(generators.EnemyGenerator.generateEnemy());
 
                 ((CharactersPanel)GUIManager.getPanel("characters")).updateEnemyTexture();
             }
@@ -203,7 +200,7 @@ public class StateMachine {
             }
 
             public void nextState() {
-
+                GUIManager.getPanel("enemyStats").revalidate();
                 StateMachine.setCurrentState(PUZZLE_OR_FIGHT);
                 currentState.initState();
             }

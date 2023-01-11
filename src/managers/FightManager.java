@@ -237,12 +237,10 @@ public class FightManager {
 
     private static void finishFight(){
         if (playerWon) {
-            //if(MainApp.getEnemy().getIsBoss())
-                //StateMachine.setNextStateVar(StateMachine.State.LEVELUP);
-            //else
-                //StateMachine.setNextStateVar(StateMachine.State.SCROLL_BG);
-            // TODO FIXME temporarily, levelUP is always there for testing purposes
-            StateMachine.setNextStateVar(StateMachine.State.LEVELUP);
+            if(MainApp.getEnemy().getIsBoss())
+                StateMachine.setNextStateVar(StateMachine.State.LEVELUP);
+            else
+                StateMachine.setNextStateVar(StateMachine.State.SCROLL_BG);
 
         } else
             StateMachine.setNextStateVar(StateMachine.State.FINAL_RESULTS);

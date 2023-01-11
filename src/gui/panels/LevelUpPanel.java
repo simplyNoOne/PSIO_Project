@@ -62,12 +62,6 @@ public class LevelUpPanel extends CustomPanel  implements Interactible {
 
             this.setBorder(new BasicBorders.ButtonBorder(Color.black, Color.black, Color.black, Color.black));
         }
-        LevelUpButton(String text){
-            this();
-            this.setText(text);
-            this.setFont(new Font("SansSerif", Font.BOLD, 30 ));
-
-        }
     }
 
     private final static int PANEL_WIDTH = 700;
@@ -81,12 +75,6 @@ public class LevelUpPanel extends CustomPanel  implements Interactible {
     public void addButton(ImageIcon texture, String buttonKey){
         LevelUpButton levelUpButton = new LevelUpButton();
         levelUpButton.setIcon(texture);
-        levelUpButton.setName(buttonKey);
-        levelUpButtons.put(buttonKey, levelUpButton);
-    }
-
-    public void addButton(String text, String buttonKey) {
-        LevelUpButton levelUpButton = new LevelUpButton(text);
         levelUpButton.setName(buttonKey);
         levelUpButtons.put(buttonKey, levelUpButton);
     }
@@ -119,8 +107,6 @@ public class LevelUpPanel extends CustomPanel  implements Interactible {
 
         this.add(new LevelUpTitle("Level up!"));
         this.add(new LevelUpHint("Choose which path you would like to advance in."));
-
-        update();
     }
 
     @Override
