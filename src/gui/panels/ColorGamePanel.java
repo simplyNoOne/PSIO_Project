@@ -113,7 +113,7 @@ public class ColorGamePanel extends CustomPanel implements Interactible {
         redColorPreview.setBounds(175, 180, 50, 50);
         redColorPreview.setOpaque(true);
         redColorPreview.setBackground(new Color(redSlider.getValue(), 0, 0));
-        redColorPreview.setForeground(Color.GREEN);
+        redColorPreview.setForeground(Color.WHITE);
         redColorPreview.setBorder(BorderFactory.createLineBorder(Color.WHITE, 1));
         this.add(redColorPreview);
 
@@ -130,7 +130,7 @@ public class ColorGamePanel extends CustomPanel implements Interactible {
         greenColorPreview.setBounds(325, 180, 50, 50);
         greenColorPreview.setOpaque(true);
         greenColorPreview.setBackground(new Color(0, greenSlider.getValue(), 0));
-        greenColorPreview.setForeground(Color.BLUE);
+        greenColorPreview.setForeground(Color.WHITE);
         greenColorPreview.setBorder(BorderFactory.createLineBorder(Color.WHITE, 1));
 
         this.add(greenColorPreview);
@@ -148,7 +148,7 @@ public class ColorGamePanel extends CustomPanel implements Interactible {
         blueColorPreview.setBounds(475, 180, 50, 50);
         blueColorPreview.setOpaque(true);
         blueColorPreview.setBackground(new Color(0, 0, blueSlider.getValue()));
-        blueColorPreview.setForeground(Color.RED);
+        blueColorPreview.setForeground(Color.WHITE);
         blueColorPreview.setBorder(BorderFactory.createLineBorder(Color.WHITE, 1));
 
         this.add(blueColorPreview);
@@ -222,19 +222,21 @@ public class ColorGamePanel extends CustomPanel implements Interactible {
         leftChancesLabel.setText("Chances: " + leftChances);
     }
 
-    public void setSliderIsEnabled(String colorName, boolean isEnabled){
+    public void setSliderAsFinal(String colorName, boolean isEnabled, boolean correctAnswer){
+        String text = "     OK";
+        if(!correctAnswer) text = " WRONG";
         switch (colorName){
             case "red" -> {
                 redSlider.setEnabled(isEnabled);
-                redColorPreview.setText("     OK");
+                redColorPreview.setText(text);
             }
             case "green" -> {
                 greenSlider.setEnabled(isEnabled);
-                greenColorPreview.setText("     OK");
+                greenColorPreview.setText(text);
             }
             case "blue" -> {
                 blueSlider.setEnabled(isEnabled);
-                blueColorPreview.setText("     OK");
+                blueColorPreview.setText(text);
             }
         }
     }

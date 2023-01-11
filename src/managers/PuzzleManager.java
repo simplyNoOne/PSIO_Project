@@ -69,6 +69,7 @@ public class PuzzleManager {
     private static Color currentColor = new Color(255, 255, 255);
     private static int tolerance = 20;
     private static int leftChanceNumber;
+    private static boolean colorGameFinished = false;
 
 
 
@@ -103,6 +104,7 @@ public class PuzzleManager {
 
     public static void refreshColorGame(){
         leftChanceNumber = 5;
+        colorGameFinished = false;
         ((ColorGamePanel)GUIManager.getPanel("colorgame")).resetPanel();
         int red = new Random().nextInt(0, 256);
         int green = new Random().nextInt(0, 256);
@@ -168,7 +170,7 @@ public class PuzzleManager {
         }
 
 
-    return quizList;
+        return quizList;
     }
 
     public static String getPuzzleType() {
@@ -196,29 +198,34 @@ public class PuzzleManager {
                 leftChanceNumber--;
                 ((ColorGamePanel) GUIManager.getPanel("colorgame")).setLeftChancesLabel(leftChanceNumber);
                 if (redCorrect)
-                    ((ColorGamePanel) GUIManager.getPanel("colorgame")).setSliderIsEnabled("red", false);
+                    ((ColorGamePanel) GUIManager.getPanel("colorgame")).setSliderAsFinal("red", false, true);
                 if (greenCorrect)
-                    ((ColorGamePanel) GUIManager.getPanel("colorgame")).setSliderIsEnabled("green", false);
+                    ((ColorGamePanel) GUIManager.getPanel("colorgame")).setSliderAsFinal("green", false, true);
                 if (blueCorrect)
-                    ((ColorGamePanel) GUIManager.getPanel("colorgame")).setSliderIsEnabled("blue", false);
-            } else {
-                try {
-                    Thread.sleep(3000);
-                } catch (InterruptedException e) {
-                    throw new RuntimeException(e);
-                }
+                    ((ColorGamePanel) GUIManager.getPanel("colorgame")).setSliderAsFinal("blue", false, true);
+            }
+            else {
+                if(!redCorrect) ((ColorGamePanel) GUIManager.getPanel("colorgame")).setSliderAsFinal("red", false, false);
+                if(!greenCorrect) ((ColorGamePanel) GUIManager.getPanel("colorgame")).setSliderAsFinal("green", false, false);
+                if(!blueCorrect) ((ColorGamePanel) GUIManager.getPanel("colorgame")).setSliderAsFinal("blue", false, false);
+                colorGameFinished = true;
                 StateMachine.setNextStateVar(StateMachine.State.PREFIGHT);
-                StateMachine.nextState();
             }
         }
         else {
-            try {
-                Thread.sleep(3000);
-            } catch (InterruptedException e) {
-                throw new RuntimeException(e);
-            }
+            ((ColorGamePanel) GUIManager.getPanel("colorgame")).setSliderAsFinal("red", false, true);
+            ((ColorGamePanel) GUIManager.getPanel("colorgame")).setSliderAsFinal("green", false, true);
+            ((ColorGamePanel) GUIManager.getPanel("colorgame")).setSliderAsFinal("blue", false, true);
+            colorGameFinished = true;
             StateMachine.setNextStateVar(StateMachine.State.SCROLL_BG);
-            StateMachine.nextState();
         }
+    }
+
+    public static boolean isColorGameFinished() {
+        return colorGameFinished;
+    }
+
+    public static void setColorGameFinished(boolean colorGameFinished) {
+        PuzzleManager.colorGameFinished = colorGameFinished;
     }
 }

@@ -91,11 +91,22 @@ public class StateMachine {
             }
         },
         PUZZLE{
+            float endingDelayTimeLeft = 3;
             public void initState(){
+                endingDelayTimeLeft = 3;
                 MainApp.getGameFrame().setVisible(true);
                 PuzzleManager.newPuzzle();
             }
-            public void update(double deltaTime) {}
+            public void update(double deltaTime) {
+                if(PuzzleManager.isColorGameFinished() && PuzzleManager.getPuzzleType().equals("colorgame")) {
+                    endingDelayTimeLeft -= deltaTime;
+                    if (endingDelayTimeLeft <= 0)
+                    {
+                        StateMachine.nextState();
+                        PuzzleManager.setColorGameFinished(false);
+                    }
+                }
+            }
 
             public void nextState() {
                 GUIManager.removePanel(PuzzleManager.getPuzzleType(), "game");
