@@ -40,14 +40,13 @@ public class PrefightManager {
             String collectibleName = ((PrefightPanel.CollectibleButton) e.getSource()).getName();
             if(((PrefightPanel.CollectibleButton) e.getSource()).getSelected()) {
                 ((PrefightPanel.CollectibleButton) e.getSource()).buttonDeselected();
-                MainApp.getPlayer().resetActiveCollectible();
+                MainApp.getPlayer().resetActiveCollectible(collectibleName);
             }
             else {
                 ((PrefightPanel.CollectibleButton) e.getSource()).buttonSelected();
                 System.out.println(collectibleName + " has been clicked!");
                 MainApp.getPlayer().setActiveCollectible(collectibleName);
             }
-//
         }
     }
     public static class ConfirmButtonListener implements ActionListener
@@ -57,39 +56,35 @@ public class PrefightManager {
             System.out.println("Confirm button has been clicked!");
             if(!MainApp.getPlayer().getInventory().getCollectibles().isEmpty() && MainApp.getPlayer().getActiveCollectible()!=null){
                 for(int i=0;i<MainApp.getPlayer().getActiveCollectible().size();i++){
-            switch (MainApp.getPlayer().getActiveCollectible().get(i).getName()) {
-                case "collectible1":
+                    switch (MainApp.getPlayer().getActiveCollectible().get(i).getName()) {
+                        case "collectible1":
+                            MainApp.getPlayer().increse_health(MainApp.getPlayer().getActiveCollectible().get(i).getValue());
+                            break;
 
-                    MainApp.getPlayer().increse_health(MainApp.getPlayer().getActiveCollectible().get(i).getValue());
-                  
-                    
-                    break;
-                
-                case "collectible2":
-                    MainApp.getPlayer().increase_damage(MainApp.getPlayer().getActiveCollectible().get(i).getValue());
-                    
-                    break;
+                        case "collectible2":
+                            MainApp.getPlayer().increase_damage(MainApp.getPlayer().getActiveCollectible().get(i).getValue());
+                            break;
 
-                case "collectible3":
-                MainApp.getPlayer().increase_armour(MainApp.getPlayer().getActiveCollectible().get(i).getValue());
-                break;
-                case "collectible4":
-                    MainApp.getPlayer().increase_dodge(MainApp.getPlayer().getActiveCollectible().get(i).getValue());
-                  
-                    
-                    break;
-                case "collectible5":
-                    MainApp.getPlayer().increase_critical(MainApp.getPlayer().getActiveCollectible().get(i).getValue());
-                    
-                      
-                    break;
-                default:
-                    break;
+                        case "collectible3":
+                        MainApp.getPlayer().increase_armour(MainApp.getPlayer().getActiveCollectible().get(i).getValue());
+                        break;
+
+                        case "collectible4":
+                            MainApp.getPlayer().increase_dodge(MainApp.getPlayer().getActiveCollectible().get(i).getValue());
+                            break;
+
+                        case "collectible5":
+                            MainApp.getPlayer().increase_critical(MainApp.getPlayer().getActiveCollectible().get(i).getValue());
+                            break;
+
+                        default:
+                            break;
+                    }
+                    MainApp.getPlayer().getInventory().deleteCollectible(MainApp.getPlayer().getActiveCollectible().get(i));
+                }
             }
-            MainApp.getPlayer().getInventory().deleteCollectible(MainApp.getPlayer().getActiveCollectible().get(i));  
-        }
-    }
-        ((StatsPanel) ManagerHandler.getGUIManager().getPanel("playerStats")).updateStats();   
+            ((StatsPanel) ManagerHandler.getGUIManager().getPanel("playerStats")).updateStats();
+            MainApp.getPlayer().clearActiveCollectibles();
             StateMachine.nextState();
         }
     }

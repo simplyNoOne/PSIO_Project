@@ -9,7 +9,7 @@ public abstract class Character
     private int criticalChance;
     private int dodgeChance;
 
-    private Vector2 location;
+    private final Vector2 location;
     
 
     
@@ -28,7 +28,7 @@ public abstract class Character
         this.location = new Vector2();
         this.name = "LongNoneName";
 
-        this.health = 80;
+        this.health = 100;
         this.armor = 10;
 
         this.baseDamage = 15;

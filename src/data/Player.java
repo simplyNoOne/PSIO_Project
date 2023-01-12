@@ -65,7 +65,11 @@ public class Player extends Character {
 
     public int getScore(){return score;}
 
-    public void modifyScore(int modifier){score += modifier;}
+    public void modifyScore(int modifier){
+        score += modifier;
+        if(score < 0)
+            score = 0;
+    }
 
 
     public void increse_health(double value){
@@ -104,14 +108,16 @@ public class Player extends Character {
     public void setActiveCollectible(String collectibleName){
         for(Collectible collectible : this.getInventory().getCollectibles())
             if(collectible.getName().equals(collectibleName)) {
-                
-
                 activeCollectibles.add(collectible);
                 break;
             }
     }
 
-    public void resetActiveCollectible(){activeCollectibles = null;}
+    public void resetActiveCollectible(String collectibleName){
+        activeCollectibles.removeIf((Collectible col) -> col.getName().equals(collectibleName));
+    }
+
+    public void clearActiveCollectibles(){activeCollectibles.clear();}
 
     public ArrayList<Collectible> getActiveCollectible(){return activeCollectibles;}
 

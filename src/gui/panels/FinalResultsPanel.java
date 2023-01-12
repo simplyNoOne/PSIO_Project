@@ -1,7 +1,9 @@
 package gui.panels;
 
+import com.sun.tools.javac.Main;
 import gui.panels.CustomPanel;
 import interfaces.Interactible;
+import main.MainApp;
 import main.ManagerHandler;
 import managers.GUIManager;
 import managers.ResourceManager;
@@ -14,46 +16,73 @@ import java.awt.event.ActionListener;
 
 public class FinalResultsPanel extends CustomPanel implements Interactible {
 
-    static class OkButton extends JButton {
 
-        static final int BUTTON_WIDTH = 150;
-        static final int BUTTON_HEIGHT = 150;
+    class OkButton extends JButton {
+
+        static final int BUTTON_WIDTH = 260;
+        static final int BUTTON_HEIGHT = 50;
 
         OkButton() {
             super();
+            this.setBorderPainted(false);
             this.setFocusPainted(false);
-            this.setBackground(Color.WHITE);
-            this.setForeground(Color.BLACK);
+            this.setFont(new Font(Font.SANS_SERIF, Font.BOLD, 23));
+            this.setBackground(new Color(5, 5, 5));
+            this.setForeground(new Color(250, 250, 250));
             this.setFocusable(false);
 
             this.setBorder(new BasicBorders.ButtonBorder(Color.black, Color.black, Color.black, Color.black));
         }
     }
 
-    private final static int PANEL_WIDTH = 700;
-    private final static int PANEL_HEIGHT = 500;
-    private final static int BUTTON_SPACE = 30;
+    class ResultsMessage extends JLabel{
+        ResultsMessage(){
+            this.setHorizontalAlignment(CENTER);
+            this.setFont(new Font(Font.SANS_SERIF, Font.BOLD, 20));
+            this.setForeground(Color.white);
+            this.setBackground(new Color(0,0,0,0));
+        }
+    }
+
+    private final static int PANEL_WIDTH = 600;
+    private final static int PANEL_HEIGHT = 300;
 
     private final OkButton okButton;
+    private ResultsMessage headerMessage;
+
+    private ResultsMessage scoreMessage;
     public FinalResultsPanel(){
 
         super();
+
+        headerMessage = new ResultsMessage();
+        headerMessage.setBounds((PANEL_WIDTH - 400)/2, 50, 400, 50);
+        this.add(headerMessage);
+
+        scoreMessage = new ResultsMessage();
+        scoreMessage.setBounds((PANEL_WIDTH - 500)/2, 110, 500, 50);
+        this.add(scoreMessage);
+
+        this.setBackground(new Color(0, 0, 0, 220));
+        this.setBounds((GUIManager.getWidth() - PANEL_WIDTH)/2, (GUIManager.getHeight() - PANEL_HEIGHT)/2, PANEL_WIDTH, PANEL_HEIGHT);
+
+
+
         okButton = new OkButton();
-
-
-        this.setBackground(new Color(220, 71, 0));
-        super.setBounds((GUIManager.getWidth() - PANEL_WIDTH)/2, (GUIManager.getHeight() - PANEL_HEIGHT)/2, PANEL_WIDTH, PANEL_HEIGHT);
-        this.setLayout(null);
-
-        okButton.setIcon(ManagerHandler.getResourceManager().getTexture("ok"));
-        int okButtonX = (PANEL_WIDTH- OkButton.BUTTON_WIDTH)/2;
-        int okButtonY = (PANEL_HEIGHT- OkButton.BUTTON_HEIGHT)/2;
+        okButton.setText("back to menu");
+        int okButtonX = (PANEL_WIDTH - OkButton.BUTTON_WIDTH)/2;
+        int okButtonY = 220;
         okButton.setBounds(okButtonX, okButtonY, OkButton.BUTTON_WIDTH, OkButton.BUTTON_HEIGHT);
         this.add(okButton);
 
 
     }
 
+    public void updateMessage(){
+            headerMessage.setText("Bad news, " + MainApp.getPlayer().getName() + ", you've died... ");
+            scoreMessage.setText("Great job though, you've scored " + MainApp.getPlayer().getScore() + " points!");
+
+    }
     public void addButtonListener(ActionListener listener, String buttonId){
         okButton.addActionListener(listener);
     }
