@@ -221,27 +221,6 @@ public class ColorGamePanel extends CustomPanel implements Interactible {
         leftChancesLabel.setText("Chances: 5");
     }
 
-    public void setExpectedColor(Color color){
-        expectedColor.setBackground(color);
-        expectedColor.setForeground(new Color(255-color.getRed(), 255-color.getGreen(), 255-color.getBlue()));
-    }
-
-    public void resetPanel(){
-        redSlider.setValue(127);
-        redSlider.setEnabled(true);
-        redColorPreview.setBackground(new Color(redSlider.getValue(), 0, 0));
-        redColorPreview.setText("");
-        greenSlider.setValue(127);
-        greenSlider.setEnabled(true);
-        greenColorPreview.setBackground(new Color(0, greenSlider.getValue(), 0));
-        greenColorPreview.setText("");
-        blueSlider.setValue(127);
-        blueSlider.setEnabled(true);
-        blueColorPreview.setBackground(new Color(0, 0, blueSlider.getValue()));
-        blueColorPreview.setText("");
-        currentColor.setBackground(new Color(255, 255, 255));
-        leftChancesLabel.setText("Chances: 5");
-    }
 
     public void setPreviewColor(String colorName, int singleColorValue){
         switch (colorName){
@@ -262,8 +241,6 @@ public class ColorGamePanel extends CustomPanel implements Interactible {
     public void setSliderAsFinal(String colorName, boolean isEnabled, boolean correctAnswer){
         String text = "      OK";
         if(!correctAnswer) text = "  WRONG";
-        String text = "     OK";
-        if(!correctAnswer) text = " WRONG";
         switch (colorName){
             case "red" -> {
                 redSlider.setEnabled(isEnabled);
