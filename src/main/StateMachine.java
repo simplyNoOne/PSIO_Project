@@ -170,7 +170,6 @@ public class StateMachine {
                 ManagerHandler.getGUIManager().removePanel("fightResults", "game");
                 StateMachine.setCurrentState(nextStateVar);
 
-
                 currentState.initState();
             }
         },
@@ -178,6 +177,9 @@ public class StateMachine {
             public void initState(){
                 ManagerHandler.getGUIManager().addPanel("levelup", "game");
                 MainApp.getGameFrame().setVisible(true);
+                ManagerHandler.getGUIManager().addPanel("levelup", "game");
+
+                LevelUpManager.generalLevelUp();
             }
             public void update(double deltaTime) {}
 
