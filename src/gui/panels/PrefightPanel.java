@@ -2,6 +2,7 @@ package gui.panels;
 
 import data.Texture;
 import interfaces.Interactible;
+import main.ManagerHandler;
 import managers.GUIManager;
 import managers.PrefightManager;
 import managers.ResourceManager;
@@ -76,10 +77,10 @@ public class PrefightPanel extends CustomPanel implements Interactible {
 
         public void buttonSelected(){
 
-            collectibleButtons.forEach((key, value) -> {
-                value.setBorder(new LineBorder(Color.black, 2));
-                value.selected = false;
-            });
+            // TODO collectibleButtons.forEach((key, value) -> {
+            //     value.setBorder(new LineBorder(Color.black, 2));
+            //     value.selected = false;
+            // });
             this.setBorder(new LineBorder(Color.white, 2));
             selected = true;
         }
@@ -166,18 +167,18 @@ public class PrefightPanel extends CustomPanel implements Interactible {
         collectibleButtons.put("collectible5", new CollectibleButton());
 
 
-        temp.add( ResourceManager.getTexture("grayAxe"));
-        temp.add( ResourceManager.getTexture("axe"));
+        temp.add( ManagerHandler.getResourceManager().getTexture("grayAxe"));
+        temp.add( ManagerHandler.getResourceManager().getTexture("axe"));
         weaponTextures.put("axe", temp );
         temp = new ArrayList<>();
 
-        temp.add( ResourceManager.getTexture("graySword"));
-        temp.add( ResourceManager.getTexture("sword"));
+        temp.add( ManagerHandler.getResourceManager().getTexture("graySword"));
+        temp.add( ManagerHandler.getResourceManager().getTexture("sword"));
         weaponTextures.put("sword", temp );
         temp = new ArrayList<>();
 
-        temp.add( ResourceManager.getTexture("grayDagger"));
-        temp.add( ResourceManager.getTexture("dagger"));
+        temp.add( ManagerHandler.getResourceManager().getTexture("grayDagger"));
+        temp.add( ManagerHandler.getResourceManager().getTexture("dagger"));
         weaponTextures.put("dagger", temp );
         temp = new ArrayList<>();
 
@@ -192,28 +193,28 @@ public class PrefightPanel extends CustomPanel implements Interactible {
         weaponButtons.forEach((key, value) -> this.add(value));
 
 
-        temp.add( ResourceManager.getTexture("grayCol1"));
-        temp.add( ResourceManager.getTexture("col1"));
+        temp.add( ManagerHandler.getResourceManager().getTexture("grayCol1"));
+        temp.add( ManagerHandler.getResourceManager().getTexture("col1"));
         collectibleTextures.put("collectible1", temp );
         temp = new ArrayList<>();
 
-        temp.add( ResourceManager.getTexture("grayCol2"));
-        temp.add( ResourceManager.getTexture("col2"));
+        temp.add( ManagerHandler.getResourceManager().getTexture("grayCol2"));
+        temp.add( ManagerHandler.getResourceManager().getTexture("col2"));
         collectibleTextures.put("collectible2", temp );
         temp = new ArrayList<>();
 
-        temp.add( ResourceManager.getTexture("grayCol3"));
-        temp.add( ResourceManager.getTexture("col3"));
+        temp.add( ManagerHandler.getResourceManager().getTexture("grayCol3"));
+        temp.add( ManagerHandler.getResourceManager().getTexture("col3"));
         collectibleTextures.put("collectible3", temp );
         temp = new ArrayList<>();
 
-        temp.add( ResourceManager.getTexture("grayCol4"));
-        temp.add( ResourceManager.getTexture("col4"));
+        temp.add( ManagerHandler.getResourceManager().getTexture("grayCol4"));
+        temp.add( ManagerHandler.getResourceManager().getTexture("col4"));
         collectibleTextures.put("collectible4", temp );
         temp = new ArrayList<>();
 
-        temp.add( ResourceManager.getTexture("grayCol5"));
-        temp.add( ResourceManager.getTexture("col5"));
+        temp.add( ManagerHandler.getResourceManager().getTexture("grayCol5"));
+        temp.add( ManagerHandler.getResourceManager().getTexture("col5"));
         collectibleTextures.put("collectible5", temp );
 
         collectibleButtons.get("collectible1").setName("collectible1");
@@ -249,11 +250,11 @@ public class PrefightPanel extends CustomPanel implements Interactible {
                 value.removeActionListener(value.getActionListeners()[0]);
         });
 
-        for( String name : PrefightManager.getActiveWeapons()) {
+        for( String name : ManagerHandler.getPrefightManager().getActiveWeapons()) {
             weaponButtons.get(name).setBackground(new Color(220, 220, 220));
             weaponButtons.get(name).setIcon(weaponTextures.get(name).get(1));
         }
-        for( String name : PrefightManager.getActiveCollectibles())
+        for( String name : ManagerHandler.getPrefightManager().getActiveCollectibles())
             collectibleButtons.get(name).setIcon(collectibleTextures.get(name).get(1));
     }
 

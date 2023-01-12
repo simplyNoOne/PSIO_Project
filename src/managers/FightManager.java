@@ -5,28 +5,35 @@ import data.Enemy;
 import data.Player;
 import gui.panels.FightPanel;
 import gui.panels.StatsPanel;
+import interfaces.ScoreModifier;
 import main.MainApp;
+import main.ManagerHandler;
 import main.StateMachine;
 import java.util.Random;
 
-public class FightManager {
+public class FightManager implements ScoreModifier {
 
-    private static String message; // fight round info displayed in GUI, like "Player hits enemy..."
-    private static Character attacker; // abstract handle, can change between Player and Enemy. Convenient to use as a class field
-    private static Character defender; // the other character
-    private static Boolean playerWon = null; // Fight result. Wrapping as a non-primitive boolean gives possibility to set result as null when it's unknown
+
+    private String message; // fight round info displayed in GUI, like "Player hits enemy..."
+    private Character attacker; // abstract handle, can change between Player and Enemy. Convenient to use as a class field
+    private Character defender; // the other character
+    private Boolean playerWon = null; // Fight result. Wrapping as a non-primitive boolean gives possibility to set result as null when it's unknown
+
+    private boolean prevFightWon;       //stores the result of the fight, to be accessed by fight results
+    private int numPlayerAttacks;
 
     private static final int DAMAGE_RANDOMIZATION_PERCENT = 10; // Damage slightly randomized e.g. base hit 100 will really be a random from 90 ... 110
     private static final int CRITICAL_MULTIPLIER = 2; // 2x (double) damage in case of a critical hit
     private static final int PHASE_DELAY_SECS = 2; // time interval between next phases in round (setup attacker, damage). Needed to update GUI for the user
 
-    private static boolean isRoundStarting = true;
-    private static double timeSinceLastPhase; // time between FightManager's calls. Phases of each round: 1) preparing, 2) damage
+    private boolean wait = false;       //makes sure that refreshing the screen doesn't happen while changing message text
+    private boolean isRoundStarting = true;
+    private double timeSinceLastPhase; // time between FightManager's calls. Phases of each round: 1) preparing, 2) damage
 
+   
 
-    public static void init() {
+    public void init() {
         message = "Opponents approach each other...";
-
         attacker = null;
         defender = null;
         playerWon = null;
@@ -34,11 +41,13 @@ public class FightManager {
         isRoundStarting = true;
         timeSinceLastPhase = 0;
 
-        ((FightPanel) GUIManager.getPanel("fight")).setMessage(message);
+        ((FightPanel) ManagerHandler.getGUIManager().getPanel("fight")).setMessage(message);
     }
 
 
-    public static void attemptToFightRound(double deltaTime) {
+    public void attemptToFightRound(double deltaTime) {
+        if(!wait)
+            MainApp.getGameFrame().repaint();
         timeSinceLastPhase += deltaTime;
         if (timeSinceLastPhase > PHASE_DELAY_SECS) {
             timeSinceLastPhase = 0;
@@ -51,14 +60,14 @@ public class FightManager {
         }
     }
 
-    public static boolean shouldFightContinue() {
+    public boolean shouldFightContinue() {
         if (playerWon == null) {
             return true;
         }
         return false;
     }
 
-    private static void fightRound() {
+    private void fightRound() {
         if (isRoundStarting) {
             prepareRound();
         }
@@ -67,36 +76,38 @@ public class FightManager {
         }
     }
 
-    private static void prepareRound() {
+    private void prepareRound() {
         if (isFightInitialized()) {
             switchAttacker();
         }
         else { // fight hasn't even started before (= 1st round!)
+            numPlayerAttacks = 0;
            chooseAttackerAndDefender();
         }
 
         isRoundStarting = false; // round is set up and damage ready to be dealt
         message = "Now " + attacker.getName() + " charges...";
-        ((FightPanel) GUIManager.getPanel("fight")).setMessage(message);
-
+        wait = true;
+        ((FightPanel) ManagerHandler.getGUIManager().getPanel("fight")).setMessage(message);
         MainApp.getGameFrame().repaint();
+        wait = false;
     }
 
 
-    private static boolean isFightInitialized() {
+    private boolean isFightInitialized() {
         if (attacker == null || defender == null)
             return false;
         return true;
     }
 
     // swap attacker and defender
-    private static void switchAttacker() {
+    private void switchAttacker() {
         Character temp = attacker;
         attacker = defender;
         defender = temp;
     }
 
-    private static void chooseAttackerAndDefender() {
+    private void chooseAttackerAndDefender() {
         // Flips a coin to decide who attacks
         boolean playerAttacks = (new Random()).nextBoolean();
 
@@ -109,7 +120,7 @@ public class FightManager {
         }
     }
 
-    private static void enterCombat() {
+    private void enterCombat() {
         message = "";
 
         if (hasDefenderDodged()) {
@@ -119,13 +130,15 @@ public class FightManager {
         }
 
         if (defender instanceof Player)
-            ((StatsPanel) GUIManager.getPanel("playerStats")).updateStats();
-        else
-            ((StatsPanel) GUIManager.getPanel("enemyStats")).updateStats();
-
-        ((FightPanel) GUIManager.getPanel("fight")).setMessage(message);
+            ((StatsPanel) ManagerHandler.getGUIManager().getPanel("playerStats")).updateStats();
+        else {
+            ((StatsPanel) ManagerHandler.getGUIManager().getPanel("enemyStats")).updateStats();
+            numPlayerAttacks++;
+        }
+        wait = true;
+        ((FightPanel) ManagerHandler.getGUIManager().getPanel("fight")).setMessage(message);
         MainApp.getGameFrame().repaint();
-
+        wait = false;
         setFightResult();
         isRoundStarting = true;
     }
@@ -133,7 +146,7 @@ public class FightManager {
     /**
      * TODO best to create new small class e.g. RandomEventManager with method: public boolean hasProbabilisticEventOccurred(int eventChance) -> used for critical hit, dodge etc.
      **/
-    private static boolean hasDefenderDodged() {
+    private boolean hasDefenderDodged() {
         // dodgeChance: 0 ... 100 %
 
         if (defender.getDodgeChance() == 0)
@@ -146,22 +159,23 @@ public class FightManager {
 
     }
 
-    private static void dealDamage() {
+    private void dealDamage() {
         int damage = calculateDamage();
         damage -= defender.getArmor();
 
         if (damage > 0) {
             defender.setHealth(defender.getHealth() - damage);
-            if (defender.getHealth() < 0)
-                defender.setHealth(0);
-            message += String.format("Boom! %s hits %s with %d damage!\n", attacker.getName(),  defender.getName(), damage);
+            String temp = String.format("%s hits %s with %d damage!", attacker.getName(),  defender.getName(), damage);
+            message +="Boom! " + System.lineSeparator();
+            message += temp;
+
         }
         else {
-            message += String.format("%s 's armor has blocked the attack!\n", defender.getName());
+            message += String.format("%s 's armor has blocked the attack!", defender.getName());
         }
     }
 
-    private static int calculateDamage() {
+    private int calculateDamage() {
         int damage = 0;
 
         if (attacker instanceof Player) {
@@ -185,7 +199,7 @@ public class FightManager {
         return damage;
     }
 
-    private static boolean isCriticalAttack() {
+    private boolean isCriticalAttack() {
         // criticalChance: 0 ... 100 %
 
         int criticalChance = attacker.getCriticalChance();
@@ -207,7 +221,7 @@ public class FightManager {
     }
 
     /** If someone's HP goes to zero, fight is over and dead character loses. **/
-    private static void setFightResult() {
+    private void setFightResult() {
         // Normally, either player or enemy survives. However, in case of a e.g. bleeding effect, both characters could die
         // The check of player health is done first, so that if player dies, player lost result is guaranteed
         // (Killing your enemy while getting bled out is a loss)
@@ -221,11 +235,12 @@ public class FightManager {
         }
     }
 
-    private static void finishFight(){
+    private void finishFight(){
+        prevFightWon = playerWon;
         if (playerWon) {
-            //if(! MainApp.getEnemy().isCanPuzzle())
-            //    StateMachine.setNextStateVar(StateMachine.State.LEVELUP);
-            //else
+            if(MainApp.getEnemy().getIsBoss())
+                StateMachine.setNextStateVar(StateMachine.State.LEVELUP);
+            else
                 StateMachine.setNextStateVar(StateMachine.State.SCROLL_BG);
 
         } else
@@ -234,5 +249,15 @@ public class FightManager {
         init(); // needed for cleanup, resets FightManager for next fights
         MainApp.getPlayer().resetActiveWeapon(); // un-equip weapon after fight
         StateMachine.nextState();
+    }
+
+    public boolean getPrevFightWon(){return prevFightWon;}
+
+    @Override
+    public int getScoreModifier() {
+        if(MainApp.getPlayer().getHealth() > 0)
+            return MainApp.getEnemy().getInitialHealth() + MainApp.getEnemy().getScoreModifier()/numPlayerAttacks;
+        else
+            return 0;
     }
 }

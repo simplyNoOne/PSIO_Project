@@ -3,6 +3,7 @@ package managers;
 import data.Texture;
 import gui.panels.LevelUpPanel;
 import interfaces.Interactible;
+import main.ManagerHandler;
 import main.StateMachine;
 
 import java.awt.event.ActionEvent;
@@ -29,18 +30,18 @@ public class LevelUpManager {
     private static final UpgradeStatsButtonListener upgradeStatsButtonListener = new UpgradeStatsButtonListener();
     private static final ConfirmButtonListener confirmButtonListener = new ConfirmButtonListener();
 
-    public static void initStatsButtons(){
+    public void initStatsButtons(){
         //Iterating over all upgradable stats
         for (int i = 0; i < 3; i++) {
-            Texture statTexture = new Texture(ResourceManager.getTexture("stat" + i).getTexturePath());
-            ((LevelUpPanel) GUIManager.getPanel("levelup")).addStatButton(statTexture, "stat" + i);
-            ((Interactible) GUIManager.getPanel("levelup")).addButtonListener(upgradeStatsButtonListener, "stat" + i);
+            Texture statTexture = new Texture(ManagerHandler.getResourceManager().getTexture("stat" + i).getTexturePath());
+            ((LevelUpPanel) ManagerHandler.getGUIManager().getPanel("levelup")).addStatButton(statTexture, "stat" + i);
+            ((Interactible) ManagerHandler.getGUIManager().getPanel("levelup")).addButtonListener(upgradeStatsButtonListener, "stat" + i);
         }
     }
 
-    public static void init() {
+    public void init() {
         initStatsButtons();
-        ((LevelUpPanel) GUIManager.getPanel("levelup")).update();
+        ((LevelUpPanel) ManagerHandler.getGUIManager().getPanel("levelup")).update();
     }
 
 

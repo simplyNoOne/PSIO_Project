@@ -13,12 +13,12 @@ public class StateMachine {
             public void initState(){}
             public void update(double deltaTime) {
 
-                ResourceManager.loadResources();
+                ManagerHandler.getResourceManager().loadResources();
 
 
                 MainApp.spawnPlayer();
                 MainApp.setEnemy(generators.EnemyGenerator.generateEnemy());
-                GUIManager.initAllPanels();
+                ManagerHandler.getGUIManager().initAllPanels();
                 nextState();
 
                 System.out.println("in start");
@@ -33,11 +33,11 @@ public class StateMachine {
         GAME{
             public void initState(){
                 //MainApp.spawnPlayer(); // in current structure, player must be spawned in the menu (earlier), because MenuManager sets player.name to Menu text field string
-                GUIManager.addPane("game");
-                GUIManager.addPanel("background", "game");
-                GUIManager.addPanel("playerStats", "game", 3);
-                GUIManager.addPanel("characters", "game", 2);
-                ((PlayerStatsPanel)GUIManager.getPanel("playerStats")).updateStats();
+                ManagerHandler.getGUIManager().addPane("game");
+                ManagerHandler.getGUIManager().addPanel("background", "game");
+                ManagerHandler.getGUIManager().addPanel("playerStats", "game", 3);
+                ManagerHandler.getGUIManager().addPanel("characters", "game", 2);
+                ((PlayerStatsPanel)ManagerHandler.getGUIManager().getPanel("playerStats")).updateStats();
                 MainApp.getGameFrame().setVisible(true);
                 nextState();
             }
@@ -56,8 +56,8 @@ public class StateMachine {
             public void initState(){
                 MainApp.spawnPlayer(); // player spawns in Menu instead of in Game as a current fix of player.name reset due to default Player() construction in Game
 
-                GUIManager.addPane("menu");
-                GUIManager.addPanel("menu", "menu");
+                ManagerHandler.getGUIManager().addPane("menu");
+                ManagerHandler.getGUIManager().addPanel("menu", "menu");
                 MainApp.getGameFrame().setVisible(true);
                 MainApp.getGameFrame().repaint();
 
@@ -65,7 +65,7 @@ public class StateMachine {
             public void update(double deltaTime) {}
 
             public void nextState() {
-                GUIManager.removePanel("menu", "menu");
+                ManagerHandler.getGUIManager().removePanel("menu", "menu");
                 setCurrentState(nextStateVar);
                 currentState.initState();
             }
@@ -74,17 +74,17 @@ public class StateMachine {
 
             public void initState(){
 
-                GUIManager.addPanel("puzzleOrFight", "game");
-                GUIManager.addPanel("enemyStats", "game" );
-                ((EnemyStatsPanel)GUIManager.getPanel("enemyStats")).updateStats();
+                ManagerHandler.getGUIManager().addPanel("puzzleOrFight", "game");
+                ManagerHandler.getGUIManager().addPanel("enemyStats", "game" );
+                ((EnemyStatsPanel)ManagerHandler.getGUIManager().getPanel("enemyStats")).updateStats();
 
                 MainApp.getGameFrame().setVisible(true);
             }
             public void update(double deltaTime) {}
 
             public void nextState() {
-                GUIManager.removePanel("enemyStats", "game");
-                GUIManager.removePanel("puzzleOrFight", "game");
+                ManagerHandler.getGUIManager().removePanel("enemyStats", "game");
+                ManagerHandler.getGUIManager().removePanel("puzzleOrFight", "game");
                 MainApp.getGameFrame().setVisible(true);
                 StateMachine.setCurrentState(nextStateVar);
                 currentState.initState();
@@ -95,7 +95,7 @@ public class StateMachine {
             public void initState(){
                 endingDelayTimeLeft = 3;
                 MainApp.getGameFrame().setVisible(true);
-                PuzzleManager.newPuzzle();
+                ManagerHandler.getPuzzleManager().newPuzzle();
             }
             public void update(double deltaTime) {
                 if(PuzzleManager.isColorGameFinished() && PuzzleManager.getPuzzleType().equals("colorgame")) {
@@ -109,34 +109,37 @@ public class StateMachine {
             }
 
             public void nextState() {
-                GUIManager.removePanel(PuzzleManager.getPuzzleType(), "game");
+
+                MainApp.getPlayer().modifyScore(ManagerHandler.getPuzzleManager().getScoreModifier());
+                System.out.println(MainApp.getPlayer().getScore());
+                ManagerHandler.getGUIManager().removePanel(PuzzleManager.getPuzzleType(), "game");
                 StateMachine.setCurrentState(PUZZLE_RESULTS);
                 currentState.initState();
             }
         },
         PUZZLE_RESULTS{
             public void initState(){
-                GUIManager.addPanel("puzzleResults", "game");
+                ManagerHandler.getGUIManager().addPanel("puzzleResults", "game");
                 MainApp.getGameFrame().setVisible(true);
             }
             public void update(double deltaTime) {}
 
             public void nextState() {
-                GUIManager.removePanel("puzzleResults", "game");
+                ManagerHandler.getGUIManager().removePanel("puzzleResults", "game");
                 StateMachine.setCurrentState(nextStateVar);
                 currentState.initState();
             }
         },
         PREFIGHT{
             public void initState(){
-                GUIManager.addPanel("enemyStats", "game" );
-                GUIManager.addPanel("prefight", "game");
-                ((PrefightPanel)GUIManager.getPanel("prefight")).refreshButtons();
+                ManagerHandler.getGUIManager().addPanel("enemyStats", "game" );
+                ManagerHandler.getGUIManager().addPanel("prefight", "game");
+                ((PrefightPanel)ManagerHandler.getGUIManager().getPanel("prefight")).refreshButtons();
             }
             public void update(double deltaTime) {}
 
             public void nextState() {
-                GUIManager.removePanel("prefight", "game");
+                ManagerHandler.getGUIManager().removePanel("prefight", "game");
                 MainApp.getGameFrame().revalidate();
                 MainApp.getGameFrame().repaint();
                 StateMachine.setCurrentState(FIGHT);
@@ -145,47 +148,52 @@ public class StateMachine {
         },
         FIGHT{
             public void initState(){
-                GUIManager.addPanel("fight", "game");
+                ManagerHandler.getGUIManager().addPanel("fight", "game");
                 MainApp.getGameFrame().revalidate();
                 MainApp.getGameFrame().repaint();
 
                 System.out.println("done");
             }
             public void update(double deltaTime) {
-                FightManager.attemptToFightRound(deltaTime);
+                ManagerHandler.getFightManager().attemptToFightRound(deltaTime);
             }
 
             public void nextState() {
-                GUIManager.removePanel("fight", "game");
+                MainApp.getPlayer().modifyScore(ManagerHandler.getFightManager().getScoreModifier());
+                System.out.println(MainApp.getPlayer().getScore());
+                ManagerHandler.getGUIManager().removePanel("fight", "game");
                 StateMachine.setCurrentState(FIGHT_RESULTS);
                 currentState.initState();
             }
         },
         FIGHT_RESULTS{
             public void initState(){
-                GUIManager.removePanel("enemyStats", "game");
-                GUIManager.addPanel("fightResults", "game");
-                MainApp.getGameFrame().setVisible(true);
-                MainApp.getGameFrame().setVisible(true);
+                MainApp.getGameFrame().revalidate();
+                ManagerHandler.getFightResultsManager().prepResults();
+                ManagerHandler.getGUIManager().removePanel("enemyStats", "game");
+                ManagerHandler.getGUIManager().addPanel("fightResults", "game");
+                MainApp.getGameFrame().repaint();
+
             }
             public void update(double deltaTime) {}
 
             public void nextState() {
-                GUIManager.removePanel("fightResults", "game");
+                ManagerHandler.getGUIManager().removePanel("fightResults", "game");
                 StateMachine.setCurrentState(nextStateVar);
+
 
                 currentState.initState();
             }
         },
         LEVELUP{
             public void initState(){
-                GUIManager.addPanel("levelup", "game");
+                ManagerHandler.getGUIManager().addPanel("levelup", "game");
                 MainApp.getGameFrame().setVisible(true);
             }
             public void update(double deltaTime) {}
 
             public void nextState() {
-                GUIManager.removePanel("levelup", "game");
+                ManagerHandler.getGUIManager().removePanel("levelup", "game");
                 StateMachine.setCurrentState(SCROLL_BG);
                 currentState.initState();
             }
@@ -193,17 +201,17 @@ public class StateMachine {
 
         SCROLL_BG{
             public void initState(){
-                ((CharactersPanel)GUIManager.getPanel("characters")).updatePrevEnemy();
+                ((CharactersPanel)ManagerHandler.getGUIManager().getPanel("characters")).updatePrevEnemy();
                 //here a new enemy will be generated, using a generator, ofc
                 MainApp.setEnemy(generators.EnemyGenerator.generateEnemy());
-                ((CharactersPanel)GUIManager.getPanel("characters")).updateEnemyTexture();
+                ((CharactersPanel)ManagerHandler.getGUIManager().getPanel("characters")).updateEnemyTexture();
             }
             public void update(double deltaTime) {
 
-                ((BackgroundPanel)GUIManager.getPanel("background")).scroll(deltaTime);
-                ((CharactersPanel)GUIManager.getPanel("characters")).moveCharacters(deltaTime);
-                GUIManager.getPanel("background").repaint();
-                GUIManager.getPanel("characters").repaint();
+                ((BackgroundPanel)ManagerHandler.getGUIManager().getPanel("background")).scroll(deltaTime);
+                ((CharactersPanel)ManagerHandler.getGUIManager().getPanel("characters")).moveCharacters(deltaTime);
+                ManagerHandler.getGUIManager().getPanel("background").repaint();
+                ManagerHandler.getGUIManager().getPanel("characters").repaint();
             }
 
             public void nextState() {
@@ -215,20 +223,18 @@ public class StateMachine {
 
         FINAL_RESULTS{
             public void initState(){
-                GUIManager.addPanel("finalResults", "game");
-                MainApp.getGameFrame().setVisible(true);
-
-                int score = 10; // TODO FIXME dummy value to be replaced by real counted score
-                ScoreManager.updateEntryInFile(MainApp.getPlayer().getName(), score);
+                ((FinalResultsPanel)ManagerHandler.getGUIManager().getPanel("finalResults")).updateMessage();
+                ManagerHandler.getGUIManager().addPanel("finalResults", "game");
+                ManagerHandler.getScoreManager().updateEntryInFile(MainApp.getPlayer().getName(),MainApp.getPlayer().getScore());
             }
             public void update(double deltaTime) {}
 
             public void nextState() {
-                GUIManager.removePanel("background", "game");
-                GUIManager.removePanel("finalResults", "game");
-                GUIManager.removePanel("playerStats", "game");
-                GUIManager.removePanel("characters", "game");
-                ((CharactersPanel)GUIManager.getPanel("characters")).dispatchEnemy();
+                ManagerHandler.getGUIManager().removePanel("background", "game");
+                ManagerHandler.getGUIManager().removePanel("finalResults", "game");
+                ManagerHandler.getGUIManager().removePanel("playerStats", "game");
+                ManagerHandler.getGUIManager().removePanel("characters", "game");
+                ((CharactersPanel)ManagerHandler.getGUIManager().getPanel("characters")).dispatchEnemy();
                 StateMachine.setCurrentState(MENU);
                 currentState.initState();
             }
