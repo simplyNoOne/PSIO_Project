@@ -115,6 +115,7 @@ public class ColorGamePanel extends CustomPanel implements Interactible {
         redColorPreview.setBackground(new Color(redSlider.getValue(), 0, 0));
         redColorPreview.setForeground(Color.WHITE);
         redColorPreview.setBorder(BorderFactory.createLineBorder(Color.WHITE, 1));
+        redColorPreview.setFont(new Font("1", Font.PLAIN, 9));
         this.add(redColorPreview);
 
         greenSlider.setOrientation(JSlider.VERTICAL);
@@ -132,6 +133,7 @@ public class ColorGamePanel extends CustomPanel implements Interactible {
         greenColorPreview.setBackground(new Color(0, greenSlider.getValue(), 0));
         greenColorPreview.setForeground(Color.WHITE);
         greenColorPreview.setBorder(BorderFactory.createLineBorder(Color.WHITE, 1));
+        greenColorPreview.setFont(new Font("1", Font.PLAIN, 9));
 
         this.add(greenColorPreview);
 
@@ -150,7 +152,7 @@ public class ColorGamePanel extends CustomPanel implements Interactible {
         blueColorPreview.setBackground(new Color(0, 0, blueSlider.getValue()));
         blueColorPreview.setForeground(Color.WHITE);
         blueColorPreview.setBorder(BorderFactory.createLineBorder(Color.WHITE, 1));
-
+        blueColorPreview.setFont(new Font("1", Font.PLAIN, 9));
         this.add(blueColorPreview);
 
         currentColor.setBounds(100, 50, 200, 100);
@@ -223,8 +225,8 @@ public class ColorGamePanel extends CustomPanel implements Interactible {
     }
 
     public void setSliderAsFinal(String colorName, boolean isEnabled, boolean correctAnswer){
-        String text = "     OK";
-        if(!correctAnswer) text = " WRONG";
+        String text = "      OK";
+        if(!correctAnswer) text = "  WRONG";
         switch (colorName){
             case "red" -> {
                 redSlider.setEnabled(isEnabled);
