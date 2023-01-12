@@ -1,5 +1,6 @@
 package gui.panels;
 
+import gui.CustomButton;
 import interfaces.Interactible;
 import managers.GUIManager;
 
@@ -15,18 +16,10 @@ import java.util.Map;
 
 public class ColorGamePanel extends CustomPanel implements Interactible {
 
-    public class ConfirmButton extends JButton {
+    public class ConfirmButton extends CustomButton {
 
-        private static final int BUTTON_WIDTH = 150;
-        private static final int BUTTON_HEIGHT = 150;
         ConfirmButton(){
             super();
-            this.setFocusPainted(false);
-            this.setBackground(Color.WHITE);
-            this.setForeground(Color.BLACK);
-            this.setFocusable(false);
-
-            this.setBorder(new BasicBorders.ButtonBorder(Color.black, Color.black, Color.black, Color.black));
         }
     }
 

@@ -1,5 +1,6 @@
 package gui.panels;
 
+import gui.CustomButton;
 import interfaces.Interactible;
 import main.ManagerHandler;
 import managers.GUIManager;
@@ -15,21 +16,14 @@ import java.util.Map;
 
 public class PuzzleResultsPanel extends CustomPanel implements Interactible {
 
-    class OkButton extends JButton {
+    class OkButton extends CustomButton {
 
         static final int BUTTON_WIDTH = 250;
         static final int BUTTON_HEIGHT = 50;
 
         OkButton() {
             super();
-            this.setBorderPainted(false);
-            this.setFocusPainted(false);
             this.setFont(new Font(Font.SANS_SERIF, Font.BOLD, 23));
-            this.setBackground(new Color(5, 5, 5));
-            this.setForeground(new Color(250, 250, 250));
-            this.setFocusable(false);
-
-            this.setBorder(new BasicBorders.ButtonBorder(Color.black, Color.black, Color.black, Color.black));
         }
     }
 
@@ -61,9 +55,9 @@ public class PuzzleResultsPanel extends CustomPanel implements Interactible {
 
 
         okButton = new OkButton();
-        okButton.setText("Proceed");
+        okButton.setText("proceed");
         int okButtonX = (PANEL_WIDTH - FightResultsPanel.OkButton.BUTTON_WIDTH)/2;
-        int okButtonY = 220;
+        int okButtonY = 210;
         okButton.setBounds(okButtonX, okButtonY, FightResultsPanel.OkButton.BUTTON_WIDTH, FightResultsPanel.OkButton.BUTTON_HEIGHT);
         this.add(okButton);
 

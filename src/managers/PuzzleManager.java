@@ -68,12 +68,12 @@ public class PuzzleManager implements ScoreModifier {
     private static final QuizAnswerButtonListener quizAnswerButtonListener = new QuizAnswerButtonListener();
     private static SliderChangeListener sliderChangeListener = new SliderChangeListener();
     private static ColorGameConfirmButtonListener colorGameConfirmButtonListener = new ColorGameConfirmButtonListener();
-    private static ArrayList<Quiz> allQuestions = loadAllQuestions();
+    private ArrayList<Quiz> allQuestions = loadAllQuestions();
     private static Quiz actualQuiz;
     private static String puzzleType;
     private static Color expectedColor;
     private static Color currentColor = new Color(255, 255, 255);
-    private static int tolerance = 20;
+    private static final int tolerance = 20;
     private static int leftChanceNumber;
     private static boolean colorGameFinished = false;
     private static boolean puzzleAnsweredRight = false;
@@ -81,7 +81,7 @@ public class PuzzleManager implements ScoreModifier {
 
 
 
-    public static void init() {
+    public void init() {
         ((Interactible)ManagerHandler.getGUIManager().getPanel("quiz")).addButtonListener(quizAnswerButtonListener, "0");
         ((Interactible)ManagerHandler.getGUIManager().getPanel("quiz")).addButtonListener(quizAnswerButtonListener, "1");
         ((Interactible)ManagerHandler.getGUIManager().getPanel("quiz")).addButtonListener(quizAnswerButtonListener, "2");
@@ -92,7 +92,7 @@ public class PuzzleManager implements ScoreModifier {
         ((ColorGamePanel)ManagerHandler.getGUIManager().getPanel("colorgame")).addButtonListener(colorGameConfirmButtonListener, "empty");
     }
 
-    public static void newPuzzle(){
+    public void newPuzzle(){
 
         if(!(new Random().nextInt(0, 2) == 0))
         {
@@ -109,7 +109,7 @@ public class PuzzleManager implements ScoreModifier {
         }
     }
 
-    public static void refreshColorGame(){
+    public void refreshColorGame(){
         leftChanceNumber = 5;
         colorGameFinished = false;
         ((ColorGamePanel)ManagerHandler.getGUIManager().getPanel("colorgame")).resetPanel();
@@ -122,7 +122,7 @@ public class PuzzleManager implements ScoreModifier {
         System.out.println(expectedColor);
     }
 
-    public static void refreshQuiz(){
+    public void refreshQuiz(){
         ((QuizPanel)ManagerHandler.getGUIManager().getPanel("quiz")).setAllButtonsAsInactive();
         generateRandomQuiz();
         ArrayList<String> answers = actualQuiz.getAnswers();
@@ -133,7 +133,7 @@ public class PuzzleManager implements ScoreModifier {
         ((QuizPanel)ManagerHandler.getGUIManager().getPanel("quiz")).setQuestionContent(actualQuiz.getQuestion());
     }
 
-    public static void generateRandomQuiz()
+    public void generateRandomQuiz()
     {
         if(allQuestions.size() == 1)
             actualQuiz = allQuestions.get(0);
@@ -150,7 +150,7 @@ public class PuzzleManager implements ScoreModifier {
     }
 
 
-    private static ArrayList<Quiz> loadAllQuestions() {
+    private ArrayList<Quiz> loadAllQuestions() {
 
         ArrayList<Quiz> quizList = new ArrayList<>();
         try {
@@ -178,7 +178,7 @@ public class PuzzleManager implements ScoreModifier {
         return quizList;
     }
 
-    public static String getPuzzleType() {
+    public String getPuzzleType() {
         return puzzleType;
     }
     @Override
@@ -240,11 +240,11 @@ public class PuzzleManager implements ScoreModifier {
         }
     }
 
-    public static boolean isColorGameFinished() {
+    public boolean isColorGameFinished() {
         return colorGameFinished;
     }
 
-    public static void setColorGameFinished(boolean colorGameFinished) {
+    public void setColorGameFinished(boolean colorGameFinished) {
         PuzzleManager.colorGameFinished = colorGameFinished;
     }
 

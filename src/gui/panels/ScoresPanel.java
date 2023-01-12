@@ -1,5 +1,6 @@
 package gui.panels;
 
+import gui.CustomButton;
 import interfaces.Interactible;
 import main.ManagerHandler;
 import managers.GUIManager;
@@ -15,21 +16,14 @@ import java.util.concurrent.atomic.AtomicInteger;
 
 public class ScoresPanel extends CustomPanel implements Interactible {
 
-    static class ScoresButton extends JButton {
+    static class ScoresButton extends CustomButton {
         static final int BUTTON_WIDTH = 170;
-        static final int BUTTON_HEIGHT = 40;
+        static final int BUTTON_HEIGHT = 45;
         static final int POS_X = (PANEL_WIDTH - ScoresButton.BUTTON_WIDTH) / 2;
-        static final int POS_Y = PANEL_HEIGHT - POS_X + 30;
+        static final int POS_Y = 410;
 
         ScoresButton() {
             super();
-            this.setFocusPainted(false);
-            this.setBackground(Color.WHITE);
-            this.setForeground(Color.BLACK);
-            this.setFocusable(false);
-            this.setFont(new Font("SansSerif", Font.BOLD, 30));
-            this.setBorder(new BasicBorders.ButtonBorder(Color.black, Color.black, Color.black, Color.black));
-            this.setFocusPainted(false);
         }
 
         ScoresButton(String text) {
@@ -68,11 +62,11 @@ public class ScoresPanel extends CustomPanel implements Interactible {
         }
     }
 
-    static int PANEL_WIDTH = 400;
+    static int PANEL_WIDTH = 450;
     private static int PANEL_HEIGHT = 500;
     private static final int MAX_SCORES_ON_PANEL = 7;
 
-    ScoresButton backButton = new ScoresButton("Back");
+    ScoresButton backButton = new ScoresButton("back");
 
     public ScoresPanel(){
         super();
@@ -98,9 +92,9 @@ public class ScoresPanel extends CustomPanel implements Interactible {
                 JLabel label1 = new PlaceLabel(i.get() +1);
                 JLabel label2 = new NicknameLabel(entry.getKey());
                 JLabel label3 = new ScoreLabel(entry.getValue());
-                label1.setLocation(103,space);
-                label2.setLocation(133, space);
-                label3.setLocation(253,space);
+                label1.setLocation(83,space);
+                label2.setLocation(113, space);
+                label3.setLocation(280,space);
                 if (i.get() == 0)
                 {
                     label1.setForeground(new Color(255,215,0));
@@ -111,9 +105,9 @@ public class ScoresPanel extends CustomPanel implements Interactible {
                     label2.setFont(new Font(Font.SANS_SERIF, Font.PLAIN, 34));
                     label3.setFont(new Font(Font.SANS_SERIF, Font.BOLD, 34));
 
-                    label1.setLocation(83,space);
-                    label2.setLocation(123, space);
-                    label3.setLocation(263,space);
+                    label1.setLocation(63,space);
+                    label2.setLocation(113, space);
+                    label3.setLocation(286,space);
 
                 }
                 else if (i.get() ==1)

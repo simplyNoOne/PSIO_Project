@@ -69,7 +69,6 @@ public class LevelUpManager {
         Player player = MainApp.getPlayer();
         player.increaseLevel(); // +1
         player.setHealth(player.getMaxHealth()); // regain life
-
         ((StatsPanel) ManagerHandler.getGUIManager().getPanel("playerStats")).updateStats(); // update the level counter for the user
     }
 

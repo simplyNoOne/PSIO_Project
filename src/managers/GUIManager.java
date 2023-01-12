@@ -24,7 +24,6 @@ public class GUIManager {
     private Map<String, CustomPanel>  panels = new HashMap<>();
     private Map<String, CustomLayerPane>  panes = new HashMap<>();
 
-
     public JPanel getPanel(String id){
         return panels.get(id);
     }

@@ -6,6 +6,7 @@ import managers.GUIManager;
 import managers.ResourceManager;
 
 import javax.swing.*;
+import javax.swing.border.LineBorder;
 import javax.swing.event.CaretEvent;
 import javax.swing.event.CaretListener;
 import javax.swing.plaf.basic.BasicBorders;
@@ -52,6 +53,7 @@ public class MenuPanel extends CustomPanel implements Interactible {
             this.setBounds(GUIManager.getWidth()/2 - 150, 280, 300, 40);
             this.setBackground(new Color(250, 250, 250));
             this.getCaret().setVisible(false);
+            this.setBorder(new LineBorder(Color.black, 1));
 
         }
 
@@ -121,7 +123,7 @@ public class MenuPanel extends CustomPanel implements Interactible {
             this.setForeground(Color.BLACK);
             this.setFocusable(false);
             this.setFont(new Font("SansSerif", Font.BOLD, 30 ));
-            this.setBorder(new BasicBorders.ButtonBorder(Color.black, Color.black, Color.black, Color.black));
+            this.setBorder(new LineBorder(Color.black, 1));
             this.setFocusPainted(false);
         }
     }

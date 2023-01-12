@@ -79,7 +79,7 @@ public class StateMachine {
                 ManagerHandler.getGUIManager().addPanel("enemyStats", "game" );
                 ((EnemyStatsPanel)ManagerHandler.getGUIManager().getPanel("enemyStats")).updateStats();
 
-                MainApp.getGameFrame().setVisible(true);
+               // MainApp.getGameFrame().setVisible(true);
             }
             public void update(double deltaTime) {}
 
@@ -99,12 +99,12 @@ public class StateMachine {
                 ManagerHandler.getPuzzleManager().newPuzzle();
             }
             public void update(double deltaTime) {
-                if(PuzzleManager.isColorGameFinished() && PuzzleManager.getPuzzleType().equals("colorgame")) {
+                if(ManagerHandler.getPuzzleManager().isColorGameFinished() && ManagerHandler.getPuzzleManager().getPuzzleType().equals("colorgame")) {
                     endingDelayTimeLeft -= deltaTime;
                     if (endingDelayTimeLeft <= 0)
                     {
                         StateMachine.nextState();
-                        PuzzleManager.setColorGameFinished(false);
+                        ManagerHandler.getPuzzleManager().setColorGameFinished(false);
                     }
                 }
             }
@@ -113,7 +113,7 @@ public class StateMachine {
 
                 MainApp.getPlayer().modifyScore(ManagerHandler.getPuzzleManager().getScoreModifier());
                 System.out.println(MainApp.getPlayer().getScore());
-                ManagerHandler.getGUIManager().removePanel(PuzzleManager.getPuzzleType(), "game");
+                ManagerHandler.getGUIManager().removePanel(ManagerHandler.getPuzzleManager().getPuzzleType(), "game");
                 StateMachine.setCurrentState(PUZZLE_RESULTS);
                 currentState.initState();
             }
@@ -137,7 +137,10 @@ public class StateMachine {
             public void initState(){
                 ManagerHandler.getGUIManager().addPanel("enemyStats", "game" );
                 ManagerHandler.getGUIManager().addPanel("prefight", "game");
+                ((EnemyStatsPanel)ManagerHandler.getGUIManager().getPanel("enemyStats")).updateStats();
                 ((PrefightPanel)ManagerHandler.getGUIManager().getPanel("prefight")).refreshButtons();
+                MainApp.getGameFrame().revalidate();
+                MainApp.getGameFrame().repaint();
             }
             public void update(double deltaTime) {}
 
@@ -157,9 +160,7 @@ public class StateMachine {
 
                 System.out.println("done");
             }
-            public void update(double deltaTime) {
-                ManagerHandler.getFightManager().attemptToFightRound(deltaTime);
-            }
+            public void update(double deltaTime) { ManagerHandler.getFightManager().attemptToFightRound(deltaTime);}
 
             public void nextState() {
                 MainApp.getPlayer().modifyScore(ManagerHandler.getFightManager().getScoreModifier());
@@ -183,19 +184,17 @@ public class StateMachine {
             public void nextState() {
                 ManagerHandler.getGUIManager().removePanel("fightResults", "game");
                 StateMachine.setCurrentState(nextStateVar);
-
                 currentState.initState();
             }
         },
         LEVELUP{
             public void initState(){
                 ManagerHandler.getGUIManager().addPanel("levelup", "game");
-                MainApp.getGameFrame().setVisible(true);
-                ManagerHandler.getGUIManager().addPanel("levelup", "game");
-
                 LevelUpManager.generalLevelUp();
             }
-            public void update(double deltaTime) {}
+            public void update(double deltaTime) {
+                MainApp.getGameFrame().repaint();
+            }
 
             public void nextState() {
                 ManagerHandler.getGUIManager().removePanel("levelup", "game");
@@ -207,7 +206,6 @@ public class StateMachine {
         SCROLL_BG{
             public void initState(){
                 ((CharactersPanel)ManagerHandler.getGUIManager().getPanel("characters")).updatePrevEnemy();
-                //here a new enemy will be generated, using a generator, ofc
                 MainApp.setEnemy(generators.EnemyGenerator.generateEnemy());
                 ((CharactersPanel)ManagerHandler.getGUIManager().getPanel("characters")).updateEnemyTexture();
             }

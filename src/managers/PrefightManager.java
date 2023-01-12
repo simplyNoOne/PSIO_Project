@@ -62,19 +62,19 @@ public class PrefightManager {
                             break;
 
                         case "collectible2":
-                            MainApp.getPlayer().increase_damage(MainApp.getPlayer().getActiveCollectible().get(i).getValue());
+                            MainApp.getPlayer().increase_armour(MainApp.getPlayer().getActiveCollectible().get(i).getValue());
                             break;
 
                         case "collectible3":
-                        MainApp.getPlayer().increase_armour(MainApp.getPlayer().getActiveCollectible().get(i).getValue());
+                        MainApp.getPlayer().increase_damage(MainApp.getPlayer().getActiveCollectible().get(i).getValue());
                         break;
 
                         case "collectible4":
-                            MainApp.getPlayer().increase_dodge(MainApp.getPlayer().getActiveCollectible().get(i).getValue());
+                            MainApp.getPlayer().increase_critical(MainApp.getPlayer().getActiveCollectible().get(i).getValue());
                             break;
 
                         case "collectible5":
-                            MainApp.getPlayer().increase_critical(MainApp.getPlayer().getActiveCollectible().get(i).getValue());
+                            MainApp.getPlayer().increase_dodge(MainApp.getPlayer().getActiveCollectible().get(i).getValue());
                             break;
 
                         default:
