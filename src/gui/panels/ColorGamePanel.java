@@ -184,19 +184,6 @@ public class ColorGamePanel extends CustomPanel implements Interactible {
         leftChancesLabel.setForeground(new Color(255, 255, 255));
         this.add(leftChancesLabel);
 
-        expectedColorText.setBounds(400, 25, 200, 25);
-        expectedColorText.setForeground(new Color(255, 255, 255));
-        this.add(expectedColorText);
-
-        confirmButton.setBounds(225, 400, 250, 50);
-        confirmButton.setText("CONFIRM");
-        this.add(confirmButton);
-
-        leftChancesLabel.setBounds(5, 5, 100, 20);
-        leftChancesLabel.setFont(new Font(Font.SANS_SERIF, Font.PLAIN, 17));
-        leftChancesLabel.setForeground(new Color(255, 255, 255));
-        this.add(leftChancesLabel);
-
     }
 
     public void setExpectedColor(Color color){
@@ -220,7 +207,6 @@ public class ColorGamePanel extends CustomPanel implements Interactible {
         currentColor.setBackground(new Color(255, 255, 255));
         leftChancesLabel.setText("Chances: 5");
     }
-
 
     public void setPreviewColor(String colorName, int singleColorValue){
         switch (colorName){
