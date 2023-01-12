@@ -22,7 +22,8 @@ public class FightManager implements ScoreModifier {
     private boolean prevFightWon;       //stores the result of the fight, to be accessed by fight results
     private int numPlayerAttacks;
 
-    private static final int DAMAGE_RANDOMIZATION_PERCENT = 10; // Damage slightly randomized e.g. base hit 100 will really be a random from 90 ... 110
+    private static final int DAMAGE_RANDOMIZATION_PERCENT = 10; // Damage slightly randomized e.g. base hit 100 will really be a random from 90 s... 110
+    private static final int ARMOR_ABSORB_DEVASTATION_PERCENT = 25; // each time armor absorbs (prevents that many) damage, and worns out (new armor blocking is lower by 25 % of blocked damage)
     private static final int CRITICAL_MULTIPLIER = 2; // 2x (double) damage in case of a critical hit
     private static final int PHASE_DELAY_SECS = 2; // time interval between next phases in round (setup attacker, damage). Needed to update GUI for the user
 
@@ -161,7 +162,7 @@ public class FightManager implements ScoreModifier {
 
     private void dealDamage() {
         int damage = calculateDamage();
-        damage -= defender.getArmor();
+        damage = blockWithArmorAndGetLeftoverDamage(damage);
 
         if (damage > 0) {
             defender.setHealth(defender.getHealth() - damage);
@@ -218,6 +219,19 @@ public class FightManager implements ScoreModifier {
 
         int criticalGenerated = (new Random()).nextInt(100);
         return (criticalGenerated < criticalChance); // e.g. if 35 is in [0, 70) == set representing probability = 70 %
+    }
+
+    private int blockWithArmorAndGetLeftoverDamage(int initialDamage) {
+        int damage = initialDamage;
+
+        int realBlockedDamage = Math.min(initialDamage, defender.getArmor()); // armor gets worse by 25% of the blocked damage (so that small attacks won't crush an epic armor in a few hits)
+        damage -= defender.getArmor();
+
+        defender.setArmor((int) (defender.getArmor() - realBlockedDamage * ARMOR_ABSORB_DEVASTATION_PERCENT / 100.0));
+        if (defender.getArmor() < 1)
+            defender.setArmor(1);
+
+        return damage;
     }
 
     /** If someone's HP goes to zero, fight is over and dead character loses. **/
