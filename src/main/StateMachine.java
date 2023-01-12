@@ -220,8 +220,10 @@ public class StateMachine {
             }
 
             public void nextState() {
-
-                StateMachine.setCurrentState(PUZZLE_OR_FIGHT);
+                if(MainApp.getEnemy().getIsBoss())
+                    StateMachine.setCurrentState(PREFIGHT);
+                else
+                    StateMachine.setCurrentState(PUZZLE_OR_FIGHT);
                 currentState.initState();
             }
         },
