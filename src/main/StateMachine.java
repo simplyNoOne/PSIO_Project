@@ -5,6 +5,7 @@ import gui.panels.*;
 import managers.*;
 
 import javax.swing.*;
+import java.util.logging.Handler;
 
 public class StateMachine {
 
@@ -119,8 +120,10 @@ public class StateMachine {
         },
         PUZZLE_RESULTS{
             public void initState(){
+                ((PuzzleResultsPanel) ManagerHandler.getGUIManager().getPanel("puzzleResults")).updateMessage();
                 ManagerHandler.getGUIManager().addPanel("puzzleResults", "game");
                 MainApp.getGameFrame().setVisible(true);
+                MainApp.getGameFrame().repaint();
             }
             public void update(double deltaTime) {}
 

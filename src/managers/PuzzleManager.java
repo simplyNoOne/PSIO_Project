@@ -29,10 +29,14 @@ public class PuzzleManager implements ScoreModifier {
             if(((QuizPanel.QuizButton) e.getSource()).isEnabled()) {
                 String answer = ((JButton) e.getSource()).getText();
                 answer = answer.replace("<html><center>", "").replace("</center></html>", "");
-                if(answer.equals(actualQuiz.getCorrect_answer()))
+                if(answer.equals(actualQuiz.getCorrect_answer())){
                     StateMachine.setNextStateVar(StateMachine.State.SCROLL_BG);
-                else
+                    puzzleAnsweredRight = true;
+                }
+                else{
                     StateMachine.setNextStateVar(StateMachine.State.PREFIGHT);
+                    puzzleAnsweredRight = false;
+                }
 
                 StateMachine.nextState();
             }
@@ -43,20 +47,20 @@ public class PuzzleManager implements ScoreModifier {
 
         @Override
         public void stateChanged(ChangeEvent e) {
-            ((ColorGamePanel)GUIManager.getPanel("colorgame")).setPreviewColor(((JSlider) e.getSource()).getName(), ((JSlider) e.getSource()).getValue());
+            ((ColorGamePanel)ManagerHandler.getGUIManager().getPanel("colorgame")).setPreviewColor(((JSlider) e.getSource()).getName(), ((JSlider) e.getSource()).getValue());
             switch (((JSlider) e.getSource()).getName()){
                 case "red" -> currentColor = new Color(((JSlider) e.getSource()).getValue(), currentColor.getGreen(), currentColor.getBlue());
                 case "green" -> currentColor = new Color(currentColor.getRed(), ((JSlider) e.getSource()).getValue(), currentColor.getBlue());
                 case "blue" -> currentColor = new Color(currentColor.getRed(), currentColor.getGreen(), ((JSlider) e.getSource()).getValue());
             }
-            ((Interactible)ManagerHandler.getGUIManager().getPanel("colorgame")).revalidate();
+            ((ColorGamePanel) ManagerHandler.getGUIManager().getPanel("colorgame")).revalidate();
         }
     }
 
     public static class ColorGameConfirmButtonListener implements ActionListener{
         @Override
         public void actionPerformed(ActionEvent e) {
-            ((ColorGamePanel)GUIManager.getPanel("colorgame")).setCurrentColorColor(currentColor);
+            ((ColorGamePanel)ManagerHandler.getGUIManager().getPanel("colorgame")).setCurrentColorColor(currentColor);
             checkIfColorIsCorrect();
         }
     }
@@ -72,6 +76,7 @@ public class PuzzleManager implements ScoreModifier {
     private static int tolerance = 20;
     private static int leftChanceNumber;
     private static boolean colorGameFinished = false;
+    private static boolean puzzleAnsweredRight = false;
 
 
 
@@ -81,10 +86,10 @@ public class PuzzleManager implements ScoreModifier {
         ((Interactible)ManagerHandler.getGUIManager().getPanel("quiz")).addButtonListener(quizAnswerButtonListener, "1");
         ((Interactible)ManagerHandler.getGUIManager().getPanel("quiz")).addButtonListener(quizAnswerButtonListener, "2");
         ((Interactible)ManagerHandler.getGUIManager().getPanel("quiz")).addButtonListener(quizAnswerButtonListener, "3");
-        ((Interactible)ManagerHandler.getGUIManager().getPanel("colorgame")).addSliderChangeListener(sliderChangeListener, "red");
-        ((Interactible)ManagerHandler.getGUIManager().getPanel("colorgame")).addSliderChangeListener(sliderChangeListener, "green");
-        ((Interactible)ManagerHandler.getGUIManager().getPanel("colorgame")).addSliderChangeListener(sliderChangeListener, "blue");
-        ((Interactible)ManagerHandler.getGUIManager().getPanel("colorgame")).addButtonListener(colorGameConfirmButtonListener, "empty");
+        ((ColorGamePanel)ManagerHandler.getGUIManager().getPanel("colorgame")).addSliderChangeListener(sliderChangeListener, "red");
+        ((ColorGamePanel)ManagerHandler.getGUIManager().getPanel("colorgame")).addSliderChangeListener(sliderChangeListener, "green");
+        ((ColorGamePanel)ManagerHandler.getGUIManager().getPanel("colorgame")).addSliderChangeListener(sliderChangeListener, "blue");
+        ((ColorGamePanel)ManagerHandler.getGUIManager().getPanel("colorgame")).addButtonListener(colorGameConfirmButtonListener, "empty");
     }
 
     public static void newPuzzle(){
@@ -118,7 +123,7 @@ public class PuzzleManager implements ScoreModifier {
     }
 
     public static void refreshQuiz(){
-        ((QuizPanel)GUIManager.getPanel("quiz")).setAllButtonsAsInactive();
+        ((QuizPanel)ManagerHandler.getGUIManager().getPanel("quiz")).setAllButtonsAsInactive();
         generateRandomQuiz();
         ArrayList<String> answers = actualQuiz.getAnswers();
         for(int answerId = 0; answerId < answers.size(); answerId++)
@@ -128,7 +133,7 @@ public class PuzzleManager implements ScoreModifier {
         ((QuizPanel)ManagerHandler.getGUIManager().getPanel("quiz")).setQuestionContent(actualQuiz.getQuestion());
     }
 
-    public void generateRandomQuiz()
+    public static void generateRandomQuiz()
     {
         if(allQuestions.size() == 1)
             actualQuiz = allQuestions.get(0);
@@ -145,7 +150,7 @@ public class PuzzleManager implements ScoreModifier {
     }
 
 
-    private  ArrayList<Quiz> loadAllQuestions() {
+    private static ArrayList<Quiz> loadAllQuestions() {
 
         ArrayList<Quiz> quizList = new ArrayList<>();
         try {
@@ -179,7 +184,10 @@ public class PuzzleManager implements ScoreModifier {
     @Override
     public int getScoreModifier() {
         if (puzzleAnsweredRight)
-            return actualQuiz.getScoreModifier();
+            if(getPuzzleType().equals("quiz"))
+                return actualQuiz.getScoreModifier();
+            else
+                return 100 + leftChanceNumber*10;
         else
             return -100;
     }
@@ -205,27 +213,29 @@ public class PuzzleManager implements ScoreModifier {
         if(!redCorrect || !greenCorrect || !blueCorrect){
             if (leftChanceNumber > 0) {
                 leftChanceNumber--;
-                ((ColorGamePanel) GUIManager.getPanel("colorgame")).setLeftChancesLabel(leftChanceNumber);
+                ((ColorGamePanel)ManagerHandler.getGUIManager().getPanel("colorgame")).setLeftChancesLabel(leftChanceNumber);
                 if (redCorrect)
-                    ((ColorGamePanel) GUIManager.getPanel("colorgame")).setSliderAsFinal("red", false, true);
+                    ((ColorGamePanel)ManagerHandler.getGUIManager().getPanel("colorgame")).setSliderAsFinal("red", false, true);
                 if (greenCorrect)
-                    ((ColorGamePanel) GUIManager.getPanel("colorgame")).setSliderAsFinal("green", false, true);
+                    ((ColorGamePanel)ManagerHandler.getGUIManager().getPanel("colorgame")).setSliderAsFinal("green", false, true);
                 if (blueCorrect)
-                    ((ColorGamePanel) GUIManager.getPanel("colorgame")).setSliderAsFinal("blue", false, true);
+                    ((ColorGamePanel)ManagerHandler.getGUIManager().getPanel("colorgame")).setSliderAsFinal("blue", false, true);
             }
             else {
-                if(!redCorrect) ((ColorGamePanel) GUIManager.getPanel("colorgame")).setSliderAsFinal("red", false, false);
-                if(!greenCorrect) ((ColorGamePanel) GUIManager.getPanel("colorgame")).setSliderAsFinal("green", false, false);
-                if(!blueCorrect) ((ColorGamePanel) GUIManager.getPanel("colorgame")).setSliderAsFinal("blue", false, false);
+                if(!redCorrect) ((ColorGamePanel) ManagerHandler.getGUIManager().getPanel("colorgame")).setSliderAsFinal("red", false, false);
+                if(!greenCorrect) ((ColorGamePanel) ManagerHandler.getGUIManager().getPanel("colorgame")).setSliderAsFinal("green", false, false);
+                if(!blueCorrect) ((ColorGamePanel) ManagerHandler.getGUIManager().getPanel("colorgame")).setSliderAsFinal("blue", false, false);
                 colorGameFinished = true;
+                puzzleAnsweredRight = false;
                 StateMachine.setNextStateVar(StateMachine.State.PREFIGHT);
             }
         }
         else {
-            ((ColorGamePanel) GUIManager.getPanel("colorgame")).setSliderAsFinal("red", false, true);
-            ((ColorGamePanel) GUIManager.getPanel("colorgame")).setSliderAsFinal("green", false, true);
-            ((ColorGamePanel) GUIManager.getPanel("colorgame")).setSliderAsFinal("blue", false, true);
+            ((ColorGamePanel) ManagerHandler.getGUIManager().getPanel("colorgame")).setSliderAsFinal("red", false, true);
+            ((ColorGamePanel) ManagerHandler.getGUIManager().getPanel("colorgame")).setSliderAsFinal("green", false, true);
+            ((ColorGamePanel) ManagerHandler.getGUIManager().getPanel("colorgame")).setSliderAsFinal("blue", false, true);
             colorGameFinished = true;
+            puzzleAnsweredRight = true;
             StateMachine.setNextStateVar(StateMachine.State.SCROLL_BG);
         }
     }
@@ -237,4 +247,9 @@ public class PuzzleManager implements ScoreModifier {
     public static void setColorGameFinished(boolean colorGameFinished) {
         PuzzleManager.colorGameFinished = colorGameFinished;
     }
+
+    public boolean isPuzzleAnsweredRight() {
+        return puzzleAnsweredRight;
+    }
 }
+

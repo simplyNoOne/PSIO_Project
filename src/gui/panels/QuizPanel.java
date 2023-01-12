@@ -51,14 +51,11 @@ public class QuizPanel extends CustomPanel implements Interactible {
         addQuestion();
         this.add(question);
         revalidate();
-
     }
 
     public void setAnswerButtonText(String buttonId, String text){
-
         answerButtons.get(buttonId).setText("<html><center>" + text + "</center></html>");
         answerButtons.get(buttonId).setEnabled(true);
-
     }
 
     public void setQuestionContent(String text){
@@ -83,8 +80,8 @@ public class QuizPanel extends CustomPanel implements Interactible {
         }
         answerButton.setBounds(x0, y0, width, height);
         answerButtons.put(buttonId, answerButton);
-        answerButton.setBackground(new Color(12, 12, 98));
-        answerButton.setForeground(new Color(196,172,11));
+        answerButton.setBackground(Color.BLACK);
+        answerButton.setForeground(Color.WHITE);
         answerButton.setBorder(new LineBorder(new Color(196, 172, 11)));
     }
 
@@ -93,13 +90,12 @@ public class QuizPanel extends CustomPanel implements Interactible {
         question = new JTextPane();
         question.setAlignmentX(1);
         question.setAlignmentY(1);
-        question.setBackground(new Color(12, 12, 98));
+        question.setBackground(Color.BLACK);
         question.setBounds(50, 50, 600, 150);
         question.setEditable(false);
-        question.setForeground(new Color(224, 199, 29));
+        question.setForeground(Color.WHITE);
         question.setFont(new Font(Font.SANS_SERIF, Font.PLAIN, 19));
         question.setBorder(new LineBorder(new Color(196, 172, 11)));
-
     }
 
     public void addButtonListener(ActionListener listener, String buttonId){
