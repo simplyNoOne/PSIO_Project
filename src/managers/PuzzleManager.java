@@ -26,7 +26,7 @@ public class PuzzleManager {
         public void actionPerformed(ActionEvent e) {
             if(((QuizPanel.QuizButton) e.getSource()).isEnabled()) {
                 String answer = ((JButton) e.getSource()).getText();
-                answer = answer.replace("<br>", "").replace("</br>", "").replace("<html><center>", "").replace("</center></html>", "");
+                answer = answer.replace("<html><center>", "").replace("</center></html>", "");
                 if(answer.equals(actualQuiz.getCorrect_answer()))
                     StateMachine.setNextStateVar(StateMachine.State.SCROLL_BG);
                 else
@@ -87,7 +87,7 @@ public class PuzzleManager {
 
     public static void newPuzzle(){
 
-        if(new Random().nextInt(0, 2) == 0)
+        if(!(new Random().nextInt(0, 2) == 0))
         {
             puzzleType = "quiz";
             GUIManager.addPanel("quiz", "game");
