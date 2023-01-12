@@ -50,7 +50,7 @@ public class PuzzleOrFightPanel extends CustomPanel implements Interactible {
         buttons.put("fight", new PuzzleOrFightButton());
 
 
-        this.setBackground(Color.orange);
+        this.setBackground(new Color(0, 0, 0, 220));
         super.setBounds((GUIManager.getWidth() - PANEL_WIDTH)/2, (GUIManager.getHeight() - PANEL_HEIGHT)/2, PANEL_WIDTH, PANEL_HEIGHT);
 
         this.setLayout(null);

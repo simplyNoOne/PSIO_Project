@@ -5,6 +5,7 @@ import gui.panels.*;
 import managers.*;
 
 import javax.swing.*;
+import java.util.logging.Handler;
 
 public class StateMachine {
 
@@ -91,11 +92,22 @@ public class StateMachine {
             }
         },
         PUZZLE{
+            float endingDelayTimeLeft = 3;
             public void initState(){
+                endingDelayTimeLeft = 3;
                 MainApp.getGameFrame().setVisible(true);
                 ManagerHandler.getPuzzleManager().newPuzzle();
             }
-            public void update(double deltaTime) {}
+            public void update(double deltaTime) {
+                if(PuzzleManager.isColorGameFinished() && PuzzleManager.getPuzzleType().equals("colorgame")) {
+                    endingDelayTimeLeft -= deltaTime;
+                    if (endingDelayTimeLeft <= 0)
+                    {
+                        StateMachine.nextState();
+                        PuzzleManager.setColorGameFinished(false);
+                    }
+                }
+            }
 
             public void nextState() {
 
@@ -108,8 +120,10 @@ public class StateMachine {
         },
         PUZZLE_RESULTS{
             public void initState(){
+                ((PuzzleResultsPanel) ManagerHandler.getGUIManager().getPanel("puzzleResults")).updateMessage();
                 ManagerHandler.getGUIManager().addPanel("puzzleResults", "game");
                 MainApp.getGameFrame().setVisible(true);
+                MainApp.getGameFrame().repaint();
             }
             public void update(double deltaTime) {}
 
@@ -170,7 +184,6 @@ public class StateMachine {
                 ManagerHandler.getGUIManager().removePanel("fightResults", "game");
                 StateMachine.setCurrentState(nextStateVar);
 
-
                 currentState.initState();
             }
         },
@@ -178,6 +191,9 @@ public class StateMachine {
             public void initState(){
                 ManagerHandler.getGUIManager().addPanel("levelup", "game");
                 MainApp.getGameFrame().setVisible(true);
+                ManagerHandler.getGUIManager().addPanel("levelup", "game");
+
+                LevelUpManager.generalLevelUp();
             }
             public void update(double deltaTime) {}
 
@@ -204,8 +220,10 @@ public class StateMachine {
             }
 
             public void nextState() {
-
-                StateMachine.setCurrentState(PUZZLE_OR_FIGHT);
+                if(MainApp.getEnemy().getIsBoss())
+                    StateMachine.setCurrentState(PREFIGHT);
+                else
+                    StateMachine.setCurrentState(PUZZLE_OR_FIGHT);
                 currentState.initState();
             }
         },

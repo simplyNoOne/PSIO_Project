@@ -1,12 +1,29 @@
-Mathematical analysis of quicksort shows that, on average, the algorithm takes O(n*log(n)) comparisons to sort n items. In the worst case, it makes O(n^2) comparisons. Which of the sorting algorithms fits this description?	<Bubble Sort;Merge Sort;Quick Sort;Selection Sort>	2
-How do you create function in C++?	<void myFunction(){...};def myFunction(){...};function myFunction(){...};myFunction(){…}>	0
-How to cast String to Integer in Java without any errors?	<int variable = (int) "5";int variable = int("5");int variable = String.parseInt("5");int variable = Integer.parseInt("5")>	3
-Java is short for "JavaScript"	<True;False>	1
-Which of the following is a php syntax:	<System.out.println("Hello World");echo("Hello World");print("Hello World"); printf ("Hello World")>	1
-___ is the mechanism of basing an object or class upon another object or class, retaining similar implementation. Which answer should replace the gap?	<Inheritance;Algorithm;Camel Case;Asynchronous learning>	0
 How do you insert comments in Java code?	<//;// or #;/* … */;// or /* … */>	3
 Which one is NOT a legal variable name in Python?	<this_is_my_variable;_thisIsMyVariable;this-is-my-variable;THIS_IS_MY_VARIABLE>	2
 How do you declare a variable with the integer value 5 in C++?	<int x = 5;Integer x = 5;x = 5;x = 5i>	0
-What value will be assigned to X after this operation in Java? float X = 150%15	<X = 0.1;X = 22.5;X = 10.0;0.0>	3
+What value will be assigned to X after this operation in Java? float X = 150%15	<X = 0.1;X = 22.5;X = 10.0;X = 0.0>	3
 How do you start writing an if statement in python?	<if(x == y);if x == y:;if x == y then:;if(x == y):>	1
 Which of these is the correct implementation of a loop in Python?	<do: … while(a > b);while(a > b) {…};for i in range(14):...;for i form 0 to 10>	2
+What is the purpose of the View in the MVC design pattern?	<To handle the logic for the application;To store and manage the data for the application;To handle user input and interactions;To display the data to the user>	3
+MVC stands for:	<Model View Controller;Make the View Comfortable;Make Viruses Controllable>	0
+What is the correct way to declare a main method in a Java class?	<public static void main(String[] args);public static void Main(String[] args);public void main(String[] args);static void main(String[] args)>	0
+What is the correct way to handle an exception in Java?	<throw new Exception();catch(Exception e) {};try {} catch(Exception e) {};All of the above>	2
+What is the base class for all Swing components in Java?	<JComponent;Component;Container;Widget >	0
+What is the correct way to create a new button in Swing?	<JButton button = new Button();JButton button = new JButton();Button button = new JButton();Button button = new Button()>	1
+Mathematical analysis of ___ shows that, on average, the algorithm takes O(n*log(n)) comparisons to sort n items. In the worst case, it makes O(n^2) comparisons. Which of the sorting algorithms fits this description?	<Bubble Sort;Merge Sort;Quick Sort;Selection Sort>	2
+What is the correct way to retrieve a component from a container in Swing?	<container.getComponent(index);container.fetchComponent(index);container.retrieveComponent(index);container.findComponent(index)>	0
+What is the main reason for using Java?	<To write efficient code;To write code that is easy to read and understand;To write code that is easy to maintain and debug;To write code that can run on any device with a Java Virtual Machine (JVM)>	3
+Java is short for "JavaScript"	<True;False>	1
+Which of the following is a php syntax:	<System.out.println("Hello World");echo("Hello World");print("Hello World"); printf ("Hello World")>	1
+What is the correct syntax for extending a class in Java?	<class ChildClass extends ParentClass {};class ChildClass : ParentClass {};class ChildClass implements ParentClass {} ;class ChildClass inherits ParentClass {}>	0
+___ is the mechanism of basing an object or class upon another object or class, retaining similar implementation. Which answer should replace the gap?	<Inheritance;Algorithm;Camel Case;Asynchronous learning>	0
+What is the purpose of the Model in the MVC design pattern?	<To handle the logic for the application;To store and manage the data for the application;To handle user input and interactions;To display the data to the user>	1
+How do you import a package in Java?	<using import;using include;using require;using import and include>	0
+What is the relationship between the Model and the View in the MVC design pattern?	<The Model is a subclass of the View;The Model is a superclass of the View;The Model and the View are independent of each other;The Model and the View are tightly coupled>	2
+What is the default value of a local variable in Java?	<0;false;null;undefined>	3
+How to cast String to Integer in Java without any errors?	<int variable = (int) "5";int variable = int("5");int variable = String.parseInt("5");int variable = Integer.parseInt("5")>	3
+What is the main purpose of debugging?	<To find and fix errors in the code;To improve the performance of the code;To refactor the code for readability;To optimize the code for efficiency>	0
+What is the main purpose of debugging?	<To find and fix errors in the code;To improve the performance of the code;To refactor the code for readability;To optimize the code for efficiency>	0
+What is the main advantage of using a high-level programming language over a low-level programming language?	<High-level languages are faster than low-level languages;High-level languages are easier to read and understand than low-level languages;High-level languages are more flexible than low-level languages;High-level languages are more secure than low-level languages>	1
+How do you create function in C++?	<void myFunction(){...};def myFunction(){...};function myFunction(){...};myFunction(){…}>	0
+How do you define an instance method in Python?	<def methodName(self):;def methodName(self) {};def methodName():;def methodName() {}>	0
