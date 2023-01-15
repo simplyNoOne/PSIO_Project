@@ -32,7 +32,7 @@ public class WeaponGenerator {
 
             }
             case 1 -> {
-                weaponName = "hammer";
+                weaponName = "dagger";
                 weaponCriticalChance = (weaponPower - 1);
                 weaponDamage = 1;
 

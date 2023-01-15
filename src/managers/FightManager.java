@@ -3,7 +3,9 @@ package managers;
 import data.Character;
 import data.Enemy;
 import data.Player;
+import generators.LootGenerator;
 import gui.panels.FightPanel;
+import gui.panels.PlayerStatsPanel;
 import gui.panels.StatsPanel;
 import interfaces.ScoreModifier;
 import main.MainApp;
@@ -24,7 +26,7 @@ public class FightManager implements ScoreModifier {
 
     private static final int DAMAGE_RANDOMIZATION_PERCENT = 10; // Damage slightly randomized e.g. base hit 100 will really be a random from 90 s... 110
     private static final int ARMOR_ABSORB_DEVASTATION_PERCENT = 25; // each time armor absorbs (prevents that many) damage, and worns out (new armor blocking is lower by 25 % of blocked damage)
-    private static final int CRITICAL_MULTIPLIER = 2; // 2x (double) damage in case of a critical hit
+    private static final double CRITICAL_MULTIPLIER = 2.5; // 2.5x damage in case of a critical hit (each critical strike should be more rewarding)
     private static final int PHASE_DELAY_SECS = 2; // time interval between next phases in round (setup attacker, damage). Needed to update GUI for the user
 
     private boolean wait = false;       //makes sure that refreshing the screen doesn't happen while changing message text
@@ -256,6 +258,10 @@ public class FightManager implements ScoreModifier {
                 StateMachine.setNextStateVar(StateMachine.State.LEVELUP);
             else
                 StateMachine.setNextStateVar(StateMachine.State.SCROLL_BG);
+
+            LootGenerator.generateLoot(MainApp.getEnemy().getIsBoss());  //It's drop time!!!
+            ((PlayerStatsPanel)ManagerHandler.getGUIManager().getPanel("playerStats")).updateStats();
+            MainApp.getGameFrame().repaint();
 
         } else
             StateMachine.setNextStateVar(StateMachine.State.FINAL_RESULTS);
