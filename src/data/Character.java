@@ -9,7 +9,7 @@ public abstract class Character
     private int criticalChance;
     private int dodgeChance;
 
-    private final Vector2 location;
+    private Vector2 location;
     
 
     

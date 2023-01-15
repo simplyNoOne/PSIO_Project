@@ -2,7 +2,6 @@ package generators;
 import data.*;
 import main.MainApp;
 import main.ManagerHandler;
-import managers.ResourceManager;
 
 import java.util.Random;
 import static java.lang.Math.max;
@@ -38,7 +37,7 @@ public class EnemyGenerator {
 
             enemyCombatStats = (int)(rng.nextFloat(0.9f,1f)*playerCombatStats);
 
-            enemyHealth = max(50, (int) (rng.nextFloat(0, 1) * enemyCombatStats));
+            enemyHealth = max(50, (int) (rng.nextFloat(0, 0.8f) * enemyCombatStats));
             enemyCombatStats -= enemyHealth;
 
             enemyDamage = max(30, (int) (rng.nextFloat(0, 1) * enemyCombatStats));
@@ -50,14 +49,12 @@ public class EnemyGenerator {
             enemyDodgeChance = min(75, max(10, (int) (rng.nextFloat(0, 1) * enemyCombatStats)));
             enemyCombatStats -= enemyDodgeChance;
 
-            enemyArmor = min(75, max(10, (int) (rng.nextFloat(0, 1) * enemyCombatStats)));
+            enemyArmor = min(20, max(10, (int) (rng.nextFloat(0, 1) * enemyCombatStats)));
             enemyCombatStats -= enemyArmor;
 
             enemyHealth += max(1, enemyCombatStats);
 
 
-            return new Enemy(enemyName,enemyHealth,enemyArmor,enemyDamage,enemyDodgeChance, enemyIsBoss,
-                    enemyAbilityName, enemyCriticalChance, enemyTexture);
         }
         else
         {
@@ -66,7 +63,7 @@ public class EnemyGenerator {
             int playerCombatStats = player.getMaxHealth() + player.getBaseDamage() + player.getDodgeChance() +
                     player.getArmor() + player.getCriticalChance() + calculateTotalAverageWeaponCombatStats();
 
-            enemyCombatStats = (int) (rng.nextFloat(0.4f, 0.5f) * playerCombatStats);
+            enemyCombatStats = (int) (rng.nextFloat(0.45f, 0.55f) * playerCombatStats);
 
             enemyHealth = max(25, (int) (rng.nextFloat(0, 1) * enemyCombatStats));
             enemyCombatStats -= enemyHealth;
@@ -96,9 +93,9 @@ public class EnemyGenerator {
             }
         }
 
-            return new Enemy(enemyName, enemyHealth, enemyArmor, enemyDamage, enemyDodgeChance, enemyIsBoss,
-                    enemyAbilityName, enemyCriticalChance, enemyTexture);
         }
+        return new Enemy(enemyName,enemyHealth,enemyArmor,enemyDamage,enemyDodgeChance, enemyIsBoss,
+                enemyAbilityName, enemyCriticalChance, enemyTexture);
     }
     public static int  calculateTotalAverageWeaponCombatStats()
     {
@@ -110,8 +107,8 @@ public class EnemyGenerator {
             damage += weapon.getDamage();
             criticalChance +=weapon.getCriticalChance();
         }
-        damage /= inventory.getNumOfWeapons();
-        criticalChance /= inventory.getNumOfWeapons();
+        damage /= (inventory.getNumOfWeapons()+1);
+        criticalChance /= (inventory.getNumOfWeapons()+1);
         return (int)(damage + criticalChance);
     }
 }
