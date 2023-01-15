@@ -41,6 +41,8 @@ public abstract class Character
     }
 
     public void setName(String name) {
+        if ( name.equals("Enter Name"))
+            name = "Anonymous";
         this.name = name;
     }
 
