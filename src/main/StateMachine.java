@@ -15,7 +15,7 @@ public class StateMachine {
 
 
                 MainApp.spawnPlayer();
-                MainApp.setEnemy(ManagerHandler.getEnemyGenerator().generateEnemy());
+                MainApp.setEnemy(ManagerHandler.getEnemyCreator().createEnemy());
                 ManagerHandler.getGUIManager().initAllPanels();
                 nextState();
 
@@ -203,7 +203,7 @@ public class StateMachine {
         SCROLL_BG{
             public void initState(){
                 ((CharactersPanel)ManagerHandler.getGUIManager().getPanel("characters")).updatePrevEnemy();
-                MainApp.setEnemy(ManagerHandler.getEnemyGenerator().generateEnemy());
+                MainApp.setEnemy(ManagerHandler.getEnemyCreator().createEnemy());
                 ((CharactersPanel)ManagerHandler.getGUIManager().getPanel("characters")).updateEnemyTexture();
             }
             public void update(double deltaTime) {

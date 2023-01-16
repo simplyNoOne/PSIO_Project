@@ -1,14 +1,9 @@
 package generators;
-
-import data.EnemyCreator;
 import data.Enemy;
-import interfaces.GeneratedEnemy;
 import main.ManagerHandler;
-
 import static java.lang.Math.max;
 import static java.lang.Math.min;
-
-public class CommonEnemyGenerator extends EnemyCreator implements GeneratedEnemy
+public class CommonEnemyGenerator extends EnemyGenerator
 {
     @Override
     public Enemy generate()

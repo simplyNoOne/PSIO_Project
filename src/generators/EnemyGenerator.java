@@ -1,26 +1,38 @@
 package generators;
-
-import data.Enemy;
-import interfaces.GeneratedEnemy;
+import data.Inventory;
+import data.Player;
+import data.Texture;
+import data.Weapon;
+import interfaces.GeneratesEnemy;
 import main.MainApp;
-
-
-public class EnemyGenerator {
-
-    GeneratedEnemy generatorType;
-    public Enemy generateEnemy()
+import main.ManagerHandler;
+import java.util.Random;
+public abstract class EnemyGenerator implements GeneratesEnemy
+{
+    protected Random rng = new Random();
+    protected Player player = MainApp.getPlayer();
+    protected String enemyName = "DefaultEnemy";
+    protected int enemyHealth;
+    protected int enemyDamage;
+    protected int enemyArmor;
+    protected int enemyCriticalChance;
+    protected int enemyDodgeChance;
+    protected int enemyCombatStats;
+    protected boolean enemyIsBoss;
+    protected Texture enemyTexture = ManagerHandler.getResourceManager().getTexture("enemy");
+    protected String enemyAbilityName = "DefaultAbility";
+    public static int  calculateTotalAverageWeaponCombatStats()
     {
-        MainApp.getPlayer().setEnemiesApproached(MainApp.getPlayer().getEnemiesApproached() + 1);
-
-        if (MainApp.getPlayer().getEnemiesApproached() % 4 == 0)
+        double damage = 0;
+        double criticalChance = 0;
+        Inventory inventory = MainApp.getPlayer().getInventory();
+        for (Weapon weapon: inventory.getWeapons())
         {
-            generatorType = new BossEnemyGenerator();
+            damage += weapon.getDamage();
+            criticalChance +=weapon.getCriticalChance();
         }
-        else
-        {
-            generatorType = new CommonEnemyGenerator();
-        }
-
-        return generatorType.generate();
+        damage /= (inventory.getNumOfWeapons()+1);
+        criticalChance /= (inventory.getNumOfWeapons()+1);
+        return (int)(damage + criticalChance);
     }
 }

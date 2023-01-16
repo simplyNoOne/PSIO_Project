@@ -1,6 +1,6 @@
 package main;
 
-import generators.EnemyGenerator;
+import generators.EnemyCreator;
 import managers.*;
 
 public class ManagerHandler {
@@ -18,7 +18,7 @@ public class ManagerHandler {
         private static final PuzzleResultsManager puzzleResultsManager = new PuzzleResultsManager();
         private static final ResourceManager resourceManager = new ResourceManager();
         private static final ScoreManager scoreManager = new ScoreManager();
-        private static final EnemyGenerator enemyGenerator = new EnemyGenerator();
+        private static final EnemyCreator enemyCreator = new EnemyCreator();
 
 
         public static GUIManager getGUIManager() {
@@ -65,5 +65,5 @@ public class ManagerHandler {
         public static ScoreManager getScoreManager() {
                 return scoreManager;
         }
-        public static EnemyGenerator getEnemyGenerator(){return enemyGenerator;}
+        public static EnemyCreator getEnemyCreator(){return enemyCreator;}
 }

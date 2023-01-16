@@ -2,7 +2,7 @@ package interfaces;
 
 import data.Enemy;
 
-public interface GeneratedEnemy
+public interface GeneratesEnemy
 {
     Enemy generate();
 }
