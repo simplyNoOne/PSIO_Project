@@ -11,20 +11,23 @@ public class Inventory {
         return this.weapons.size();
     }
 
-    public void addWeapon(Weapon weapon){
-        weapons.add(weapon);
-    }
 
     public ArrayList<Weapon> getWeapons() {
         return weapons;
     }
 
-    public void addCollectible(Collectible collectible){
-        collectibles.add(collectible);
-    }
-
 
     public ArrayList<Collectible> getCollectibles() { return collectibles; }
+
+    public <T> void  addToInventory(T item){
+        if(item instanceof Weapon){
+            weapons.add((Weapon)item);
+        }
+        else if( item instanceof Collectible){
+            collectibles.add((Collectible) item);
+        }
+    }
+
 
     public Weapon getWeaponAt(int x){
         return this.weapons.get(x);
