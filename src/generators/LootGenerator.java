@@ -112,7 +112,8 @@ public class LootGenerator {
                             possibleDrop.add(new Collectible("collectible5",COLLECTIBLE_MULTIPLIER));
                         }
                         randomNumber = rng.nextInt(0,possibleDrop.size());
-                        MainApp.getPlayer().getInventory().addCollectible(possibleDrop.get(randomNumber));
+                        //MainApp.getPlayer().getInventory().addCollectible(possibleDrop.get(randomNumber));
+                        MainApp.getPlayer().getInventory().addToInventory(possibleDrop.get(randomNumber));
                     }
                 }
             }
