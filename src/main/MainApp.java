@@ -2,10 +2,8 @@ package main;
 
 import data.Collectible;
 import data.Enemy;
-import data.Weapon;
 import data.Player;
 import managers.GUIManager;
-import managers.ResourceManager;
 
 import javax.swing.*;
 

@@ -1,5 +1,6 @@
 package main;
 
+import generators.EnemyCreator;
 import managers.*;
 
 public class ManagerHandler {
@@ -17,6 +18,8 @@ public class ManagerHandler {
         private static final PuzzleResultsManager puzzleResultsManager = new PuzzleResultsManager();
         private static final ResourceManager resourceManager = new ResourceManager();
         private static final ScoreManager scoreManager = new ScoreManager();
+        private static final EnemyCreator enemyCreator = new EnemyCreator();
+
 
         public static GUIManager getGUIManager() {
                 return guiManager;
@@ -62,4 +65,5 @@ public class ManagerHandler {
         public static ScoreManager getScoreManager() {
                 return scoreManager;
         }
+        public static EnemyCreator getEnemyCreator(){return enemyCreator;}
 }

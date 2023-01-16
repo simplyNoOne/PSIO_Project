@@ -1,11 +1,8 @@
 package main;
-
-import data.Enemy;
 import gui.panels.*;
 import managers.*;
 
 import javax.swing.*;
-import java.util.logging.Handler;
 
 public class StateMachine {
 
@@ -18,7 +15,7 @@ public class StateMachine {
 
 
                 MainApp.spawnPlayer();
-                MainApp.setEnemy(generators.EnemyGenerator.generateEnemy());
+                MainApp.setEnemy(ManagerHandler.getEnemyCreator().createEnemy());
                 ManagerHandler.getGUIManager().initAllPanels();
                 nextState();
 
@@ -206,7 +203,7 @@ public class StateMachine {
         SCROLL_BG{
             public void initState(){
                 ((CharactersPanel)ManagerHandler.getGUIManager().getPanel("characters")).updatePrevEnemy();
-                MainApp.setEnemy(generators.EnemyGenerator.generateEnemy());
+                MainApp.setEnemy(ManagerHandler.getEnemyCreator().createEnemy());
                 ((CharactersPanel)ManagerHandler.getGUIManager().getPanel("characters")).updateEnemyTexture();
             }
             public void update(double deltaTime) {
