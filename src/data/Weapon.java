@@ -1,13 +1,11 @@
 package data;
 
-import data.Special_Effect;
-
 public class Weapon{
     private String name;
     private int tag;
     private int damage;
     private int criticalChance;
-    private Special_Effect special_effect = new Special_Effect();
+    private SpecialEffect special_effect = new SpecialEffect();
 
 
     public int getDamage() {

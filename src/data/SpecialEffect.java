@@ -1,6 +1,6 @@
 package data;
 
-public class Special_Effect {
+public class SpecialEffect {
     
     private int bleeding_chance;
 
@@ -12,11 +12,11 @@ public class Special_Effect {
         this.bleeding_chance = bleeding_chance;
     }
 
-    public Special_Effect(int bleeding_chance) {
+    public SpecialEffect(int bleeding_chance) {
         this.bleeding_chance = bleeding_chance;
     }
 
-    public Special_Effect() {
+    public SpecialEffect() {
         this.bleeding_chance = 0;
     }
 
