@@ -11,6 +11,8 @@ import java.util.concurrent.atomic.AtomicBoolean;
 
 public class LootGenerator {
 
+    static String bonus;
+
     final static double COLLECTIBLE_MULTIPLIER = 1.2;
     final static int ARMOR_GRANTED = 3;
     public static  void generateLoot(boolean isBoss)
@@ -73,13 +75,15 @@ public class LootGenerator {
                     MainApp.getPlayer().getInventory().getWeapons().remove(weapon);
                 }
             });
-            MainApp.getPlayer().getInventory().getWeapons().add(generatedWeapon);
+            MainApp.getPlayer().getInventory().addToInventory(generatedWeapon);
+            bonus = generatedWeapon.getName();
         }
         else
         {
             if (numOfCollectibles==5)
             {
                 MainApp.getPlayer().setArmor(MainApp.getPlayer().getArmor()+ARMOR_GRANTED);
+                bonus = "armor";
             }
             else
             {
@@ -88,6 +92,7 @@ public class LootGenerator {
                     case 0:
                     {
                         MainApp.getPlayer().setArmor(MainApp.getPlayer().getArmor()+ARMOR_GRANTED);
+                        bonus = "armor";
                     }
                     case 1:
                     {
@@ -112,12 +117,15 @@ public class LootGenerator {
                             possibleDrop.add(new Collectible("collectible5",COLLECTIBLE_MULTIPLIER));
                         }
                         randomNumber = rng.nextInt(0,possibleDrop.size());
-                        //MainApp.getPlayer().getInventory().addCollectible(possibleDrop.get(randomNumber));
                         MainApp.getPlayer().getInventory().addToInventory(possibleDrop.get(randomNumber));
+                        bonus = possibleDrop.get(randomNumber).getName();
                     }
                 }
             }
 
         }
     }
+
+    public static String getBonus(){return bonus;}
+    public static int getArmorGranted(){return ARMOR_GRANTED;}
 }
