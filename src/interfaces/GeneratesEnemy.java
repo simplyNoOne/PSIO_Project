@@ -2,7 +2,6 @@ package interfaces;
 
 import data.*;
 import main.MainApp;
-
 public interface GeneratesEnemy
 {
     Enemy generate();
