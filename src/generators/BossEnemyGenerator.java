@@ -32,7 +32,7 @@ public class BossEnemyGenerator implements GeneratesEnemy
         int playerCombatStats = player.getMaxHealth() + player.getBaseDamage() + player.getDodgeChance() +
                 player.getArmor() + player.getCriticalChance() + calculateTotalAverageWeaponCombatStats();
 
-        enemyCombatStats = (int)(rng.nextFloat(0.9f,1f)*playerCombatStats);
+        enemyCombatStats = (int)(rng.nextFloat(0.75f,0.85f)*playerCombatStats);
 
         enemyHealth = max(50, (int) (rng.nextFloat(0, 0.8f) * enemyCombatStats));
         enemyCombatStats -= enemyHealth;
