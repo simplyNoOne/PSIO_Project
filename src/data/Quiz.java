@@ -41,6 +41,6 @@ public class Quiz implements ScoreModifier {
 
     @Override
     public int getScoreModifier() {
-        return 100*answers.size();
+        return 100 + 10*answers.size();
     }
 }

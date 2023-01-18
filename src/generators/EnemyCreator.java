@@ -6,6 +6,7 @@ public class EnemyCreator {
 
     GeneratesEnemy generatorType;
     public Enemy createEnemy()
+
     {
         MainApp.getPlayer().setEnemiesApproached(MainApp.getPlayer().getEnemiesApproached() + 1);
 

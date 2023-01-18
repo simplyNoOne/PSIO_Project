@@ -1,13 +1,33 @@
 package generators;
 import data.Enemy;
+import data.Player;
+import data.Texture;
+import interfaces.GeneratesEnemy;
+import main.MainApp;
 import main.ManagerHandler;
+
+import java.util.Random;
+
 import static java.lang.Math.max;
 import static java.lang.Math.min;
-public class CommonEnemyGenerator extends EnemyGenerator
+public class CommonEnemyGenerator implements GeneratesEnemy
 {
+
     @Override
     public Enemy generate()
     {
+        Random rng = new Random();
+        Player player = MainApp.getPlayer();
+        String enemyName = "DefaultEnemy";
+        int enemyHealth;
+        int enemyDamage;
+        int enemyArmor;
+        int enemyCriticalChance;
+        int enemyDodgeChance;
+        int enemyCombatStats;
+        boolean enemyIsBoss;
+        Texture enemyTexture = ManagerHandler.getResourceManager().getTexture("enemy");
+        String enemyAbilityName = "DefaultAbility";
         enemyIsBoss = false;
 
         int playerCombatStats = player.getMaxHealth() + player.getBaseDamage() + player.getDodgeChance() +
