@@ -5,7 +5,6 @@ import main.MainApp;
 
 public interface GeneratesEnemy
 {
-
     Enemy generate();
     default public int  calculateTotalAverageWeaponCombatStats()
     {
