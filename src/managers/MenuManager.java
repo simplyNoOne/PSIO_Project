@@ -50,6 +50,8 @@ public class MenuManager {
             ManagerHandler.getScoreManager().loadEntries();
             System.out.println(ManagerHandler.getScoreManager().getEntriesSortedByScoreDescending());
             ManagerHandler.getScoreManager().unloadEntries();
+            ((MenuPanel)ManagerHandler.getGUIManager().getPanel("menu")).revalidate();
+            ((MenuPanel)ManagerHandler.getGUIManager().getPanel("menu")).repaint();
         }
 
         private void fillScoresPanel() {
