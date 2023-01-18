@@ -55,7 +55,10 @@ public class FightResultsPanel extends CustomPanel implements Interactible {
         }
 
         void addTexture(String texture){this.setIcon(ManagerHandler.getResourceManager().getTexture(texture));}
-        void removeTexture(){this.setIcon(null);}
+        void removeTexture(){
+            this.setIcon(null);
+            bonusIcon.setText("");
+        }
     }
 
     private final static int PANEL_WIDTH = 600;
@@ -115,6 +118,7 @@ public class FightResultsPanel extends CustomPanel implements Interactible {
             String num = bonus.substring(11);
             System.out.println(num);
             bonusIcon.addTexture("col" + num);
+            bonusIcon.setText("");
             bonusMessage.setText("For your efforts you receive a collectible");
         }else{
             bonusIcon.addTexture(bonus);
