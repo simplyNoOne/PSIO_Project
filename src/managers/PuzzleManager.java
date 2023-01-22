@@ -251,5 +251,26 @@ public class PuzzleManager implements ScoreModifier {
     public boolean isPuzzleAnsweredRight() {
         return puzzleAnsweredRight;
     }
+
+    public void setPuzzleAnsweredRight(boolean puzzleAnsweredRight) {
+        PuzzleManager.puzzleAnsweredRight = puzzleAnsweredRight;
+    }
+
+    public void setPuzzleType(String puzzleType) {
+        PuzzleManager.puzzleType = puzzleType;
+    }
+
+    public  Quiz getActualQuiz() {
+        return actualQuiz;
+    }
+
+    public  int getLeftChanceNumber() {
+        return leftChanceNumber;
+    }
+
+    public  void setLeftChanceNumber(int leftChanceNumber) {
+        PuzzleManager.leftChanceNumber = leftChanceNumber;
+    }
+
 }
 
