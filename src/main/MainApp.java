@@ -90,5 +90,4 @@ public class MainApp implements Runnable{
         ManagerHandler.getResourceManager().unloadResources();
         System.exit(0);
     }
-
 }
