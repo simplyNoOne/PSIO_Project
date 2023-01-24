@@ -28,6 +28,11 @@ public class Inventory {
         }
     }
 
+    public void clearInventory(){
+        this.weapons.clear();
+        this.collectibles.clear();
+    }
+
 
     public Weapon getWeaponAt(int x){
         return this.weapons.get(x);
