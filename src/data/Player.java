@@ -81,7 +81,7 @@ public class Player extends Character {
     }
 
 
-    public void increse_health(double value){
+    public void increase_health(double value){
         if(this.getHealth()*value>=this.getMaxHealth()) {
             this.setHealth(this.getMaxHealth());
         }

@@ -6,7 +6,6 @@ public class Inventory {
     private ArrayList<Weapon> weapons = new ArrayList<Weapon>();
     private ArrayList<Collectible> collectibles = new ArrayList<Collectible>();
 
-
     public int getNumOfWeapons(){
         return this.weapons.size();
     }
@@ -41,6 +40,15 @@ public class Inventory {
         
             collectibles.remove(col);
         
+    }
+
+    public Collectible getCollectibleByName(String str){
+        int res = 0;
+        for(int i=0;i<collectibles.size();i++){
+            if(collectibles.get(i).getName().equals(str)) res=i;
+        }
+        return collectibles.get(res);
+
     }
 
 
