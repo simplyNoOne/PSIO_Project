@@ -14,7 +14,7 @@ import java.awt.event.ActionListener;
 
 public class LevelUpManager {
 
-    public static class LevelUpButtonListener implements ActionListener
+    public class LevelUpButtonListener implements ActionListener
     {
         @Override
         public void actionPerformed(ActionEvent e) {
@@ -35,9 +35,9 @@ public class LevelUpManager {
         }
     }
 
-    private static final LevelUpButtonListener levelUpButtonListener = new LevelUpButtonListener();
+    private final LevelUpButtonListener levelUpButtonListener = new LevelUpButtonListener();
 
-    private static void initStatsButtons(){
+    private void initStatsButtons(){
         //Iterating over all upgradable stats
 
         // wrapping hints with HTML to easily represent newlines in JLabels
@@ -65,7 +65,7 @@ public class LevelUpManager {
         ((LevelUpPanel) ManagerHandler.getGUIManager().getPanel("levelup")).update();
     }
 
-    public static void generalLevelUp() {
+    public void generalLevelUp() {
         Player player = MainApp.getPlayer();
         player.increaseLevel(); // +1
         player.setHealth(player.getMaxHealth()); // regain life
@@ -73,7 +73,7 @@ public class LevelUpManager {
     }
 
     /** Physical growth: increase max health (+30%), increase base damage (+50%) **/
-    private static void physicalGrowth() {
+    public void physicalGrowth() {
         Player player = MainApp.getPlayer();
         player.setMaxHealth((int) (1.3 * player.getMaxHealth()));
         player.setHealth(player.getMaxHealth()); // regain life (updated max health)
@@ -82,14 +82,14 @@ public class LevelUpManager {
     }
 
     /** Dexterity training: dodge chance (+30%), critical chance (+20%) **/
-    private static void dexterityTraining() {
+    public void dexterityTraining() {
         Player player = MainApp.getPlayer();
         player.setDodgeChance((int) (1.3 * player.getDodgeChance()));
         player.setCriticalChance((int) (1.2 * player.getCriticalChance()));
     }
 
     /** Armor enhancement: armor (+100%) **/
-    private static void armorEnhancement() {
+    public void armorEnhancement() {
         Player player = MainApp.getPlayer();
         player.setArmor((int) (2.0 * player.getArmor()));
     }
