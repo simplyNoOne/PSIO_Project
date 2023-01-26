@@ -187,7 +187,7 @@ public class StateMachine {
         LEVELUP{
             public void initState(){
                 ManagerHandler.getGUIManager().addPanel("levelup", "game");
-                LevelUpManager.generalLevelUp();
+                ManagerHandler.getLevelUpManager().generalLevelUp();
             }
             public void update(double deltaTime) {
                 MainApp.getGameFrame().repaint();
