@@ -163,5 +163,4 @@ class EnemyCreatorTest {
 
         }
         assertTrue(isExpected);
-    }
-}
+    }}

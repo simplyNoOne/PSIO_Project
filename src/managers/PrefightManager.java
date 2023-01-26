@@ -58,7 +58,7 @@ public class PrefightManager {
                 for(int i=0;i<MainApp.getPlayer().getActiveCollectible().size();i++){
                     switch (MainApp.getPlayer().getActiveCollectible().get(i).getName()) {
                         case "collectible1":
-                            MainApp.getPlayer().increse_health(MainApp.getPlayer().getActiveCollectible().get(i).getValue());
+                            MainApp.getPlayer().increase_health(MainApp.getPlayer().getActiveCollectible().get(i).getValue());
                             break;
 
                         case "collectible2":

@@ -12,6 +12,7 @@ class PuzzleManagerTest {
     {
             int expectedScore = 0;
             PuzzleManager testPuzzleManager = new PuzzleManager();
+            //TODO
             testPuzzleManager.setPuzzleAnsweredRight(randomGenerator.nextBoolean());
             if (testPuzzleManager.isPuzzleAnsweredRight())
             {

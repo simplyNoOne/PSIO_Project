@@ -135,10 +135,11 @@ public class PuzzleManager implements ScoreModifier {
 
     public void generateRandomQuiz()
     {
+        
         if(allQuestions.size() == 1)
             actualQuiz = allQuestions.get(0);
         else {
-            int puzzleId = new Random().nextInt(0, allQuestions.size());
+            int puzzleId = new Random().nextInt(0, allQuestions.size()-1);
             actualQuiz = allQuestions.get(puzzleId);
         }
 
